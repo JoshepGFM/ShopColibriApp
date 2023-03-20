@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShopColibriApp.Views.ImagenPage"
+             xmlns:views="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
+             xmlns:carrusel="clr-namespace:Xamd.ImageCarousel.Forms.Plugin.Abstractions;assembly=Xamd.ImageCarousel.Forms.Plugin.Abstractions"
+             >
+    <ContentPage.Content>
+        <StackLayout>
+                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="End">
+                    <carrusel:ImageCarousel x:Name="ImgProductos"/>
+                </StackLayout>
+            <Grid Grid.RowSpan="2">
+                <Frame HorizontalOptions="End" VerticalOptions="End" BackgroundColor="Aqua"
+                       Margin="0,0,20,40" CornerRadius="30" Padding="20"
+                       >
+                    <views:Expander>
+                        <views:Expander.Header>
+                            <Label Text="Agregar" FontAttributes="Bold" TextColor="Black" FontSize="15"/>
+                        </views:Expander.Header>
+                        <StackLayout Spacing="10" Margin="0,10">
+                            <ImageButton Source="galeria.png" x:Name="BtnGaleria" Clicked="BtnGaleria_Clicked" 
+                                         HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                            <ImageButton Source="camara.png" x:Name="BtnCamara" Clicked="BtnCamara_Clicked" 
+                                         HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                        </StackLayout>
+                    </views:Expander>
+                    
+                        
+                </Frame>
+            </Grid>
+            <StackLayout VerticalOptions="End">
+                <Button x:Name="BtnGuardar" Text="Guargar" Clicked="BtnGuardar_Clicked" CornerRadius="50" 
+                            HorizontalOptions="CenterAndExpand" WidthRequest="250" HeightRequest="40" BackgroundColor="ForestGreen" 
+                            BorderColor="Gray" BorderWidth="3"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

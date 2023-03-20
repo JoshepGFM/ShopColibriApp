@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShopColibriApp.Views.Login"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundImageSource="fondoimages.jpg">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame CornerRadius="50" Padding="10" Margin="10,20">
+                <Image Source="LOGOCOLIBRI.png"/>
+            </Frame>
+            <Frame Padding="10" VerticalOptions="CenterAndExpand" BackgroundColor="LightGray" Margin="10" CornerRadius="10">
+                <StackLayout Spacing="25" >
+                    <StackLayout VerticalOptions="Center" >
+                        <Entry x:Name="TxtUserName" Placeholder="Email" HorizontalTextAlignment="Center" TextColor="White" HeightRequest="60" Keyboard="Email"/>
+                        <StackLayout  Orientation="Horizontal" HorizontalOptions="FillAndExpand" Spacing="10">
+                            <Entry x:Name="TxtPass" Placeholder="Contraseña" HorizontalTextAlignment="Center" IsPassword="True" WidthRequest="300"/>
+                            <StackLayout >
+                                <Switch x:Name="SwVerPass" IsToggled="False" Toggled="CmdVerPass" OnColor="#BBA129"/>
+                                <Label Text="Ver Contraseña" FontSize="10" />
+                            </StackLayout>
+
+                        </StackLayout>
+
+                        <Button x:Name="BtnIngresar" Text="Ingresar" Clicked="BtnIngresar_Clicked" CornerRadius="50"  BackgroundColor="Green" TextColor="#E8E3E3" VerticalOptions="Center" FontSize="Title"/>
+
+                        <Label HorizontalTextAlignment="Center">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Registrar"
+                                  TextColor="Blue"
+                                  TextDecorations="Underline">
+                                        <Span.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="Registrarse"/>
+                                        </Span.GestureRecognizers>
+                                    </Span>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label HorizontalTextAlignment="Center">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Olvide mi Contaseña?" />
+                                    <Span Text="Recuperar"
+                                  TextColor="Blue"
+                                  TextDecorations="Underline">
+                                        <Span.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="Recuperar"/>
+                                        </Span.GestureRecognizers>
+                                    </Span>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                    </StackLayout>
+                    <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal">
+                        <Label Text="Con.Api" FontSize="Caption" />
+                        <Button x:Name="EstadoApi" CornerRadius="50" WidthRequest="15" HeightRequest="15" IsEnabled="True"/>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

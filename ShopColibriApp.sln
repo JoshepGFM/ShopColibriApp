@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopColibriApp.Android", "ShopColibriApp\ShopColibriApp.Android\ShopColibriApp.Android.csproj", "{809A8B30-837C-4079-A7CD-B90061543974}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopColibriApp", "ShopColibriApp\ShopColibriApp\ShopColibriApp.csproj", "{B533059F-D9A3-4B05-A1E6-ED3D955C1D71}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{809A8B30-837C-4079-A7CD-B90061543974}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{809A8B30-837C-4079-A7CD-B90061543974}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{809A8B30-837C-4079-A7CD-B90061543974}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{809A8B30-837C-4079-A7CD-B90061543974}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{809A8B30-837C-4079-A7CD-B90061543974}.Release|Any CPU.Build.0 = Release|Any CPU
+		{809A8B30-837C-4079-A7CD-B90061543974}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B533059F-D9A3-4B05-A1E6-ED3D955C1D71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B533059F-D9A3-4B05-A1E6-ED3D955C1D71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B533059F-D9A3-4B05-A1E6-ED3D955C1D71}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B533059F-D9A3-4B05-A1E6-ED3D955C1D71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B533059F-D9A3-4B05-A1E6-ED3D955C1D71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B533059F-D9A3-4B05-A1E6-ED3D955C1D71}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {40B9F3DC-C154-4BDA-B1AC-3679DDD8FD43}
+	EndGlobalSection
+EndGlobal

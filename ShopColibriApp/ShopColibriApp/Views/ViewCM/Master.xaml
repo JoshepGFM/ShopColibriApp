@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShopColibriApp.Views.ViewCM.Master"
+             Title="Master">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame>
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="User.png" WidthRequest="50" HeightRequest="50"/>
+                    <StackLayout Orientation="Vertical">
+                    <Label x:Name="LblNombre" Text="Nombre" FontSize="15" FontAttributes="Bold" />
+                        <Label x:Name="LblCorreo" Text="Correo"/>
+                    </StackLayout>
+                    
+                    <StackLayout HorizontalOptions="EndAndExpand" VerticalOptions="EndAndExpand">
+                        <Label x:Name="LblTipo" Text="Tipo"/>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+            <Frame>
+                <StackLayout>
+                    <Button x:Name="BtnRegisUsu" Text="Usuarios" BackgroundColor="White" Image="verificarReg.png" Clicked="BtnRegisUsu_Clicked"/>
+                    <Button x:Name="BtnProductos" Text="Productos" BackgroundColor="White" Image="Product.ico" Clicked="BtnProductos_Clicked" />
+                </StackLayout>
+            </Frame>
+            <Frame>
+                <StackLayout>
+                    <Button x:Name="BtnConf" Text="Opciones de perfil" BackgroundColor="White" Clicked="BtnConf_Clicked"/>
+                    <Button x:Name="BtnCerrarS" Text="Cerrar Sesion" BackgroundColor="White" Clicked="BtnCerrarS_Clicked"/>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

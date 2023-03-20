@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShopColibriApp.Views.ViewGlo.notConnection"
+             xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms">
+    <StackLayout VerticalOptions="Center">
+        <lottie:AnimationView Animation="abeja.json" AutoPlay="True"
+                              HeightRequest="250" WidthRequest="300"
+                              RepeatMode="Infinite" VerticalOptions="Center"/>
+        <lottie:AnimationView Animation="loadinggray.json" AutoPlay="True"
+                              HeightRequest="50" WidthRequest="50"
+                              RepeatMode="Infinite" VerticalOptions="Center"/>
+        <Label Text="Sin Internet" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" 
+               VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+    </StackLayout>
+</ContentView>

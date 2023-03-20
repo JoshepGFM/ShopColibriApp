@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShopColibriApp.Views.ViewGlo.Degradado">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush>
+                <GradientStop Color="#DEE469" Offset="0.02" />
+                <GradientStop Offset="2.0" Color="#E4BB69"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+    </Grid>
+    
+</ContentView>
