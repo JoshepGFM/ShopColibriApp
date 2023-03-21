@@ -57,7 +57,7 @@ namespace ShopColibriApp.Views
             }
             else
             {
-                await DisplayAlert("Error de Validacion", "Se requiere el Usuario y la contraseña", "OK");
+                await DisplayAlert("Error de Validación", "Se requiere el Usuario y la contraseña", "OK");
             }
 
             if (R)
@@ -70,7 +70,7 @@ namespace ShopColibriApp.Views
             }
             else
             {
-                await DisplayAlert("Validacion de acceso", "Usuario y contraseña incorrectos", "OK");
+                await DisplayAlert("Validación de acceso", "Usuario y contraseña incorrectos", "OK");
             }
         }
 

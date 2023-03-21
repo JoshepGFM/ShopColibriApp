@@ -4,9 +4,8 @@
              x:Class="ShopColibriApp.Views.Recuperacion">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Entry x:Name="TxtEmail" Placeholder="Email" Keyboard="Email"/>
+            <Button Text="Enviar Correo" x:Name="BtnEnviarCorreo" Clicked="BtnEnviarCorreo_Clicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
