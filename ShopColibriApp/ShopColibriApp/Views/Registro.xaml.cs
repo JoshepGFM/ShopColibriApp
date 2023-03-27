@@ -65,55 +65,63 @@ namespace ShopColibriApp.Views
 
         private async void BtnRegistrar_Clicked(object sender, EventArgs e)
         {
-            if (ValidarElementos())
+            try
             {
-                Tusuario tus = PckTipo.SelectedItem as Tusuario;
-                int IdTus;
-                if (GlobalObject.GloUsu.IdUsuario == 1)
+                if (ValidarElementos())
                 {
-                    IdTus = tus.Id;
-                }
-                else
-                {
-                    IdTus = 3;
-                }
-                string emailRes = "";
-                if (TxtEmailResp.Text == null || string.IsNullOrEmpty(TxtEmailResp.Text.Trim()))
-                {
-                    emailRes = null;
-                }
-                else
-                {
-                    emailRes = TxtEmailResp.Text.Trim();
-                }
-                var answer = await DisplayAlert("Requiere confirmacion", "¿Esta seguro de registrar?", "Si","No");
-                if (answer)
-                {
-                    bool R = await vm.PostUsuario(TxtNombre.Text.Trim(),
-                                             TxtApellido1.Text.Trim(),
-                                             TxtApellido2.Text.Trim(),
-                                             TxtEmail.Text.Trim(),
-                                             TxtContrasennia2.Text.Trim(),
-                                             emailRes,
-                                             TxtTelefono.Text.Trim(),
-                                             IdTus);
-                    if (R)
+                    Tusuario tus = PckTipo.SelectedItem as Tusuario;
+                    int IdTus;
+                    if (PckTipo.IsEnabled == false)
                     {
-                        await DisplayAlert("Validacion exitoza", "Se agrego con exito el Usuario", "OK");
-                        await Navigation.PopAsync();
+                        IdTus = tus.Id;
                     }
                     else
                     {
-                        await DisplayAlert("Error de Validacion", "Se ocaciono un error al ingresar el Usuario", "OK");
+                        IdTus = 3;
+                    }
+                    string emailRes = "";
+                    if (TxtEmailResp.Text == null || string.IsNullOrEmpty(TxtEmailResp.Text.Trim()))
+                    {
+                        emailRes = null;
+                    }
+                    else
+                    {
+                        emailRes = TxtEmailResp.Text.Trim();
+                    }
+                    var answer = await DisplayAlert("Confirmación", "¿Quiere registrarse?", "Si", "No");
+                    if (answer)
+                    {
+                        bool R = await vm.PostUsuario(TxtNombre.Text.Trim(),
+                                                      TxtApellido1.Text.Trim(),
+                                                      TxtApellido2.Text.Trim(),
+                                                      TxtEmail.Text.Trim(),
+                                                      TxtContrasennia2.Text.Trim(),
+                                                      emailRes,
+                                                      TxtTelefono.Text.Trim(),
+                                                      IdTus);
+
+                        if (R)
+                        {
+
+                            await DisplayAlert("Validación exitosa", "Se agrego con éxito el Usuario", "OK");
+                            await Navigation.PopAsync();
+                        }
+                        else
+                        {
+                            await DisplayAlert("Error de Validación", "Se ocasiono un error al ingresar el Usuario", "OK");
+                        }
                     }
                 }
+            }catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message.ToString(), "OK");
             }
         }
 
         private bool ValidarElementos()
         {
             bool R = false;
-            if (GlobalObject.GloUsu.IdUsuario == 1)
+            if (PckTipo.IsEnabled == false)
             {
                 if (TxtNombre.Text != null && !string.IsNullOrEmpty(TxtNombre.Text.Trim()) &&
                     TxtApellido1.Text != null && !string.IsNullOrEmpty(TxtApellido1.Text.Trim()) &&
@@ -124,61 +132,68 @@ namespace ShopColibriApp.Views
                     PckTipo.SelectedIndex > -1
                     )
                 {
-                    R = true;
+                    if (vm.IsValidEmail(TxtEmail.Text.Trim()))
+                    {
+                         R= true;
+                    }
+                    else
+                    {
+                        DisplayAlert("Error validación", TxtEmail.Text + ": No corresponde a un formato de correo", "OK");
+                    }
                 }
                 else
                 {
                     if (TxtNombre.Text == null || string.IsNullOrEmpty(TxtNombre.Text.Trim()))
                     {
-                        DisplayAlert("Error de Validacion", "Se requiere el Nombre", "OK");
+                        DisplayAlert("Error de Validación", "Se requiere el Nombre", "OK");
                         TxtNombre.Focus();
                         return false;
                     }
                     if (TxtApellido1.Text == null || string.IsNullOrEmpty(TxtApellido1.Text.Trim()))
                     {
-                        DisplayAlert("Error de Validacion", "Se requiere el primer apellido", "OK");
+                        DisplayAlert("Error de Validación", "Se requiere el primer apellido", "OK");
                         TxtApellido1.Focus();
                         return false;
                     }
 
                     if (TxtApellido2.Text == null || string.IsNullOrEmpty(TxtApellido2.Text.Trim()))
                     {
-                        DisplayAlert("Error de Validacion", "Se requiere el segundo apellido", "OK");
+                        DisplayAlert("Error de Validación", "Se requiere el segundo apellido", "OK");
                         TxtApellido2.Focus();
                         return false;
                     }
 
                     if (TxtEmail.Text == null || string.IsNullOrEmpty(TxtEmail.Text.Trim()))
                     {
-                        DisplayAlert("Error de Validacion", "Se requiere el Email", "OK");
+                        DisplayAlert("Error de Validación", "Se requiere el Email", "OK");
                         TxtEmail.Focus();
                         return false;
                     }
 
                     if (TxtContrasennia1.Text == null || string.IsNullOrEmpty(TxtContrasennia1.Text.Trim()))
                     {
-                        DisplayAlert("Error de Validacion", "Se requiere una Contraseña", "OK");
+                        DisplayAlert("Error de Validación", "Se requiere una Contraseña", "OK");
                         TxtContrasennia1.Focus();
                         return false;
                     }
 
                     if (TxtContrasennia2.Text == null || string.IsNullOrEmpty(TxtContrasennia2.Text.Trim()))
                     {
-                        DisplayAlert("Error de Validacion", "Se requiere confirmar la Contraseña", "OK");
+                        DisplayAlert("Error de Validación", "Se requiere confirmar la Contraseña", "OK");
                         TxtContrasennia2.Focus();
                         return false;
                     }
 
                     if (TxtTelefono.Text == null || string.IsNullOrEmpty(TxtTelefono.Text.Trim()))
                     {
-                        DisplayAlert("Error de Validacion", "Se requiere el Telefono", "OK");
+                        DisplayAlert("Error de Validación", "Se requiere el Teléfono", "OK");
                         TxtTelefono.Focus();
                         return false;
                     }
 
                     if (PckTipo.SelectedIndex == -1)
                     {
-                        DisplayAlert("Error de Validacion", "Se requiere el Tipo de Usuario", "OK");
+                        DisplayAlert("Error de Validación", "Se requiere el Tipo de Usuario", "OK");
                         PckTipo.Focus();
                         return false;
                     }
@@ -194,54 +209,61 @@ namespace ShopColibriApp.Views
                     TxtTelefono.Text != null && !string.IsNullOrEmpty(TxtTelefono.Text.Trim())
                     )
                 {
-                    R = true;
+                    if (vm.IsValidEmail(TxtEmail.Text.Trim()))
+                    {
+                        R = true;
+                    }
+                    else
+                    {
+                        DisplayAlert("Error validación", TxtEmail.Text + ": No corresponde a un formato de correo", "OK");
+                    }
                 }
                 else
                 {
                     if (TxtNombre.Text == null || string.IsNullOrEmpty(TxtNombre.Text.Trim()))
                     {
-                        DisplayAlert("Error de Validacion", "Se requiere el Nombre", "OK");
+                        DisplayAlert("Error de Validación", "Se requiere el Nombre", "OK");
                         TxtNombre.Focus();
                         return false;
                     }
                     if (TxtApellido1.Text == null || string.IsNullOrEmpty(TxtApellido1.Text.Trim()))
                     {
-                        DisplayAlert("Error de Validacion", "Se requiere el primer apellido", "OK");
+                        DisplayAlert("Error de Validación", "Se requiere el primer apellido", "OK");
                         TxtApellido1.Focus();
                         return false;
                     }
 
                     if (TxtApellido2.Text == null || string.IsNullOrEmpty(TxtApellido2.Text.Trim()))
                     {
-                        DisplayAlert("Error de Validacion", "Se requiere el segundo apellido", "OK");
+                        DisplayAlert("Error de Validación", "Se requiere el segundo apellido", "OK");
                         TxtApellido2.Focus();
                         return false;
                     }
 
                     if (TxtEmail.Text == null || string.IsNullOrEmpty(TxtEmail.Text.Trim()))
                     {
-                        DisplayAlert("Error de Validacion", "Se requiere el Email", "OK");
+                        DisplayAlert("Error de Validación", "Se requiere el Email", "OK");
                         TxtEmail.Focus();
                         return false;
                     }
 
                     if (TxtContrasennia1.Text == null || string.IsNullOrEmpty(TxtContrasennia1.Text.Trim()))
                     {
-                        DisplayAlert("Error de Validacion", "Se requiere una Contraseña", "OK");
+                        DisplayAlert("Error de Validación", "Se requiere una Contraseña", "OK");
                         TxtContrasennia1.Focus();
                         return false;
                     }
 
                     if (TxtContrasennia2.Text == null || string.IsNullOrEmpty(TxtContrasennia2.Text.Trim()))
                     {
-                        DisplayAlert("Error de Validacion", "Se requiere confirmar la Contraseña", "OK");
+                        DisplayAlert("Error de Validación", "Se requiere confirmar la Contraseña", "OK");
                         TxtContrasennia2.Focus();
                         return false;
                     }
 
                     if (TxtTelefono.Text == null || string.IsNullOrEmpty(TxtTelefono.Text.Trim()))
                     {
-                        DisplayAlert("Error de Validacion", "Se requiere el Telefono", "OK");
+                        DisplayAlert("Error de Validación", "Se requiere el Teléfono", "OK");
                         TxtTelefono.Focus();
                         return false;
                     }
@@ -262,7 +284,7 @@ namespace ShopColibriApp.Views
                 }
                 else
                 {
-                    DisplayAlert("Error de Validacion", "Las contraseñas no coinciden", "OK");
+                    DisplayAlert("Error de Validación", "Las contraseñas no coinciden", "OK");
                     return false;
                 }
             }else { return false; }

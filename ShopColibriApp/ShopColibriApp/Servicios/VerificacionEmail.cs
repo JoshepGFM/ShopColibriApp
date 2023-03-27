@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Web.Mvc;
 using System.Configuration;
 using Xamarin.Forms;
 using System.Net.Mail;
@@ -18,21 +17,21 @@ namespace ShopColibriApp.Servicios
             {
                 using (MailMessage mailMessage = new MailMessage())
                 {
-                    mailMessage.To.Add(receptor);
-                    mailMessage.Subject = asunto;
-                    mailMessage.Body = body;
-                    mailMessage.IsBodyHtml = true;
-                    mailMessage.From = new MailAddress("verificacionesshopcolibri@gmail.com", "ShopColibri");
+                    mailMessage.To.Add(receptor);//a quien se le envía el correo
+                    mailMessage.Subject = asunto;//el asunto que tiene a fin en correo
+                    mailMessage.Body = body;//el mensaje
+                    mailMessage.IsBodyHtml = true;//establese si se tiene que usar html
+                    mailMessage.From = new MailAddress("verificacionesshopcolibri@gmail.com", "ShopColibri");//le coloca un sobre nombre a correo con que se envia
 
                     using (SmtpClient cliente =  new SmtpClient())
                     {
                         cliente.UseDefaultCredentials = false;
-                        cliente.Credentials = new NetworkCredential("verificacionesshopcolibri@gmail.com", "zbtcojcccaclfzaq");
+                        cliente.Credentials = new NetworkCredential("verificacionesshopcolibri@gmail.com", "zbtcojcccaclfzaq");//Añade las credenciales para el ingreso
                         cliente.Port = 587;
                         cliente.EnableSsl = true;
 
                         cliente.Host = "smtp.gmail.com";
-                        cliente.Send(mailMessage);
+                        cliente.Send(mailMessage);//Envía el correo del que se preparo
                         R = true;
                     }
                 }

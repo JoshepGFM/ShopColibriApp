@@ -3,7 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using ShopColibriApp.Servicios;
 
 namespace ShopColibriApp.ViewModels
 {
@@ -11,11 +14,54 @@ namespace ShopColibriApp.ViewModels
     {
         public Usuario MiUsuario { get; set; }
         public Tusuario MiTusuario { get; set; }
+        public VerificacionEmail VEmail { get; set; }
         public UsuarioViewModel() 
         {
+            VEmail = new VerificacionEmail();
             MiUsuario = new Usuario();
             MiTusuario = new Tusuario();
             ValidarConexionInternet();
+        }
+
+        public bool IsPasswordSecure(string password)
+        {
+            bool hasNumber = false;
+            bool hasUpperChar = false;
+            bool hasMinusChar = false;
+
+            if (password.Length < 8)
+                return false;
+
+            foreach (char c in password)
+            {
+                if (c >= '0' && c <= '9')
+                {
+                    hasNumber = true;
+                }
+                else if (c >= 'A' && c <= 'Z')
+                {
+                    hasUpperChar = true;
+                }
+                else if (c >= 'a' && c <= 'z')
+                {
+                    hasMinusChar = true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return hasNumber && hasUpperChar && hasMinusChar;
+        }
+
+        public bool IsValidEmail(string email)
+        {
+            string pattern = @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$";
+            Match match = Regex.Match(email, pattern, RegexOptions.IgnoreCase);
+            if (match.Success)
+                return true;
+            else
+                return false;
         }
 
         public async Task<Usuario> GetUsuario(string Usuario)
@@ -137,7 +183,29 @@ namespace ShopColibriApp.ViewModels
                 MiUsuario.Telefono = pTelefono;
                 MiUsuario.Tipo = "";
 
-                bool R = await MiUsuario.PostUsuario();
+                Usuario usuario = GlobalObject.GloUsu;
+                int id = 3;
+                bool R = false;
+                if (usuario != null)
+                {
+                    id = usuario.IdUsuario;
+                     R = await MiUsuario.PostUsuario(1);
+                }
+                else
+                {
+                    R = await MiUsuario.PostUsuario(id);
+                }
+                
+
+                if ( R && id != 1)
+                {
+                    string enlace = string.Format(Servicios.CnnToShopColibri.UrlProduction + "Usuario/ModificarUsuario?id={0}", MiUsuario.IdUsuario);
+                    string menssage = string.Format("<h5>Para activar tu cuenta dar <a href='{0}'> Click aquí</a></h5>", enlace);
+
+                    VEmail.Index(pEmail, "Verificar cuenta", menssage);
+
+                    await DisplayAlert("Envío correo","Se le envío un correo a " + pEmail,"OK");
+                }
 
                 return R;
             }
@@ -178,6 +246,35 @@ namespace ShopColibriApp.ViewModels
 
         }
 
+        public async Task<bool> PatchUsuario(Usuario usuario, string pass)
+        {
+            
+            if (IsBusy) return false;
+            IsBusy = true;
 
+            try
+            {
+                MiUsuario.IdUsuario = usuario.IdUsuario;
+                MiUsuario.Nombre = usuario.Nombre;
+                MiUsuario.Apellido1 = usuario.Apellido1;
+                MiUsuario.Apellido2 = usuario.Apellido2;
+                MiUsuario.Email = usuario.Email;
+                MiUsuario.Contrasennia = pass;
+                MiUsuario.EmailResp = usuario.EmailResp;
+                MiUsuario.TusuarioId = usuario.TusuarioId;
+                MiUsuario.Telefono = usuario.Telefono;
+                MiUsuario.Tipo = usuario.Tipo;
+
+                bool R = await MiUsuario.PatchUsuario();
+
+                return R;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+            finally { IsBusy = false; }
+        }
     }
 }

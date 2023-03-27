@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
+using ShopColibriApp.Servicios;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -148,11 +149,11 @@ namespace ShopColibriApp.Models
             }
         }
 
-        public async Task<bool> PostUsuario()
+        public async Task<bool> PostUsuario(int? s)
         {
             try
             {
-                string Route = string.Format("Usuarios");
+                string Route = string.Format("Usuarios?s={0}", s);
                 string FinalURL = Servicios.CnnToShopColibri.UrlProduction + Route;
 
                 RestClient client = new RestClient(FinalURL);
@@ -176,6 +177,7 @@ namespace ShopColibriApp.Models
 
                 if (statusCode == HttpStatusCode.Created)
                 {
+                    
                     return true;
                 }
                 else
@@ -228,6 +230,50 @@ namespace ShopColibriApp.Models
             {
                 string msg = ex.Message;
                 // TO DO: Guardar estos errores en una bitácora para su posterior análisis
+                throw;
+            }
+        }
+
+        public async Task<bool> PatchUsuario()
+        {
+            try
+            {
+                string Route = string.Format("Usuarios/ModificarUsuario?id={0}", this.IdUsuario);
+                string FinalURL = Servicios.CnnToShopColibri.UrlProduction + Route;
+
+                RestClient client = new RestClient(FinalURL);
+
+                request = new RestRequest(FinalURL, Method.Patch);
+
+                //info de seguridad del api
+                request.AddHeader(Servicios.CnnToShopColibri.ApiKeyName, Servicios.CnnToShopColibri.ApiValue);
+                request.AddHeader(Servicios.CnnToShopColibri.contentType, Servicios.CnnToShopColibri.mimetype);
+
+                //Se transforma a Json para la api
+                string SerialClass = JsonConvert.SerializeObject(this);
+
+                request.AddBody(SerialClass, Servicios.CnnToShopColibri.mimetype);
+
+                RestResponse response = await client.ExecuteAsync(request);
+
+                HttpStatusCode statusCode = response.StatusCode;
+
+                //carga de la info en un json
+
+                if (statusCode == HttpStatusCode.NoContent)
+                {
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
                 throw;
             }
         }

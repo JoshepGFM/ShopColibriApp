@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShopColibriApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,17 +13,27 @@ namespace ShopColibriApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewPassword : ContentPage
     {
+        UsuarioViewModel vmu { get; set; }
         public NewPassword()
         {
             InitializeComponent();
+            vmu = new UsuarioViewModel();
         }
 
         private async void BtnCambiar_Clicked(object sender, EventArgs e)
         {
             if (VerificarElementos())
             {
-                await DisplayAlert("Verificación de contraseña", "Se realizo el cambio de contraseña exitosamente", "OK");
-                await Navigation.PushAsync(new Login());
+                bool R = await vmu.PatchUsuario(GlobalObject.GloUsu, TxtPass1.Text.Trim());
+                if (R)
+                {
+                    await DisplayAlert("Verificación de contraseña", "Se realizo el cambio de contraseña exitosamente", "OK");
+                    await Navigation.PushAsync(new Login());
+                }
+                else
+                {
+                    await DisplayAlert("Error de modificación","No se pudo realizar el cambio de contraseña","OK");
+                }
             }
         }
 
@@ -34,7 +45,7 @@ namespace ShopColibriApp.Views
                 TxtPin.Text != null && !string.IsNullOrEmpty(TxtPin.Text.Trim()))
                 {
                     if (TxtPass1.Text == TxtPass2.Text &&
-                        IsPasswordSecure(TxtPass1.Text.Trim())&&
+                        vmu.IsPasswordSecure(TxtPass1.Text.Trim())&&
                         GlobalObject.NumeroRecuperacion.ToString() == TxtPin.Text.Trim()
                         )
                     {
@@ -54,70 +65,40 @@ namespace ShopColibriApp.Views
                             TxtPass1.Focus();
                             return false;
                         }
-                        if (!IsPasswordSecure(TxtPass1.Text.Trim()))
+                        if (!vmu.IsPasswordSecure(TxtPass1.Text.Trim()))
                         {
-                            DisplayAlert("Error de contraseña", "La contraseña no cuenta con los parametros necesario, debe contar con:/n" +
-                                "1.8 digitos." +
-                                "2.Tenga un numero (0-9)" +
-                                "3.Tenga una letra", "OK");
+                            DisplayAlert("Error de contraseña", "La contraseña no cuenta con los parámetros necesario, debe contar con:/n" +
+                                "(8 dígitos, " +
+                                "que tenga un numero (0-9), " +
+                                "que tenga cuente con letras minúsculas y mayúsculas.", "OK");
                             TxtPass1.Focus();
                             return false;
                         }
                     }
-                }
-                else
-                {
-                    if (TxtPass1.Text == null || string.IsNullOrEmpty(TxtPass1.Text.Trim()))
-                    {
-                        DisplayAlert("Error de validación", "Debe de crear una nueva contraseña", "OK");
-                        TxtPass1.Focus();
-                        return false;
-                    }
-                    if (TxtPass2.Text == null || string.IsNullOrEmpty(TxtPass2.Text.Trim()))
-                    {
-                        DisplayAlert("Error de validación", "Debe de confirmar la contraseña", "OK");
-                        TxtPass2.Focus();
-                        return false;
-                    }
-                    if (TxtPin.Text == null || string.IsNullOrEmpty(TxtPin.Text.Trim()))
-                    {
-                        DisplayAlert("Error de validación", "La clave o pin no es correcta verifique", "OK");
-                        TxtPin.Focus();
-                        return false;
-                    }
-                    
-                }
-            return R;
-        }
-
-        public bool IsPasswordSecure(string password)
-        {
-            bool hasNumber = false;
-            bool hasUpperChar = false;
-
-            if (password.Length < 8)
-                return false;
-
-            foreach (char c in password)
+            }
+            else
             {
-                if (c >= '0' && c <= '9')
+                if (TxtPass1.Text == null || string.IsNullOrEmpty(TxtPass1.Text.Trim()))
                 {
-                    hasNumber = true;
-                }
-                else if (c >= 'A' && c <= 'Z')
-                {
-                    hasUpperChar = true;
-                }
-                else if (c >= 'a' && c <= 'z')
-                {
-                    // do nothing
-                }
-                else
-                {
+                    DisplayAlert("Error de validación", "Debe de crear una nueva contraseña", "OK");
+                    TxtPass1.Focus();
                     return false;
                 }
+                if (TxtPass2.Text == null || string.IsNullOrEmpty(TxtPass2.Text.Trim()))
+                {
+                    DisplayAlert("Error de validación", "Debe de confirmar la contraseña", "OK");
+                    TxtPass2.Focus();
+                    return false;
+                }
+                if (TxtPin.Text == null || string.IsNullOrEmpty(TxtPin.Text.Trim()))
+                {
+                    DisplayAlert("Error de validación", "La clave o pin no es correcta verifique", "OK");
+                    TxtPin.Focus();
+                    return false;
+                }
+                
             }
-            return hasNumber && hasUpperChar;
+            return R;
         }
     }
 }

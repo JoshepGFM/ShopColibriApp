@@ -12,6 +12,8 @@ using System.IO;
 using System.Collections.ObjectModel;
 using ShopColibriApp.ViewModels;
 using static Xamarin.Essentials.Permissions;
+using System.Security.Permissions;
+using Plugin.Permissions;
 
 namespace ShopColibriApp.Views
 {
@@ -19,58 +21,16 @@ namespace ShopColibriApp.Views
     public partial class ImagenPage : ContentPage
     {
         UsuarioViewModel vmu;
+        FotoViewModel foto;
         public ImagenPage()
         {
             InitializeComponent();
+            BindingContext = new FotoViewModel();
         }
 
         private async void BtnGuardar_Clicked(object sender, EventArgs e)
         {
             
-        }
-        //Funcion para tomar una foto de la galeria
-        private async void ObtenerImagen()
-        {
-            var file = await CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
-            {
-                PhotoSize = Plugin.Media.Abstractions.PhotoSize.Medium
-            });
-            if (file == null) return;
-
-            //Imagen1.Source = ImageSource.FromStream(() =>
-            //{
-            //    var stream = file.GetStream();
-            //    return stream;
-            //});
-
-
-        }
-        //Funcion para tomar una foto con la camara
-        async void TomarFoto()
-        {
-            if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
-            {
-                await DisplayAlert("No Camera", ":( No camera available.", "OK");
-                return;
-            }
-
-            var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
-            {
-                Directory = "Sample",
-                Name = "test.jpg"
-            });
-
-            if (file == null)
-                return;
-
-            await DisplayAlert("File Location", file.Path, "OK");
-
-            //Imagen1.Source = ImageSource.FromStream(() =>
-            //{
-            //    var stream = file.GetStream();
-            //    file.Dispose();
-            //    return stream;
-            //});
         }
         //Funciones para tomar varias fotos de la galeria
         public async void SelectMultipleImage()
@@ -81,83 +41,64 @@ namespace ShopColibriApp.Views
                 await CrossMedia.Current.Initialize();
                 if (!CrossMedia.Current.IsPickPhotoSupported)
                 {
-                    await DisplayAlert("No camera", "No camera available", "OK");
+                    await DisplayAlert("No camera", "Camara no habilitada", "OK");
                     return;
                 }
-                var file = await CrossMedia.Current.PickPhotosAsync(new Plugin.Media.Abstractions.PickMediaOptions
-                {
-                    PhotoSize = Plugin.Media.Abstractions.PhotoSize.Full,
-                    CompressionQuality = 30,
-                    SaveMetaData = true
-                });
 
+
+                var galeria = new PickMediaOptions();
+                galeria.PhotoSize = PhotoSize.Full;
+                galeria.CompressionQuality = 30;
+                galeria.SaveMetaData = true;
+
+                var file = await CrossMedia.Current.PickPhotosAsync(galeria);
+                if (file == null)
+                    return;
                 foreach (var item in file)
                 {
                     images.Add(new FileImageSource() { File = item.Path });
+                    ImgProductos.Images = images;
                 }
 
-                ImgProductos.Images = images;
 
             }catch (Exception ex)
             {
                 await DisplayAlert("Error", ex.Message.ToString(), "OK");
             }
         }
-        //Funcion para tomar varias fotos por la camara
-        async Task<List<string>> TakePhoto()
-        {
-            var photos = new List<string>();
-            await CrossMedia.Current.Initialize();
-            if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
-            {
-                await DisplayAlert("No camera", "No camera available", "OK");
-                return photos;
-            }
-
-            var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
-            {
-                PhotoSize = Plugin.Media.Abstractions.PhotoSize.Full,
-                CompressionQuality = 30,
-                SaveMetaData = true
-            });
-
-            if (file == null)
-                return photos;
-
-            photos.Add(file.Path);
-            return photos;
-
-        }
         async void TakeMultiplePhoto()
         {
+            
+
             try
             {
                 ObservableCollection<FileImageSource> images = new ObservableCollection<FileImageSource>();
+
                 await CrossMedia.Current.Initialize();
                 if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
                 {
                     return;
                 }
-                MediaFile file = await Plugin.Media.CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
-                {
-                    DefaultCamera = Plugin.Media.Abstractions.CameraDevice.Front,
-                    Directory = "ShopColibri",
-                    Name = "ShopColibri" + DateTime.Now.ToString(),
-                    SaveToAlbum = true,
-                }); ;
 
-                if (file == null)
+                var camara = new StoreCameraMediaOptions();
+                camara.DefaultCamera = Plugin.Media.Abstractions.CameraDevice.Rear;
+                camara.PhotoSize = PhotoSize.Full;
+                camara.Directory = "ShopColibri";
+                camara.Name = "ShopColibri" + DateTime.Now.ToString();
+                
+                camara.SaveToAlbum = true;
+                MediaFile foto = await CrossMedia.Current.TakePhotoAsync(camara);
+
+                if (foto == null)
                     return;
-                images.Add(new FileImageSource { File = file.Path });
+                images.Add(new FileImageSource() { File = foto.Path });
                 ImgProductos.Images = images;
-                await DisplayAlert("File Location", file.Path, "OK");
-
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Error", ex.Message.ToString(), "OK");
+                Console.WriteLine(ex.ToString());
             }
-            
         }
 
         private void BtnGaleria_Clicked(object sender, EventArgs e)
@@ -165,7 +106,7 @@ namespace ShopColibriApp.Views
             SelectMultipleImage();
         }
 
-        private void BtnCamara_Clicked(object sender, EventArgs e)
+        private async void BtnCamara_Clicked(object sender, EventArgs e)
         {
             TakeMultiplePhoto();
         }
