@@ -34,10 +34,10 @@ namespace ShopColibriApp.Views.ViewCM
             Usuario itemSelect = e.SelectedItem as Usuario;
             if (itemSelect != null)
             {
-                
+
                 //if (SwAvtivos.IsToggled)
                 //{
-                //    LvlListaUsuarios.BtnInvalidar.ImageSoucer = "Validar.png";
+                //    BtnInvalidar.ImageSoucer = "Validar.png";
                 //}
                 //else
                 //{
