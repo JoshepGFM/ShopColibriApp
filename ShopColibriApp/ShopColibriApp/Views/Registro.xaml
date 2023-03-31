@@ -23,10 +23,11 @@
                 </StackLayout>
                 <Entry x:Name="TxtEmailResp" Placeholder="*Email de respaldo" Keyboard="Email"/>
                 <Entry x:Name="TxtTelefono" Placeholder="Telefono" Keyboard="Numeric"/>
-                <Picker x:Name="PckTipo" Title="Tipo de usuario" ItemDisplayBinding="{Binding Tipo}" IsVisible="false"/>
+                <Picker x:Name="PckTipo" Title="Tipo de usuario" ItemDisplayBinding="{Binding Tipo}" IsVisible="false" SelectedIndex="{Binding Index}"/>
 
                 <StackLayout>
                     <Button x:Name="BtnRegistrar" Text="Registrar" BackgroundColor="Green" CornerRadius="50" Clicked="BtnRegistrar_Clicked" />
+                    <Button x:Name="BtnModificar" Text="Modificar" BackgroundColor="LightGray" CornerRadius="50" Clicked="BtnModificar_Clicked" />
                 </StackLayout>
             </StackLayout>
 

@@ -15,6 +15,7 @@ namespace ShopColibriApp.ViewModels
         public Usuario MiUsuario { get; set; }
         public Tusuario MiTusuario { get; set; }
         public VerificacionEmail VEmail { get; set; }
+        public int Index { get; set; }
         public UsuarioViewModel() 
         {
             VEmail = new VerificacionEmail();

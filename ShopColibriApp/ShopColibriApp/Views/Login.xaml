@@ -23,7 +23,9 @@
 
                         </StackLayout>
 
-                        <Button x:Name="BtnIngresar" Text="Ingresar" Clicked="BtnIngresar_Clicked" CornerRadius="50"  BackgroundColor="Green" TextColor="#E8E3E3" VerticalOptions="Center" FontSize="Title"/>
+                        <Button x:Name="BtnIngresar" Text="Ingresar" Clicked="BtnIngresar_Clicked" 
+                                CornerRadius="50"  BackgroundColor="Green" TextColor="#E8E3E3" 
+                                VerticalOptions="Center" FontSize="Title"/>
 
                         <Label HorizontalTextAlignment="Center">
                             <Label.FormattedText>

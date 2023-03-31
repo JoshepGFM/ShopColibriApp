@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using ShopColibriApp.Views;
+using Newtonsoft.Json.Schema;
 
 namespace ShopColibriApp.Views.ViewCM
 {
@@ -22,12 +23,12 @@ namespace ShopColibriApp.Views.ViewCM
         private async void BtnProductos_Clicked(object sender, EventArgs e)
         {
             App.MasterDet.IsPresented = false;
-            await App.MasterDet.Detail.Navigation.PushAsync(new ImagenPage());
+            App.MasterDet.Detail.Navigation.PushAsync(new VistaProductosPage());
         }
 
         private async void BtnCerrarS_Clicked(object sender, EventArgs e)
         {
-            var resp = await DisplayAlert("Cierre de Sesion", "Quiere cerrar Sesion", "Si","No");
+            var resp = await DisplayAlert("Cierre de Sesión", "Quiere cerrar Sesión", "Si","No");
 
             if(resp)
             {
@@ -59,17 +60,41 @@ namespace ShopColibriApp.Views.ViewCM
                 
                 LblCorreo.Text = GlobalObject.GloUsu.Email.ToString();
                 LblTipo.Text = GlobalObject.GloUsu.Tipo.ToString();
+                validarVisiBotones();
             }
         }
 
         private async void BtnRegisUsu_Clicked(object sender, EventArgs e)
         {
+            App.MasterDet.IsPresented = false;
             await App.MasterDet.Detail.Navigation.PushAsync(new VistaUsuarios());
         }
 
-        private void BtnConf_Clicked(object sender, EventArgs e)
+        private async void BtnConf_Clicked(object sender, EventArgs e)
         {
-            //TODO:
+            App.MasterDet.IsPresented = false;
+            await App.MasterDet.Detail.Navigation.PushAsync(new ConfiPerfil());
+        }
+
+        private void validarVisiBotones()
+        {
+            if (GlobalObject.GloUsu.TusuarioId == 1 ||
+                    GlobalObject.GloUsu.TusuarioId == 2)
+            {
+                if (GlobalObject.GloUsu.TusuarioId == 1)
+                {
+                    BtnRegisUsu.IsVisible = true;
+                }
+                else
+                {
+                    BtnRegisUsu.IsVisible = false;
+                }
+                FmUsuariosAd.IsVisible = true;
+            }
+            else
+            {
+                FmUsuariosAd.IsVisible = false;
+            }
         }
     }
 }

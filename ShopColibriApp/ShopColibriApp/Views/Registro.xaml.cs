@@ -3,10 +3,12 @@ using ShopColibriApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 
 namespace ShopColibriApp.Views
@@ -32,10 +34,41 @@ namespace ShopColibriApp.Views
         {
             if (GlobalObject.GloUsu != null && GlobalObject.GloUsu.IdUsuario == 1)
             {
+                if (GlobalObject.GloUsu_Registro != null)
+                {
+                    TxtNombre.Text = GlobalObject.GloUsu_Registro.Nombre;
+                    TxtApellido1.Text = GlobalObject.GloUsu_Registro.Apellido1;
+                    TxtApellido2.Text = GlobalObject.GloUsu_Registro.Apellido2;
+                    TxtEmail.Text = GlobalObject.GloUsu_Registro.Email;
+                    TxtEmailResp.Text = GlobalObject.GloUsu_Registro.EmailResp;
+                    TxtTelefono.Text = GlobalObject.GloUsu_Registro.Telefono;
+                    SelectItem(GlobalObject.GloUsu_Registro.TusuarioId);
+
+                    BtnRegistrar.IsVisible = false;
+                    BtnModificar.IsVisible = true;
+                }
+                else if(GlobalObject.GloUsu != null && !GlobalObject.AgregadoUsuSis)
+                {
+                    LlenarUsuario();
+                }
+                else if(GlobalObject.AgregadoUsuSis)
+                {
+                    BtnRegistrar.IsVisible = true;
+                    BtnModificar.IsVisible = false;
+                }
                 PckTipo.IsVisible = true;
             }
             else
             {
+                if (!GlobalObject.AgregadoUsuSis)
+                {
+                    if (GlobalObject.GloUsu != null) { LlenarUsuario(); }
+                }
+                else
+                {
+                    BtnRegistrar.IsVisible = true;
+                    BtnModificar.IsVisible = false;
+                }
                 PckTipo.IsVisible = false;
             }
         }
@@ -63,60 +96,6 @@ namespace ShopColibriApp.Views
             }
         }
 
-        private async void BtnRegistrar_Clicked(object sender, EventArgs e)
-        {
-            try
-            {
-                if (ValidarElementos())
-                {
-                    Tusuario tus = PckTipo.SelectedItem as Tusuario;
-                    int IdTus;
-                    if (PckTipo.IsEnabled == false)
-                    {
-                        IdTus = tus.Id;
-                    }
-                    else
-                    {
-                        IdTus = 3;
-                    }
-                    string emailRes = "";
-                    if (TxtEmailResp.Text == null || string.IsNullOrEmpty(TxtEmailResp.Text.Trim()))
-                    {
-                        emailRes = null;
-                    }
-                    else
-                    {
-                        emailRes = TxtEmailResp.Text.Trim();
-                    }
-                    var answer = await DisplayAlert("Confirmación", "¿Quiere registrarse?", "Si", "No");
-                    if (answer)
-                    {
-                        bool R = await vm.PostUsuario(TxtNombre.Text.Trim(),
-                                                      TxtApellido1.Text.Trim(),
-                                                      TxtApellido2.Text.Trim(),
-                                                      TxtEmail.Text.Trim(),
-                                                      TxtContrasennia2.Text.Trim(),
-                                                      emailRes,
-                                                      TxtTelefono.Text.Trim(),
-                                                      IdTus);
-
-                        if (R)
-                        {
-
-                            await DisplayAlert("Validación exitosa", "Se agrego con éxito el Usuario", "OK");
-                            await Navigation.PopAsync();
-                        }
-                        else
-                        {
-                            await DisplayAlert("Error de Validación", "Se ocasiono un error al ingresar el Usuario", "OK");
-                        }
-                    }
-                }
-            }catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message.ToString(), "OK");
-            }
-        }
 
         private bool ValidarElementos()
         {
@@ -193,8 +172,8 @@ namespace ShopColibriApp.Views
 
                     if (PckTipo.SelectedIndex == -1)
                     {
-                        DisplayAlert("Error de Validación", "Se requiere el Tipo de Usuario", "OK");
                         PckTipo.Focus();
+                        DisplayAlert("Error de Validación", "Se requiere el Tipo de Usuario", "OK");
                         return false;
                     }
                 }
@@ -288,6 +267,133 @@ namespace ShopColibriApp.Views
                     return false;
                 }
             }else { return false; }
+        }
+
+        //Metodo para seleccionar un tipo de usuario en el picker según el id
+        private async void SelectItem(int index)
+        {
+            var list = await vm.GetTUsuario();
+            for(int i = 0; i < list.Count; i++)
+            {
+                if (list[i].Id.ToString() == index.ToString())
+                {
+                    PckTipo.SelectedIndex = i;
+                }
+            }
+        }
+
+        private void LlenarUsuario()
+        {
+            TxtNombre.Text = GlobalObject.GloUsu.Nombre;
+            TxtApellido1.Text = GlobalObject.GloUsu.Apellido1;
+            TxtApellido2.Text = GlobalObject.GloUsu.Apellido2;
+            TxtEmail.Text = GlobalObject.GloUsu.Email;
+            TxtEmailResp.Text = GlobalObject.GloUsu.EmailResp;
+            TxtTelefono.Text = GlobalObject.GloUsu.Telefono;
+            SelectItem(GlobalObject.GloUsu.TusuarioId);
+
+            BtnRegistrar.IsVisible = false;
+            BtnModificar.IsVisible = true;
+        }
+
+        private async void BtnRegistrar_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ValidarElementos())
+                {
+                    Tusuario tus = PckTipo.SelectedItem as Tusuario;
+                    int IdTus;
+                    if (PckTipo.IsEnabled == false)
+                    {
+                        IdTus = tus.Id;
+                    }
+                    else
+                    {
+                        IdTus = 3;
+                    }
+                    string emailRes = "";
+                    if (TxtEmailResp.Text == null || string.IsNullOrEmpty(TxtEmailResp.Text.Trim()))
+                    {
+                        emailRes = null;
+                    }
+                    else
+                    {
+                        emailRes = TxtEmailResp.Text.Trim();
+                    }
+                    var answer = await DisplayAlert("Confirmación", "¿Quiere registrarse?", "Si", "No");
+                    if (answer)
+                    {
+                        bool R = await vm.PostUsuario(TxtNombre.Text.Trim(),
+                                                      TxtApellido1.Text.Trim(),
+                                                      TxtApellido2.Text.Trim(),
+                                                      TxtEmail.Text.Trim(),
+                                                      TxtContrasennia2.Text.Trim(),
+                                                      emailRes,
+                                                      TxtTelefono.Text.Trim(),
+                                                      IdTus);
+
+                        if (R)
+                        {
+
+                            await DisplayAlert("Validación exitosa", "Se agrego con éxito el Usuario", "OK");
+                            await Navigation.PopAsync();
+                        }
+                        else
+                        {
+                            await DisplayAlert("Error de Validación", "Se ocasiono un error al ingresar el Usuario", "OK");
+                        }
+                    }
+                }
+            }catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message.ToString(), "OK");
+            }
+        }
+
+        private async void BtnModificar_Clicked(object sender, EventArgs e)
+        {
+            if (ValidarElementos())
+            {
+                Usuario usuario = new Usuario();
+                Tusuario tus = PckTipo.SelectedItem as Tusuario;
+                if (GlobalObject.GloUsu_Registro != null)
+                {
+                    usuario.IdUsuario = GlobalObject.GloUsu_Registro.IdUsuario;
+                }
+                else if (GlobalObject.GloUsu != null)
+                {
+                    usuario.IdUsuario = GlobalObject.GloUsu.IdUsuario;
+                }
+                usuario.Nombre = TxtNombre.Text.Trim();
+                usuario.Apellido1 = TxtApellido1.Text.Trim();
+                usuario.Apellido2 = TxtApellido2.Text.Trim();
+                usuario.Email = TxtEmail.Text.Trim();
+                usuario.Contrasennia = TxtContrasennia1.Text.Trim();
+                string emailRes = "";
+                if (TxtEmailResp.Text == null || string.IsNullOrEmpty(TxtEmailResp.Text.Trim()))
+                {
+                    emailRes = null;
+                }
+                else
+                {
+                    emailRes = TxtEmailResp.Text.Trim();
+                }
+                usuario.EmailResp = emailRes;
+                usuario.Telefono = TxtTelefono.Text.Trim();
+                usuario.TusuarioId = tus.Id;
+                bool R = await vm.PatchUsuario(usuario,usuario.Contrasennia);
+                if (R)
+                {
+                    GlobalObject.GloUsu_Registro = null;
+                    await DisplayAlert("Validación exitosa", "Se Modifico con éxito el Usuario", "OK");
+                    await Navigation.PopAsync();
+                }
+                else
+                {
+                    await DisplayAlert("Error de Validación", "Se ocasiono un error al modificar el Usuario", "OK");
+                }
+            }
         }
     }
 }

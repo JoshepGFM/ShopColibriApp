@@ -22,6 +22,7 @@ namespace ShopColibriApp.Views
 			InitializeComponent ();
 			VEmail = new VerificacionEmail ();
 			vmu = new UsuarioViewModel ();
+			ValidarUsuarioGlobal();
 		}
 
         private async void BtnEnviarCorreo_Clicked(object sender, EventArgs e)
@@ -62,5 +63,18 @@ namespace ShopColibriApp.Views
 				await DisplayAlert("Error validación",g + ": No corresponde a un formato de correo","OK");
 			}
         }
+
+		private void ValidarUsuarioGlobal()
+		{
+			if(GlobalObject.GloUsu != null)
+			{
+				TxtEmail.Text = GlobalObject.GloUsu.Email;
+				TxtEmail.IsEnabled = false;
+			}
+			else
+			{
+				TxtEmail.IsEnabled=true;
+			}
+		}
     }
 }

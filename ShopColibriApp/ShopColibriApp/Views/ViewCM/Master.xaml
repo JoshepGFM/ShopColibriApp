@@ -14,11 +14,11 @@
                     </StackLayout>
                     
                     <StackLayout HorizontalOptions="EndAndExpand" VerticalOptions="EndAndExpand">
-                        <Label x:Name="LblTipo" Text="Tipo"/>
+                        <Label x:Name="LblTipo" Text="Tipo" FontSize="10"/>
                     </StackLayout>
                 </StackLayout>
             </Frame>
-            <Frame>
+            <Frame x:Name="FmUsuariosAd">
                 <StackLayout>
                     <Button x:Name="BtnRegisUsu" Text="Usuarios" BackgroundColor="White" Image="verificarReg.png" Clicked="BtnRegisUsu_Clicked"/>
                     <Button x:Name="BtnProductos" Text="Productos" BackgroundColor="White" Image="Product.ico" Clicked="BtnProductos_Clicked" />
