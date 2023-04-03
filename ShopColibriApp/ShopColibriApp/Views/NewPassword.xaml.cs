@@ -100,5 +100,29 @@ namespace ShopColibriApp.Views
             }
             return R;
         }
+
+        private void SwVer1_Toggled(object sender, ToggledEventArgs e)
+        {
+            if(SwVer1.IsToggled == true)
+            {
+                TxtPass1.IsPassword = false;
+            }
+            else 
+            { 
+                TxtPass1.IsPassword = true; 
+            }
+        }
+
+        private void SwVer2_Toggled(object sender, ToggledEventArgs e)
+        {
+            if (SwVer2.IsToggled == true)
+            {
+                TxtPass2.IsPassword = false;
+            }
+            else
+            {
+                TxtPass2.IsPassword = true;
+            }
+        }
     }
 }

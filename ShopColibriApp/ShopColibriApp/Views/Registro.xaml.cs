@@ -254,19 +254,36 @@ namespace ShopColibriApp.Views
 
         private bool ValidarContrasennia()
         {
+            bool R = false;
             if (TxtContrasennia1.Text != null && !string.IsNullOrEmpty(TxtContrasennia1.Text.Trim()) &&
                 TxtContrasennia2.Text != null && !string.IsNullOrEmpty(TxtContrasennia2.Text.Trim()))
             {
-                if (TxtContrasennia1.Text.Trim() == TxtContrasennia2.Text.Trim())
+                if (TxtContrasennia1.Text == TxtContrasennia2.Text
+                    && vm.IsPasswordSecure(TxtContrasennia1.Text.Trim()))
                 {
-                    return true;
+                    R = true;
                 }
                 else
                 {
-                    DisplayAlert("Error de Validación", "Las contraseñas no coinciden", "OK");
-                    return false;
+                    if (TxtContrasennia1.Text != TxtContrasennia2.Text)
+                    {
+                        DisplayAlert("Error de Validación", "Las contraseñas no coinciden", "OK");
+                        TxtContrasennia1.Focus();
+                        return false;
+                    }
+                    if (!vm.IsPasswordSecure(TxtContrasennia1.Text.Trim()))
+                    {
+                        DisplayAlert("Error de contraseña", "La contraseña no cuenta con los parámetros necesario, debe contar con:/n" +
+                            "(8 dígitos, " +
+                            "que tenga un numero (0-9), " +
+                            "que tenga cuente con letras minúsculas y mayúsculas.", "OK");
+                        TxtContrasennia1.Focus();
+                        return false;
+                    }
                 }
-            }else { return false; }
+                return R;
+            }
+            else { return R; }
         }
 
         //Metodo para seleccionar un tipo de usuario en el picker según el id
@@ -275,7 +292,7 @@ namespace ShopColibriApp.Views
             var list = await vm.GetTUsuario();
             for(int i = 0; i < list.Count; i++)
             {
-                if (list[i].Id.ToString() == index.ToString())
+                if (list[i].Id == index)
                 {
                     PckTipo.SelectedIndex = i;
                 }

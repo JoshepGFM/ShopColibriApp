@@ -277,5 +277,83 @@ namespace ShopColibriApp.Models
                 throw;
             }
         }
+
+        public async Task<bool> ValidarUsuario(int id)
+        {
+            try
+            {
+                string Route = string.Format("Usuarios/Validar?id={0}", id);
+
+                string FinalURL = Servicios.CnnToShopColibri.UrlProduction + Route;
+
+                RestClient client = new RestClient(FinalURL);
+
+                request = new RestRequest(FinalURL, Method.Delete);
+
+                //info de seguridad del api
+                request.AddHeader(Servicios.CnnToShopColibri.ApiKeyName, Servicios.CnnToShopColibri.ApiValue);
+                request.AddHeader(Servicios.CnnToShopColibri.contentType, Servicios.CnnToShopColibri.mimetype);
+
+                RestResponse response = await client.ExecuteAsync(request);
+
+                HttpStatusCode statusCode = response.StatusCode;
+
+                //carga de la info en un json
+
+                if (statusCode == HttpStatusCode.NoContent)
+                {
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteUsuario(int id)
+        {
+            try
+            {
+                string Route = string.Format("Usuarios/{0}", id);
+
+                string FinalURL = Servicios.CnnToShopColibri.UrlProduction + Route;
+
+                RestClient client = new RestClient(FinalURL);
+
+                request = new RestRequest(FinalURL, Method.Delete);
+
+                //info de seguridad del api
+                request.AddHeader(Servicios.CnnToShopColibri.ApiKeyName, Servicios.CnnToShopColibri.ApiValue);
+                request.AddHeader(Servicios.CnnToShopColibri.contentType, Servicios.CnnToShopColibri.mimetype);
+
+                RestResponse response = await client.ExecuteAsync(request);
+
+                HttpStatusCode statusCode = response.StatusCode;
+
+                //carga de la info en un json
+
+                if (statusCode == HttpStatusCode.NoContent)
+                {
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                throw;
+            }
+        }
     }
 }

@@ -159,14 +159,9 @@ namespace ShopColibriApp.ViewModels
             }
         }
 
-        public async Task<bool> PostUsuario(string pNombre,
-                                            string pApellido1,
-                                            string pApellido2,
-                                            string? pEmail,
-                                            string pContrasennia,
-                                            string? pEmailResp,
-                                            string pTelefono,
-                                            int pTUsuario)
+        public async Task<bool> PostUsuario(string pNombre, string pApellido1, string pApellido2,
+                                            string? pEmail, string pContrasennia, string? pEmailResp,
+                                            string pTelefono,int pTUsuario)
         {
             if (IsBusy) return false;
             IsBusy = true;
@@ -217,7 +212,7 @@ namespace ShopColibriApp.ViewModels
             }
             finally { IsBusy = false; }
         }
-        public async Task<ObservableCollection<Usuario>> GetUsuBuscar(string? Filtro, bool estado)
+        public async Task<ObservableCollection<Usuario>> GetUsuBuscar(string? Filtro, bool? estado)
         {
             if (IsBusy)
             {
@@ -277,5 +272,40 @@ namespace ShopColibriApp.ViewModels
             }
             finally { IsBusy = false; }
         }
+
+        public async Task<bool> ValidarUsuario(int id)
+        {
+            if (IsBusy) return false;
+            IsBusy = true;
+            try
+            {
+                bool R = await MiUsuario.ValidarUsuario(id);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+            finally { IsBusy = false; }
+        }
+
+        public async Task<bool> DeleteUsuario(int id)
+        {
+            if (IsBusy) return false;
+            IsBusy = true;
+            try
+            {
+                bool R = await MiUsuario.DeleteUsuario(id);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+            finally { IsBusy = false; }
+        }
+
     }
 }
