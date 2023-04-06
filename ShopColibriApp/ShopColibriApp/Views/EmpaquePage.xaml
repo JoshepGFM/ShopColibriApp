@@ -13,6 +13,8 @@
                 <ImageButton x:Name="BtnMas" Source="mas.png" Clicked="BtnMas_Clicked" VerticalOptions="Center"
                                  HorizontalOptions="Center" BackgroundColor="Transparent"/>
             </StackLayout>
+            <Button x:Name="BtnGuardar" Text="Guardar" Clicked="BtnGuardar_Clicked"/>
+            <Button x:Name="BtnModificar" Text="Modificar" IsVisible="false" Clicked="BtnModificar_Clicked"/>
 
         </Grid>
     </ContentPage.Content>
