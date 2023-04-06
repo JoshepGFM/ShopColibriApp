@@ -1,11 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ShopColibriApp.Views.Recuperacion">
+             x:Class="ShopColibriApp.Views.Recuperacion"
+             xmlns:GlobalV ="clr-namespace:ShopColibriApp.Views.ViewGlo">
     <ContentPage.Content>
-        <StackLayout>
-            <Entry x:Name="TxtEmail" Placeholder="Email" Keyboard="Email"/>
-            <Button Text="Enviar Correo" x:Name="BtnEnviarCorreo" Clicked="BtnEnviarCorreo_Clicked"/>
-        </StackLayout>
+        <Grid>
+            <GlobalV:Degradado/>
+            <StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Entry x:Name="TxtEmail" Placeholder="Email" Keyboard="Email" WidthRequest="320"/>
+                    <ImageButton x:Name="BtnCambiar" Clicked="BtnCambiar_Clicked" IsVisible="false" Source="Cambiar.png" VerticalOptions="EndAndExpand"
+                                 CornerRadius="2000" BackgroundColor="LightYellow"/>
+                </StackLayout>
+                <Button Text="Enviar Correo" x:Name="BtnEnviarCorreo" Clicked="BtnEnviarCorreo_Clicked" CornerRadius="50" BorderWidth="2" 
+                        BorderColor="BlanchedAlmond"/>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

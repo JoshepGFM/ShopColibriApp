@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShopColibriApp.Views.EmpaquePage">
+    <ContentPage.Content>
+        <Grid>
+            <Entry x:Name="TxtNombre" Placeholder="Nombre"/>
+            <Entry x:Name="TxtTamannio" Placeholder="Tamaño"/>
+            <StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" HeightRequest="40">
+                <ImageButton x:Name="BtnMenos" Source="menos.png" Clicked="BtnMenos_Clicked" VerticalOptions="Center" 
+                                 HorizontalOptions="Center" BackgroundColor="Transparent"/>
+                <Entry x:Name="TxtStock" Text="0" Keyboard="Numeric" MaxLength="4" HorizontalTextAlignment="Center" WidthRequest="60"/>
+                <ImageButton x:Name="BtnMas" Source="mas.png" Clicked="BtnMas_Clicked" VerticalOptions="Center"
+                                 HorizontalOptions="Center" BackgroundColor="Transparent"/>
+            </StackLayout>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

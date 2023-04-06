@@ -20,8 +20,10 @@
             </Frame>
             <Frame x:Name="FmUsuariosAd">
                 <StackLayout>
+                    <Button x:Name="BtnInicio" Text="Inicio" BackgroundColor="White" Image="Inicio.png" Clicked="BtnInicio_Clicked"/>
                     <Button x:Name="BtnRegisUsu" Text="Usuarios" BackgroundColor="White" Image="verificarReg.png" Clicked="BtnRegisUsu_Clicked"/>
-                    <Button x:Name="BtnProductos" Text="Productos" BackgroundColor="White" Image="Product.ico" Clicked="BtnProductos_Clicked" />
+                    <Button x:Name="BtnProductos" Text="Productos" BackgroundColor="White" Image="Product.png" Clicked="BtnProductos_Clicked" />
+                    <Button x:Name="BtnInventario" Text="Inventario" BackgroundColor="White" Image="Inventario.png" Clicked="BtnInventario_Clicked"/>
                 </StackLayout>
             </Frame>
             <Frame>

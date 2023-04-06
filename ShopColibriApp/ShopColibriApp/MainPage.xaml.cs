@@ -6,6 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using ShopColibriApp.Views.ViewCM;
+using ShopColibriApp.Models;
+using ShopColibriApp.ViewModels;
+using ShopColibriApp.Views;
+using Xamarin.Forms.PlatformConfiguration;
 
 namespace ShopColibriApp
 {

@@ -19,7 +19,6 @@ namespace ShopColibriApp.Views
         {
             InitializeComponent();
             vm = new UsuarioViewModel();
-            AccesoDirecto();
             TmrConApi();
         }
 
@@ -108,29 +107,6 @@ namespace ShopColibriApp.Views
             {
                 EstadoApi.BackgroundColor = Color.Red;
             }
-        }
-
-        private async void AccesoDirecto()
-        {
-            bool R = false;
-            if (Application.Current.Properties.ContainsKey("Usuario") && Application.Current.Properties.ContainsKey("Pass"))
-            {
-                try
-                {
-                    string u = Application.Current.Properties["Usuario"].ToString();
-                    string p = Application.Current.Properties["Pass"].ToString();
-
-                    GlobalObject.GloUsu = await vm.GetUsuario(u);
-                    R = await vm.ValidarAccesoUsuario(u,p);
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-            }
-
-            if (R) { await Navigation.PushAsync(new MainPage()); }
         }
     }
 }

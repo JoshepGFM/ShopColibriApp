@@ -32,8 +32,7 @@ namespace ShopColibriApp.Views.ViewCM
 
             if(resp)
             {
-                Application.Current.Properties["Usuario"] = "";
-                Application.Current.Properties["Pass"] = "";
+                Application.Current.Properties.Clear();
                 GlobalObject.GloUsu = new Models.Usuario();
 
                 await Navigation.PushAsync(new Login());
@@ -95,6 +94,18 @@ namespace ShopColibriApp.Views.ViewCM
             {
                 FmUsuariosAd.IsVisible = false;
             }
+        }
+
+        private async void BtnInventario_Clicked(object sender, EventArgs e)
+        {
+            App.MasterDet.IsPresented = false;
+            await App.MasterDet.Detail.Navigation.PushAsync(new InventarioPage());
+        }
+
+        private async void BtnInicio_Clicked(object sender, EventArgs e)
+        {
+            App.MasterDet.IsPresented=false;
+            await Navigation.PushAsync(new MainPage());
         }
     }
 }

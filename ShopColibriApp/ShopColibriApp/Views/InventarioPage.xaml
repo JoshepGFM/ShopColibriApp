@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShopColibriApp.Views.InventarioPage"
+             xmlns:GlobalV ="clr-namespace:ShopColibriApp.Views.ViewGlo"
+             xmlns:carrusel="clr-namespace:Xamd.ImageCarousel.Forms.Plugin.Abstractions;assembly=Xamd.ImageCarousel.Forms.Plugin.Abstractions"
+             >
+    <ContentPage.Content>
+        <Grid >
+            <GlobalV:Degradado/>
+            <StackLayout VerticalOptions="CenterAndExpand">
+                <DatePicker x:Name="DpckFecha"/>
+                <Label Text="Stock:" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+                <StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" HeightRequest="40">
+                    <ImageButton x:Name="BtnMenos" Source="menos.png" Clicked="BtnMenos_Clicked" VerticalOptions="Center" 
+                                 HorizontalOptions="Center" BackgroundColor="Transparent"/>
+                    <Entry x:Name="TxtStock" Placeholder="0" Keyboard="Numeric" MaxLength="4" HorizontalTextAlignment="Center" WidthRequest="60"/>
+                    <ImageButton x:Name="BtnMas" Source="mas.png" Clicked="BtnMas_Clicked" VerticalOptions="Center"
+                                 HorizontalOptions="Center" BackgroundColor="Transparent"/>
+                </StackLayout>
+                <Label Text="Precio:" FontAttributes="Bold"/>
+                <Entry x:Name="TxtPrecioUni" Placeholder="0" Keyboard="Numeric" MaxLength="19" HorizontalTextAlignment="Center"/>
+                <Entry x:Name="TxtOrigen" Placeholder="Origen" Keyboard="Text"/>
+                <Picker x:Name="PckProducto" Title="Seleccione Producto" ItemDisplayBinding="{Binding Nombre}"/>
+                <Picker x:Name="PckEmpaque" Title="Seleccione el empaque" ItemDisplayBinding="{Binding }"/>
+                <StackLayout Padding="20" Spacing="10">
+                    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="End">
+                        <carrusel:ImageCarousel x:Name="ImgProductos" />
+                    </StackLayout>
+                    <Button x:Name="BtnImagen" Text="Agregar Imagen" Clicked="BtnImagen_Clicked"  CornerRadius="50" 
+                            BackgroundColor="RosyBrown" BorderColor="DimGray" BorderWidth="1"/>
+                    <Button x:Name="BtnGuardar" Text="Guardar" Clicked="BtnGuardar_Clicked" CornerRadius="50" 
+                            BackgroundColor="LawnGreen" BorderColor="DimGray" BorderWidth="1"/>
+                </StackLayout>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -22,93 +22,36 @@ namespace ShopColibriApp.Views
     {
         UsuarioViewModel vmu;
         FotoViewModel foto;
+        ObservableCollection<FileImageSource> imagen { get; set; }
         public ImagenPage()
         {
             InitializeComponent();
-            BindingContext = new FotoViewModel();
+            BindingContext = foto = new FotoViewModel();
         }
 
         private async void BtnGuardar_Clicked(object sender, EventArgs e)
         {
-            
-        }
-        //Funciones para tomar varias fotos de la galeria
-        public async void SelectMultipleImage()
-        {
-            try
-            {
-                ObservableCollection<FileImageSource> images = new ObservableCollection<FileImageSource>();
-                await CrossMedia.Current.Initialize();
-                if (!CrossMedia.Current.IsPickPhotoSupported)
-                {
-                    await DisplayAlert("No camera", "Camara no habilitada", "OK");
-                    return;
-                }
-
-
-                var galeria = new PickMediaOptions();
-                galeria.PhotoSize = PhotoSize.Full;
-                galeria.CompressionQuality = 30;
-                galeria.SaveMetaData = true;
-
-                var file = await CrossMedia.Current.PickPhotosAsync(galeria);
-                if (file == null)
-                    return;
-                foreach (var item in file)
-                {
-                    images.Add(new FileImageSource() { File = item.Path });
-                    ImgProductos.Images = images;
-                }
-
-
-            }catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message.ToString(), "OK");
-            }
-        }
-        async void TakeMultiplePhoto()
-        {
-            
-
-            try
-            {
-                ObservableCollection<FileImageSource> images = new ObservableCollection<FileImageSource>();
-
-                await CrossMedia.Current.Initialize();
-                if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
-                {
-                    return;
-                }
-
-                var camara = new StoreCameraMediaOptions();
-                camara.DefaultCamera = Plugin.Media.Abstractions.CameraDevice.Rear;
-                camara.PhotoSize = PhotoSize.Full;
-                camara.Directory = "ShopColibri";
-                camara.Name = "ShopColibri" + DateTime.Now.ToString();
-                
-                camara.SaveToAlbum = true;
-                MediaFile foto = await CrossMedia.Current.TakePhotoAsync(camara);
-
-                if (foto == null)
-                    return;
-                images.Add(new FileImageSource() { File = foto.Path });
-                ImgProductos.Images = images;
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message.ToString(), "OK");
-                Console.WriteLine(ex.ToString());
-            }
+            GlobalObject.GloImagenes = ImgProductos.Images;
+            await Navigation.PushAsync(new InventarioPage());
         }
 
-        private void BtnGaleria_Clicked(object sender, EventArgs e)
+        private async void BtnGaleria_Clicked(object sender, EventArgs e)
         {
-            SelectMultipleImage();
+            if (!CrossMedia.Current.IsPickPhotoSupported)
+            {
+                await DisplayAlert("No camera", "Este dispositivo no permite el uso de la galería", "OK");
+                return;
+            }
+            ImgProductos.Images = await foto.SelectMultipleImage();
         }
 
         private async void BtnCamara_Clicked(object sender, EventArgs e)
         {
-            TakeMultiplePhoto();
+            if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+            {
+                await DisplayAlert("No camera", "Este dispositivo no permite el uso de la Camara", "OK"); ;
+            }
+            ImgProductos.Images = await foto.TakeMultiplePhoto();
         }
     }
 }

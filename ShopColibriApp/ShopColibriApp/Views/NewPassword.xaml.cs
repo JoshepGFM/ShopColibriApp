@@ -103,25 +103,25 @@ namespace ShopColibriApp.Views
 
         private void SwVer1_Toggled(object sender, ToggledEventArgs e)
         {
-            if(SwVer1.IsToggled == true)
+            if (SwVer1.IsToggled == false)
+            {
+                TxtPass1.IsPassword = true;
+            }
+            else
             {
                 TxtPass1.IsPassword = false;
-            }
-            else 
-            { 
-                TxtPass1.IsPassword = true; 
             }
         }
 
         private void SwVer2_Toggled(object sender, ToggledEventArgs e)
         {
-            if (SwVer2.IsToggled == true)
+            if (SwVer2.IsToggled == false)
             {
-                TxtPass2.IsPassword = false;
+                TxtPass2.IsPassword = true;
             }
             else
             {
-                TxtPass2.IsPassword = true;
+                TxtPass2.IsPassword = false;
             }
         }
     }

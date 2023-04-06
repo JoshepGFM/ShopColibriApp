@@ -1,44 +1,89 @@
-﻿using Plugin.Media.Abstractions;
+﻿using Google.Apis.Drive.v3.Data;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
 using ShopColibriApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace ShopColibriApp.ViewModels
 {
     public class FotoViewModel:FotoModel
     {
-        public Command CapturarComando { get; set; }
-
+        Drive Dv { get; set; }
         public FotoViewModel() 
         {
-            CapturarComando = new Command(tomarFoto);
+
         }
-        private async void tomarFoto()
+
+        public async Task<ObservableCollection<FileImageSource>> SelectMultipleImage()
         {
             try
             {
+                ObservableCollection<FileImageSource> images = new ObservableCollection<FileImageSource>();
+                await CrossMedia.Current.Initialize();
+
+                var galeria = new PickMediaOptions();
+                galeria.PhotoSize = PhotoSize.Full;
+                galeria.CompressionQuality = 30;
+                galeria.SaveMetaData = true;
+
+                var file = await CrossMedia.Current.PickPhotosAsync(galeria);
+                if (file == null)
+                    return null;
+                foreach (var item in file)
+                {
+                    images.Add(new FileImageSource() { File = item.Path });
+                    
+                    return images;
+                };
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return null;
+        }
+
+        public async Task<ObservableCollection<FileImageSource>> TakeMultiplePhoto()
+        {
+
+
+            try
+            {
+                ObservableCollection<FileImageSource> images = new ObservableCollection<FileImageSource>();
+
+                await CrossMedia.Current.Initialize();
+                if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+                {
+                    return null;
+                }
+
                 var camara = new StoreCameraMediaOptions();
-                camara.DefaultCamera = Plugin.Media.Abstractions.CameraDevice.Front;
+                camara.DefaultCamera = Plugin.Media.Abstractions.CameraDevice.Rear;
                 camara.PhotoSize = PhotoSize.Full;
                 camara.Directory = "ShopColibri";
                 camara.Name = "ShopColibri" + DateTime.Now.ToString();
-                camara.SaveToAlbum = true;
-                var foto = await Plugin.Media.CrossMedia.Current.TakePhotoAsync(camara);
 
-                if (foto != null)
-                {
-                    Fotico = ImageSource.FromStream(() =>
-                    {
-                        return foto.GetStream();
-                    });
-                }
-            }catch(Exception ex)
+                camara.SaveToAlbum = true;
+                MediaFile foto = await CrossMedia.Current.TakePhotoAsync(camara);
+
+                if (foto == null)
+                    return null;
+                images.Add(new FileImageSource() { File = foto.Path });
+                return images;
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                throw;
             }
+            return null;
         }
+
+
     }
 }

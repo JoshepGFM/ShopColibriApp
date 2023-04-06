@@ -1,4 +1,5 @@
-﻿using ShopColibriApp.Models;
+﻿using Android.App;
+using ShopColibriApp.Models;
 using ShopColibriApp.Servicios;
 using ShopColibriApp.ViewModels;
 using System;
@@ -70,11 +71,18 @@ namespace ShopColibriApp.Views
 			{
 				TxtEmail.Text = GlobalObject.GloUsu.Email;
 				TxtEmail.IsEnabled = false;
+				BtnCambiar.IsVisible = true;
+
 			}
 			else
 			{
 				TxtEmail.IsEnabled=true;
 			}
 		}
+
+        private void BtnCambiar_Clicked(object sender, EventArgs e)
+        {
+			TxtEmail.IsEnabled = true;
+        }
     }
 }
