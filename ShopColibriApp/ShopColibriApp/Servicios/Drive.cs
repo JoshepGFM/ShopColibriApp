@@ -25,28 +25,50 @@ namespace ShopColibriApp.Servicios
         private string[] Scopes = { DriveService.Scope.Drive };
         private string AplicationName = "ShopColibriApp";
 
-
-        public async Task<UserCredential> GetCredentials()
+        public void VerificarAcceso()
         {
             UserCredential credential;
 
-            using (var stream =
-                new FileStream("CredenDri.json", FileMode.Open, FileAccess.Read))
-            {
-                string credPath = System.Environment.GetFolderPath(
-                    System.Environment.SpecialFolder.Personal);
-                credPath = Path.Combine(credPath, ".credentials/drive-dotnet-quickstart.json");
+            var assembly = IntrospectionExtensions.GetTypeInfo(typeof(Drive)).Assembly;
+            Stream Json = assembly.GetManifestResourceStream("ShopColibriApp.CredenDri.json");
+            string StreamReader = new StreamReader(Json).ReadToEnd();
 
-                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+            using (var stream = new FileStream("CredenDri.json", FileMode.Open, FileAccess.Read))
+            {
+                string creadPath = "token.json";
+                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     Scopes,
                     "user",
                     CancellationToken.None,
-                    new FileDataStore(credPath, true));
-                Console.WriteLine("Credential file saved to: " + credPath);
+                    new FileDataStore(creadPath, true)).Result;
+                Console.WriteLine("Credential file saved to: " + creadPath);
             }
 
-            return credential;
+            var service = new DriveService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = AplicationName,
+            });
+
+            FilesResource.ListRequest listRequest = service.Files.List();
+            listRequest.PageSize = 10;
+            listRequest.Fields = "nextPageToken, files(id, name)";
+
+            IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute().Files;
+            Console.WriteLine("Files:");
+            if (files != null && files.Count > 0)
+            {
+                foreach (var file in files)
+                {
+                    Console.WriteLine("{0} ({1})", file.Name, file.Id);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No files found.");
+            }
+            Console.Read();
         }
     }
 }
