@@ -15,13 +15,14 @@ namespace ShopColibriApp
     public partial class VistaInicio : ContentPage
     {
         UsuarioViewModel vm {  get; set; }
+        bool acceso = true;
         public VistaInicio()
         {
             InitializeComponent();
 
             vm = new UsuarioViewModel();
             Task.Delay(200);
-            Usuario();
+            CargarInicio();
         }
 
         private async void Usuario()
@@ -38,10 +39,12 @@ namespace ShopColibriApp
                     R = await vm.ValidarAccesoUsuario(u, p);
                     if (R)
                     {
+                        acceso = false;
                         await Navigation.PushAsync(new MainPage());
                     }
                     else
                     {
+                        acceso = false;
                         new NavigationPage(new Login());
                     }
                 }
@@ -51,8 +54,22 @@ namespace ShopColibriApp
                     throw;
                 }
             }
+        }
 
-
+        private void CargarInicio()
+        {
+            var timer = TimeSpan.FromSeconds(3);
+            Device.StartTimer(timer, () =>
+            {
+                if (acceso)
+                {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        Usuario();
+                    });
+                }
+                return true;
+            });
         }
     }
 }

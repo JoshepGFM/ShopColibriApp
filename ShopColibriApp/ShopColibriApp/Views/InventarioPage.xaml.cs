@@ -16,14 +16,15 @@ namespace ShopColibriApp.Views
     public partial class InventarioPage : ContentPage
     {
         ProductoViewModel pvm { get; set; }
-
+        EmpaqueViewModel evm { get; set; }
         InventarioViewModel ivm { get; set; }
         Drive Dv { get; set; }
         public InventarioPage()
         {
             InitializeComponent();
             BindingContext = pvm = new ProductoViewModel();
-            ivm = new InventarioViewModel();
+            BindingContext = evm = new EmpaqueViewModel();
+            BindingContext = ivm = new InventarioViewModel();
             ivm.VerificarAccesoDrive();
             CargarProductos();
             CargarEmpaques();
@@ -38,7 +39,7 @@ namespace ShopColibriApp.Views
 
         private async void CargarEmpaques()
         {
-            PckEmpaque.ItemsSource = await pvm.GetProducto();
+            PckEmpaque.ItemsSource = await evm.GetEmpaque();
         }
 
         private void BtnMenos_Clicked(object sender, EventArgs e)

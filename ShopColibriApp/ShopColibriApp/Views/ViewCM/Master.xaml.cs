@@ -82,17 +82,25 @@ namespace ShopColibriApp.Views.ViewCM
             {
                 if (GlobalObject.GloUsu.TusuarioId == 1)
                 {
+                    BtnProductos.IsVisible = true;
                     BtnRegisUsu.IsVisible = true;
+                    BtnInventario.IsVisible = true;
+                    BtnEmpaque.IsVisible = true;
                 }
                 else
                 {
+                    BtnProductos.IsVisible = true;
                     BtnRegisUsu.IsVisible = false;
+                    BtnInventario.IsVisible = true;
+                    BtnEmpaque.IsVisible = true;
                 }
-                FmUsuariosAd.IsVisible = true;
             }
             else
             {
-                FmUsuariosAd.IsVisible = false;
+                BtnProductos.IsVisible = false;
+                BtnRegisUsu.IsVisible = false;
+                BtnInventario.IsVisible = false;
+                BtnEmpaque.IsVisible = false;
             }
         }
 
@@ -106,6 +114,12 @@ namespace ShopColibriApp.Views.ViewCM
         {
             App.MasterDet.IsPresented=false;
             await Navigation.PushAsync(new MainPage());
+        }
+
+        private async void BtnEmpaque_Clicked(object sender, EventArgs e)
+        {
+            App.MasterDet.IsPresented = false;
+            await App.MasterDet.Detail.Navigation.PushAsync(new VistaEmpaque());
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using Google.Apis.Auth.OAuth2;
+﻿using Android.Media.Midi;
+using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
+using Google.Apis.Drive.v3.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using ShopColibriApp.Models;
@@ -9,6 +11,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ShopColibriApp.Servicios;
 
 namespace ShopColibriApp.ViewModels
 {
@@ -17,9 +20,11 @@ namespace ShopColibriApp.ViewModels
         string[] Scopes = { DriveService.Scope.Drive };
         string AplicationName = "ShopColibriApp";
         Inventario MiInventario { get; set; }
+        Servicios.Drive MiDrive { get; set; }
         public InventarioViewModel()
         {
             MiInventario = new Inventario();
+            MiDrive = new Servicios.Drive();
         }
 
         public async Task<bool> PostInventario(DateTime pFecha,
@@ -56,45 +61,7 @@ namespace ShopColibriApp.ViewModels
 
         public void VerificarAccesoDrive()
         {
-            UserCredential credential;
-
-            using (var stream =
-                new FileStream("CredenDri.json", FileMode.Open, FileAccess.Read))
-            {
-                string creadPath = "token.json";
-                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    Scopes,
-                    "user",
-                    CancellationToken.None,
-                    new FileDataStore(creadPath, true)).Result;
-                Console.WriteLine("Credential file saved to: " + creadPath);
-            }
-
-            var service = new DriveService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = AplicationName,
-            });
-
-            FilesResource.ListRequest listRequest = service.Files.List();
-            listRequest.PageSize = 10;
-            listRequest.Fields = "nextPageToken, files(id, name)";
-
-            IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute().Files;
-            Console.WriteLine("Files:");
-            if (files != null && files.Count > 0)
-            {
-                foreach (var file in files)
-                {
-                    Console.WriteLine("{0} ({1})", file.Name, file.Id);
-                }
-            }
-            else
-            {
-                Console.WriteLine("No files found.");
-            }
-            Console.Read();
+            MiDrive.GetCredentials();
         }
     }
 }

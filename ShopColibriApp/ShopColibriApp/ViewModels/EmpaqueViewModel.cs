@@ -46,11 +46,9 @@ namespace ShopColibriApp.ViewModels
             IsBusy = true;
             try
             {
-                Empaque empaque = new Empaque();
-
-                empaque.Nombre = pNombre;
-                empaque.Tamannio = pTamannio;
-                empaque.Stock = pStock;
+                MiEmpaque.Nombre = pNombre;
+                MiEmpaque.Tamannio = pTamannio;
+                MiEmpaque.Stock = pStock;
 
                 R = await MiEmpaque.PostEmpaque();
                 return R;
@@ -63,7 +61,7 @@ namespace ShopColibriApp.ViewModels
             finally { IsBusy = false; }
         }
 
-        public async Task<ObservableCollection<Empaque>> GetBuscarEmpaque(string? Filtro)
+        public async Task<ObservableCollection<Empaque>> GetBuscarEmpaque(string? Filtro, bool stock)
         {
             if (IsBusy)
             {
@@ -75,7 +73,7 @@ namespace ShopColibriApp.ViewModels
                 try
                 {
                     ObservableCollection<Empaque> list = new ObservableCollection<Empaque>();
-                    list = await MiEmpaque.GetBuscarEmpaque(Filtro);
+                    list = await MiEmpaque.GetBuscarEmpaque(Filtro,stock);
 
                     if (list == null)
                     {
@@ -100,12 +98,10 @@ namespace ShopColibriApp.ViewModels
             IsBusy = true;
             try
             {
-                Empaque empaque = new Empaque();
-
-                empaque.Id = pId;
-                empaque.Nombre = pNombre;
-                empaque.Tamannio = pTamannio;
-                empaque.Stock = pStock;
+                MiEmpaque.Id = pId;
+                MiEmpaque.Nombre = pNombre;
+                MiEmpaque.Tamannio = pTamannio;
+                MiEmpaque.Stock = pStock;
 
                 R = await MiEmpaque.PutEmpaque();
                 return R;

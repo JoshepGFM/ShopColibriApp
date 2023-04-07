@@ -22,7 +22,7 @@
                 <Entry x:Name="TxtPrecioUni" Placeholder="0" Keyboard="Numeric" MaxLength="19" HorizontalTextAlignment="Center"/>
                 <Entry x:Name="TxtOrigen" Placeholder="Origen" Keyboard="Text"/>
                 <Picker x:Name="PckProducto" Title="Seleccione Producto" ItemDisplayBinding="{Binding Nombre}"/>
-                <Picker x:Name="PckEmpaque" Title="Seleccione el empaque" ItemDisplayBinding="{Binding }"/>
+                <Picker x:Name="PckEmpaque" Title="Seleccione el empaque" ItemDisplayBinding="{Binding Nombre} + {Binding Tamannio}"/>
                 <StackLayout Padding="20" Spacing="10">
                     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="End">
                         <carrusel:ImageCarousel x:Name="ImgProductos" />

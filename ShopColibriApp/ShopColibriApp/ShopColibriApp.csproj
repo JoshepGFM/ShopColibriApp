@@ -12,8 +12,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="CredenDri.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="CredenDri.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie" Version="4.1.0" />
     <PackageReference Include="Google.Apis.Drive.v3" Version="1.60.0.2986" />
+    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="17.5.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Plugin.Permissions" Version="6.0.1" />
     <PackageReference Include="Prism.Forms" Version="8.1.97" />

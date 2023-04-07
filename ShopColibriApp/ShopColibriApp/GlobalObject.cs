@@ -16,5 +16,6 @@ namespace ShopColibriApp
         public static bool AgregadoUsuSis = false;
         public static ObservableCollection<FileImageSource> GloImagenes = new ObservableCollection<FileImageSource>();
         public static Inventario GLoInventario = new Inventario();
+        public static Empaque GloEmpaque = new Empaque();
     }
 }

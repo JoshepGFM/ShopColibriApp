@@ -11,15 +11,18 @@ namespace ShopColibriApp.Models
 {
     public class Empaque
     {
-        RestRequest request { get; set; }
-        public Empaque()
-        {
-            //FechaIngres = new HashSet<FechaIngre>();
-            //Inventarios = new HashSet<Inventario>();
-        }
+        public RestRequest request { get; set; }
+        //public Empaque()
+        //{
+        //    FechaIngres = new HashSet<FechaIngre>();
+        //    Inventarios = new HashSet<Inventario>();
+        //}
         public int Id { get; set; }
+
         public string Nombre { get; set; } = null!;
+
         public string Tamannio { get; set; } = null!;
+
         public int Stock { get; set; }
         //public virtual ICollection<FechaIngre> FechaIngres { get; } = new List<FechaIngre>();
         //public virtual ICollection<Inventario> Inventarios { get; } = new List<Inventario>();
@@ -101,7 +104,6 @@ namespace ShopColibriApp.Models
                 {
                     return false;
                 }
-
             }
             catch (Exception ex)
             {
@@ -110,11 +112,11 @@ namespace ShopColibriApp.Models
             }
         }
 
-        public async Task<ObservableCollection<Empaque>> GetBuscarEmpaque(string? Filtro)
+        public async Task<ObservableCollection<Empaque>> GetBuscarEmpaque(string? Filtro, bool stock)
         {
             try
             {
-                string Route = string.Format("Empaques/BuscarEmpaque?Buscar={0}", Filtro);
+                string Route = string.Format("Empaques/BuscarEmpaque?Buscar={0}&Stock={1}", Filtro, stock);
                 string FinalURL = Servicios.CnnToShopColibri.UrlProduction + Route;
 
                 RestClient client = new RestClient(FinalURL);
@@ -224,7 +226,6 @@ namespace ShopColibriApp.Models
                 {
                     return false;
                 }
-
             }
             catch (Exception ex)
             {

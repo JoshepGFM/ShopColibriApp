@@ -18,18 +18,19 @@
                     </StackLayout>
                 </StackLayout>
             </Frame>
-            <Frame x:Name="FmUsuariosAd">
+            <Frame>
                 <StackLayout>
-                    <Button x:Name="BtnInicio" Text="Inicio" BackgroundColor="White" Image="Inicio.png" Clicked="BtnInicio_Clicked"/>
-                    <Button x:Name="BtnRegisUsu" Text="Usuarios" BackgroundColor="White" Image="verificarReg.png" Clicked="BtnRegisUsu_Clicked"/>
-                    <Button x:Name="BtnProductos" Text="Productos" BackgroundColor="White" Image="Product.png" Clicked="BtnProductos_Clicked" />
-                    <Button x:Name="BtnInventario" Text="Inventario" BackgroundColor="White" Image="Inventario.png" Clicked="BtnInventario_Clicked"/>
+                    <Button x:Name="BtnInicio" Text="Inicio" BackgroundColor="Transparent" Image="Inicio.png" Clicked="BtnInicio_Clicked"/>
+                    <Button x:Name="BtnRegisUsu" Text="Usuarios" BackgroundColor="Transparent" Image="verificarReg.png" Clicked="BtnRegisUsu_Clicked"/>
+                    <Button x:Name="BtnProductos" Text="Productos" BackgroundColor="Transparent" Image="Product.png" Clicked="BtnProductos_Clicked" />
+                    <Button x:Name="BtnInventario" Text="Inventario" BackgroundColor="Transparent" Image="Inventario.png" Clicked="BtnInventario_Clicked"/>
+                    <Button x:Name="BtnEmpaque" Text="Empaques" BackgroundColor="Transparent" Image="empaque.png" Clicked="BtnEmpaque_Clicked"/>
                 </StackLayout>
             </Frame>
             <Frame>
                 <StackLayout>
-                    <Button x:Name="BtnConf" Text="Opciones de perfil" BackgroundColor="White" Clicked="BtnConf_Clicked"/>
-                    <Button x:Name="BtnCerrarS" Text="Cerrar Sesion" BackgroundColor="White" Clicked="BtnCerrarS_Clicked"/>
+                    <Button x:Name="BtnConf" Text="Opciones de perfil" BackgroundColor="Transparent" Clicked="BtnConf_Clicked"/>
+                    <Button x:Name="BtnCerrarS" Text="Cerrar Sesion" BackgroundColor="Transparent" Clicked="BtnCerrarS_Clicked"/>
                 </StackLayout>
             </Frame>
         </StackLayout>
