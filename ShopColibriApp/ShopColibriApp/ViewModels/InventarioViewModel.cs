@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ShopColibriApp.Servicios;
+using System.Collections.ObjectModel;
 
 namespace ShopColibriApp.ViewModels
 {
@@ -21,10 +22,12 @@ namespace ShopColibriApp.ViewModels
         string AplicationName = "ShopColibriApp";
         Inventario MiInventario { get; set; }
         Servicios.Drive MiDrive { get; set; }
+        InventarioDTO MiInventarioDTO { get; set; }
         public InventarioViewModel()
         {
             MiInventario = new Inventario();
             MiDrive = new Servicios.Drive();
+            MiInventarioDTO = new InventarioDTO();
         }
 
         public async Task<bool> PostInventario(DateTime pFecha,
@@ -38,14 +41,12 @@ namespace ShopColibriApp.ViewModels
             IsBusy = true;
             try
             {
-                Inventario inventario = new Inventario();
-
-                inventario.Fecha = pFecha;
-                inventario.Stock = pStock;
-                inventario.PrecioUn = pPrecio;
-                inventario.Origen = pOrigen;
-                inventario.ProductoCodigo = pProducto;
-                inventario.EmpaqueId = pEmpaque;
+                MiInventario.Fecha = pFecha;
+                MiInventario.Stock = pStock;
+                MiInventario.PrecioUn = pPrecio;
+                MiInventario.Origen = pOrigen;
+                MiInventario.ProductoCodigo = pProducto;
+                MiInventario.EmpaqueId = pEmpaque;
 
                 bool R = await MiInventario.PostInventario();
                 return R;
@@ -59,9 +60,35 @@ namespace ShopColibriApp.ViewModels
             finally { IsBusy = false; }
         }
 
+        public async Task<ObservableCollection<InventarioDTO>> GetInveBuscar(string? Filtro, bool? estado)
+        {
+            if (IsBusy) return null;
+            IsBusy = true;
+            try
+            {
+                ObservableCollection<InventarioDTO> list = new ObservableCollection<InventarioDTO>();
+                list = await MiInventarioDTO.GetBuscarInventario(Filtro, estado);
+
+                if (list == null)
+                {
+                    return null;
+                }
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+
+            }
+            finally { IsBusy = false; }
+            
+
+        }
+
+
         public void VerificarAccesoDrive()
         {
-            MiDrive.GetCredentials();
+            MiDrive.VerificarAcceso();
         }
     }
 }

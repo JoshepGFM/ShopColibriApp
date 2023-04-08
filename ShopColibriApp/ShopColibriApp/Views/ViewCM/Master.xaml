@@ -2,37 +2,46 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShopColibriApp.Views.ViewCM.Master"
+             xmlns:GlobalV ="clr-namespace:ShopColibriApp.Views.ViewGlo"
              Title="Master">
     <ContentPage.Content>
-        <StackLayout>
-            <Frame>
-                <StackLayout Orientation="Horizontal">
-                    <Image Source="User.png" WidthRequest="50" HeightRequest="50"/>
-                    <StackLayout Orientation="Vertical">
-                    <Label x:Name="LblNombre" Text="Nombre" FontSize="15" FontAttributes="Bold" />
-                        <Label x:Name="LblCorreo" Text="Correo"/>
+        <Grid>
+            <GlobalV:Degradado/>
+            <StackLayout>
+                <Frame>
+                    <StackLayout Orientation="Horizontal">
+                        <Image Source="User.png" WidthRequest="50" HeightRequest="50"/>
+                        <StackLayout Orientation="Vertical">
+                            <Label x:Name="LblNombre" Text="Nombre" FontSize="15" FontAttributes="Bold" />
+                            <Label x:Name="LblCorreo" Text="Correo"/>
+                        </StackLayout>
+
+                        <StackLayout HorizontalOptions="EndAndExpand" VerticalOptions="EndAndExpand">
+                            <Label x:Name="LblTipo" Text="Tipo" FontSize="10"/>
+                        </StackLayout>
                     </StackLayout>
-                    
-                    <StackLayout HorizontalOptions="EndAndExpand" VerticalOptions="EndAndExpand">
-                        <Label x:Name="LblTipo" Text="Tipo" FontSize="10"/>
+                </Frame>
+                <ScrollView HeightRequest="360">
+                    <Frame>
+                        <StackLayout>
+                            <Button x:Name="BtnInicio" Text="Inicio" BackgroundColor="Transparent" ImageSource="Inicio.png" Clicked="BtnInicio_Clicked"/>
+                            <Button x:Name="BtnRegisUsu" Text="Usuarios" BackgroundColor="Transparent" ImageSource="verificarReg.png" Clicked="BtnRegisUsu_Clicked"/>
+                            <Button x:Name="BtnProductos" Text="Productos" BackgroundColor="Transparent" ImageSource="Product.png" Clicked="BtnProductos_Clicked" />
+                            <Button x:Name="BtnInventario" Text="Inventario" BackgroundColor="Transparent" ImageSource="Inventario.png" Clicked="BtnInventario_Clicked"/>
+                            <Button x:Name="BtnEmpaque" Text="Empaques" BackgroundColor="Transparent" ImageSource="empaque.png" Clicked="BtnEmpaque_Clicked"/>
+                            <Button x:Name="BtnPedidos" Text="Pedidos" BackgroundColor="Transparent" ImageSource="pedidos.png" Clicked="BtnPedidos_Clicked"/>
+                            <Button x:Name="BtnControlMar" Text="Control Marmita" BackgroundColor="Transparent" ImageSource="ControlMar.png" Clicked="BtnControlMar_Clicked"/>
+                            <Button x:Name="BtnRegistro" Text="Registros" BackgroundColor="Transparent" ImageSource="registro.png" Clicked="BtnRegistro_Clicked"/>
+                        </StackLayout>
+                    </Frame>
+                </ScrollView>
+                <Frame>
+                    <StackLayout>
+                        <Button x:Name="BtnConf" Text="Opciones de perfil" BackgroundColor="Transparent" Clicked="BtnConf_Clicked"/>
+                        <Button x:Name="BtnCerrarS" Text="Cerrar Sesion" BackgroundColor="Transparent" Clicked="BtnCerrarS_Clicked"/>
                     </StackLayout>
-                </StackLayout>
-            </Frame>
-            <Frame>
-                <StackLayout>
-                    <Button x:Name="BtnInicio" Text="Inicio" BackgroundColor="Transparent" Image="Inicio.png" Clicked="BtnInicio_Clicked"/>
-                    <Button x:Name="BtnRegisUsu" Text="Usuarios" BackgroundColor="Transparent" Image="verificarReg.png" Clicked="BtnRegisUsu_Clicked"/>
-                    <Button x:Name="BtnProductos" Text="Productos" BackgroundColor="Transparent" Image="Product.png" Clicked="BtnProductos_Clicked" />
-                    <Button x:Name="BtnInventario" Text="Inventario" BackgroundColor="Transparent" Image="Inventario.png" Clicked="BtnInventario_Clicked"/>
-                    <Button x:Name="BtnEmpaque" Text="Empaques" BackgroundColor="Transparent" Image="empaque.png" Clicked="BtnEmpaque_Clicked"/>
-                </StackLayout>
-            </Frame>
-            <Frame>
-                <StackLayout>
-                    <Button x:Name="BtnConf" Text="Opciones de perfil" BackgroundColor="Transparent" Clicked="BtnConf_Clicked"/>
-                    <Button x:Name="BtnCerrarS" Text="Cerrar Sesion" BackgroundColor="Transparent" Clicked="BtnCerrarS_Clicked"/>
-                </StackLayout>
-            </Frame>
-        </StackLayout>
+                </Frame>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

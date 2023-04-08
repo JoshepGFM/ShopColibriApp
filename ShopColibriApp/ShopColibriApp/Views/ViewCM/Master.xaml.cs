@@ -77,30 +77,38 @@ namespace ShopColibriApp.Views.ViewCM
 
         private void validarVisiBotones()
         {
-            if (GlobalObject.GloUsu.TusuarioId == 1 ||
-                    GlobalObject.GloUsu.TusuarioId == 2)
+            if (GlobalObject.GloUsu != null)
             {
-                if (GlobalObject.GloUsu.TusuarioId == 1)
+                if (GlobalObject.GloUsu.TusuarioId == 1 ||
+                        GlobalObject.GloUsu.TusuarioId == 2)
                 {
-                    BtnProductos.IsVisible = true;
-                    BtnRegisUsu.IsVisible = true;
-                    BtnInventario.IsVisible = true;
-                    BtnEmpaque.IsVisible = true;
+                    if (GlobalObject.GloUsu.TusuarioId == 1)
+                    {
+                        BtnProductos.IsVisible = true;
+                        BtnRegisUsu.IsVisible = true;
+                        BtnInventario.IsVisible = true;
+                        BtnEmpaque.IsVisible = true;
+                    }
+                    else
+                    {
+                        BtnProductos.IsVisible = true;
+                        BtnRegisUsu.IsVisible = false;
+                        BtnInventario.IsVisible = true;
+                        BtnEmpaque.IsVisible = true;
+                    }
                 }
                 else
                 {
-                    BtnProductos.IsVisible = true;
+                    BtnProductos.IsVisible = false;
                     BtnRegisUsu.IsVisible = false;
-                    BtnInventario.IsVisible = true;
-                    BtnEmpaque.IsVisible = true;
+                    BtnInventario.IsVisible = false;
+                    BtnEmpaque.IsVisible = false;
                 }
             }
             else
             {
-                BtnProductos.IsVisible = false;
-                BtnRegisUsu.IsVisible = false;
-                BtnInventario.IsVisible = false;
-                BtnEmpaque.IsVisible = false;
+                BtnCerrarS.IsVisible = false;
+                BtnConf.IsVisible = false;
             }
         }
 
@@ -120,6 +128,31 @@ namespace ShopColibriApp.Views.ViewCM
         {
             App.MasterDet.IsPresented = false;
             await App.MasterDet.Detail.Navigation.PushAsync(new VistaEmpaque());
+        }
+
+        private void BtnPedidos_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnEmpaque_Clicked_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnControlMar_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnPedido_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnRegistro_Clicked(object sender, EventArgs e)
+        {
+
         }
     }
 }

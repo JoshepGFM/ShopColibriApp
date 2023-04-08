@@ -25,7 +25,7 @@ namespace ShopColibriApp.Views
             BindingContext = pvm = new ProductoViewModel();
             BindingContext = evm = new EmpaqueViewModel();
             BindingContext = ivm = new InventarioViewModel();
-            ivm.VerificarAccesoDrive();
+            //ivm.VerificarAccesoDrive();
             CargarProductos();
             CargarEmpaques();
             ValidarLlenado();
@@ -39,7 +39,13 @@ namespace ShopColibriApp.Views
 
         private async void CargarEmpaques()
         {
-            PckEmpaque.ItemsSource = await evm.GetEmpaque();
+            List<Empaque> list = new List<Empaque>();
+            list = await evm.GetEmpaque();
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i].Nombre += " " + list[i].Tamannio;
+            }
+            PckEmpaque.ItemsSource = list;
         }
 
         private void BtnMenos_Clicked(object sender, EventArgs e)
@@ -122,26 +128,17 @@ namespace ShopColibriApp.Views
                 {
                     Producto producto = PckProducto.SelectedItem as Producto;
                     int idP = producto.Codigo;
-                    //Producto producto = PckProducto.SelectedItem as Producto;
-                    int idE = 0;
-                    string Origen;
-                    if(TxtOrigen.Text == null || string.IsNullOrEmpty(TxtOrigen.Text.Trim()))
-                    {
-                        Origen = null;
-                    }
-                    else
-                    {
-                        Origen = TxtOrigen.Text.Trim();
-                    }
+                    Empaque empaque = PckEmpaque.SelectedItem as Empaque;
+                    int idE = empaque.Id;
                     if (ImgProductos.Images == null)
                     {
                         R = await ivm.PostInventario(DpckFecha.Date,int.Parse(TxtStock.Text.Trim()),
-                                                     decimal.Parse(TxtPrecioUni.Text.Trim()),Origen,idP,idE);
+                                                     decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP,idE);
                     }
                     else
                     {
                         R = await ivm.PostInventario(DpckFecha.Date, int.Parse(TxtStock.Text.Trim()),
-                                                     decimal.Parse(TxtPrecioUni.Text.Trim()), Origen, idP, idE);
+                                                     decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
                         T = true;
                         //TODO: Metodo para guardar imagenes
                     }
@@ -248,34 +245,41 @@ namespace ShopColibriApp.Views
             if(DpckFecha.Date != null &&
                TxtStock.Text != null && !string.IsNullOrEmpty(TxtStock.Text.Trim()) &&
                TxtPrecioUni.Text != null && !string.IsNullOrEmpty(TxtPrecioUni.Text.Trim()) &&
+               TxtOrigen.Text != null && !string.IsNullOrEmpty(TxtOrigen.Text.Trim()) &&
                PckProducto.SelectedIndex != -1 && PckEmpaque.SelectedIndex != -1)
             {
                 R = true;
             }
             else
             {
+                if (PckProducto.SelectedIndex == -1)
+                {
+                    TxtStock.Focus();
+                    DisplayAlert("Error de validación", "Se requiere seleccionar un producto", "Ok");
+                    return false;
+                }
                 if (string.IsNullOrEmpty(TxtStock.Text.Trim()))
                 {
-                    DisplayAlert("", "","Ok");
+                    DisplayAlert("Error de validación", "Se requiere de un numero del 0 al 1 en el stock","Ok");
                     TxtStock.Focus();
                     return false;
                 }
                 if (string.IsNullOrEmpty(TxtPrecioUni.Text.Trim()))
                 {
-                    DisplayAlert("", "", "Ok");
+                    DisplayAlert("Error de validación", "Se requiere un precio para ingresar el inventario", "Ok");
                     TxtPrecioUni.Focus();
                     return false;
                 }
-                if (PckProducto.SelectedIndex == -1)
+                if (string.IsNullOrEmpty(TxtOrigen.Text.Trim()))
                 {
-                    TxtStock.Focus();
-                    DisplayAlert("", "", "Ok");
+                    DisplayAlert("Error de validación", "Se requiere de un Origen del producto a inventariar", "Ok");
+                    TxtOrigen.Focus();
                     return false;
                 }
                 if (PckEmpaque.SelectedIndex == -1)
                 {
                     TxtStock.Focus();
-                    DisplayAlert("", "", "Ok");
+                    DisplayAlert("Error de validación", "Se requiere seleccionar un producto", "Ok");
                     return false;
                 }
             }
