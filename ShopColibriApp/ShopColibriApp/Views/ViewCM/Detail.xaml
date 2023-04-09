@@ -18,7 +18,7 @@
 
             <Grid>
 
-                <ListView x:Name="LvlListaInventario" RowHeight="100"
+                <ListView x:Name="LvlListaInventario" RowHeight="130"
                               ItemSelected="LvlListaInventario_ItemSelected"  IsPullToRefreshEnabled="True" Refreshing="LvlListaInventario_Refreshing">
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -30,7 +30,7 @@
                                               Clicked="BtnDelete_Clicked"
                                               CommandParameter="{Binding Id}"/>
                                 </ViewCell.ContextActions>
-                                <Grid Padding="10">
+                                <Grid Padding="10" HeightRequest="100" WidthRequest="100">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="*"/>
@@ -39,27 +39,34 @@
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <StackLayout Grid.Row="0" Grid.Column="0">
+                                    
+                                    <Frame Grid.Column="0" WidthRequest="80" HeightRequest="100">
                                         <carrusel:ImageCarousel x:Name="ImgProductos"/>
-                                    </StackLayout>
-                                    <Label Grid.Column="1"
+                                    </Frame>
+                                    <StackLayout Grid.Column="1">
+                                        <StackLayout Orientation="Vertical">
+                                            <Label Grid.Column="1"
                                                Text="{Binding NombrePro}"
                                                FontAttributes="Bold"
                                                    FontSize="15"
                                                    TextColor="DarkCyan"/>
-                                    <Label Grid.Column="2"
-                                               Text="{Binding NombreEmp}"
-                                               FontAttributes="Bold"
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="Tamaño:"/>
+                                                <Label Text="{Binding NombreEmp}"
+                                                   FontAttributes="Bold"
                                                    FontSize="15"
                                                    TextColor="DarkCyan"/>
-                                    <StackLayout>
-                                        <Label Grid.Row="2" Grid.Column="3"
-                                           Text="{Binding PrecioUn}"
-                                           FontAttributes="Bold"
+                                            </StackLayout>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="3" Grid.Row="2" HorizontalOptions="End" Orientation="Horizontal" 
+                                                 VerticalOptions="EndAndExpand">
+                                            <Label Text="₡"/>
+                                            <Label Text="{Binding PrecioUn}"
+                                                   FontAttributes="Bold"
                                                    FontSize="15"
                                                    TextColor="DarkCyan"/>
+                                        </StackLayout>
                                     </StackLayout>
-
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
