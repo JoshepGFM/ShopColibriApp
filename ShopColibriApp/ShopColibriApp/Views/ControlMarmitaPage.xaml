@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShopColibriApp.Views.ControlMarmitaPage"
+             xmlns:GlobalV="clr-namespace:ShopColibriApp.Views.ViewGlo">
+    <ContentPage.Content>
+        <Grid>
+            <GlobalV:Degradado/>
+            <StackLayout>
+                <StackLayout Orientation="Vertical">
+                    <Label Text="Crear Control de Marmita" FontSize="25" TextColor="DarkCyan" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    <StackLayout Orientation="Horizontal" Spacing="5" HorizontalOptions="FillAndExpand">
+                        <DatePicker x:Name="PckFecha" HorizontalOptions="StartAndExpand"/>
+                        <Button x:Name="BtnVerControles" Text="Otros Controles" Clicked="BtnVerControles_Clicked"
+                                CornerRadius="50" BackgroundColor="RosyBrown" HorizontalOptions="EndAndExpand"
+                                HeightRequest="40"/>
+                    </StackLayout>
+                    <StackLayout  Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Spacing="30">
+                        <StackLayout>
+                            <Label Text="Hora encendido:"/>
+                            <TimePicker x:Name="TmHoraEn"/>
+                        </StackLayout>
+                        <StackLayout >
+                            <Label Text="Hora apagado:"/>
+                            <TimePicker x:Name="TmHoraAp"/>
+                        </StackLayout>
+                        <StackLayout>
+                            <Label Text="Temperatura:"/>
+                            <Entry x:Name="TxtTemperatura" Keyboard="Numeric" HorizontalTextAlignment="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <Label Text="Intensidad de moviminento:"/>
+                    <Entry x:Name="TxtIntensidaMov" Keyboard="Text"/>
+                    <Label Text="Lote:"/>
+                    <Entry x:Name="TxtLote" Keyboard="Text"/>
+                </StackLayout>
+                <StackLayout>
+                    <Label Text="Usuarios implicados en el Control:"/>
+                    <Frame BackgroundColor="LightGray" Margin="10" CornerRadius="10" BorderColor="Black" HeightRequest="400">
+                        <StackLayout>
+                            <Grid>
+                            <ScrollView HeightRequest="320">
+                                <ListView x:Name="LvlListaUsuarios" RowHeight="100"
+                          ItemSelected="LvlListaUsuarios_ItemSelected"  IsPullToRefreshEnabled="True" Refreshing="LvlListaUsuarios_Refreshing">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <Grid Padding="10">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="*"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Image Grid.RowSpan="2"
+                                           Source="usuarios.png"
+                                           Aspect="AspectFill"
+                                           WidthRequest="80"/>
+                                                    <Label Grid.Column="1"
+                                           Text="{Binding Nombre}"
+                                           FontAttributes="Bold"
+                                               FontSize="15"
+                                               TextColor="DarkCyan"/>
+                                                    <Label Grid.Column="2"
+                                           Text="{Binding Apellido1}"
+                                           FontAttributes="Bold"
+                                               FontSize="15"
+                                               TextColor="DarkCyan"/>
+                                                    <Label Grid.Column="3"
+                                           Text="{Binding Apellido2}"
+                                           FontAttributes="Bold"
+                                               FontSize="15"
+                                               TextColor="DarkCyan"/>
+                                                    <Label Grid.Column="3"
+                                               Grid.Row="1"
+                                           Text="{Binding Tipo}"
+                                           VerticalOptions="End" HorizontalTextAlignment="End"/>
+
+
+                                                </Grid>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </ScrollView>
+                                <Frame x:Name="FmAgregar" CornerRadius="2000" 
+                                       Padding="0"
+                                       Margin="300,0,0,2"
+                                       HorizontalOptions="Start" 
+                                       VerticalOptions="EndAndExpand"
+                                       HeightRequest="35" 
+                                       WidthRequest="35"
+                                       BackgroundColor="Green">
+                                    <ImageButton x:Name="BtnagregarUsu" Clicked="BtnagregarUsu_Clicked" Source="botonAgregar.png" 
+                                                 BackgroundColor="Transparent"/>
+                                </Frame>
+                            </Grid>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+                <Button Text="Guardar" x:Name="BtnGuardar" Clicked="BtnGuardar_Clicked" BackgroundColor="ForestGreen" BorderColor="DimGray"
+                        BorderWidth="2" CornerRadius="50" Margin="30,0,30,10" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

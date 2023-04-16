@@ -17,62 +17,81 @@
             </Frame>
 
             <Grid>
-
-                <ListView x:Name="LvlListaInventario" RowHeight="130"
+                <ScrollView  HeightRequest="700">
+                    <ListView x:Name="LvlListaInventario" RowHeight="130"
                               ItemSelected="LvlListaInventario_ItemSelected"  IsPullToRefreshEnabled="True" Refreshing="LvlListaInventario_Refreshing">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.ContextActions>
-                                    <MenuItem x:Name="BtnDelete"
-                                              Text="Eliminar"
-                                              IsDestructive="True"
-                                              Clicked="BtnDelete_Clicked"
-                                              CommandParameter="{Binding Id}"/>
-                                </ViewCell.ContextActions>
-                                <Grid Padding="10" HeightRequest="100" WidthRequest="100">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    
-                                    <Frame Grid.Column="0" WidthRequest="80" HeightRequest="100">
-                                        <carrusel:ImageCarousel x:Name="ImgProductos"/>
-                                    </Frame>
-                                    <StackLayout Grid.Column="1">
-                                        <StackLayout Orientation="Vertical">
-                                            <Label Grid.Column="1"
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="10" HeightRequest="100" WidthRequest="100">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Frame Grid.Column="0" WidthRequest="80" HeightRequest="100">
+                                            <carrusel:ImageCarousel x:Name="ImgProductos" />
+                                        </Frame>
+                                        <StackLayout Grid.Column="1">
+                                            <StackLayout Orientation="Vertical">
+                                                <Label Grid.Column="1"
                                                Text="{Binding NombrePro}"
                                                FontAttributes="Bold"
                                                    FontSize="15"
                                                    TextColor="DarkCyan"/>
-                                            <StackLayout Orientation="Horizontal">
-                                                <Label Text="Tamaño:"/>
-                                                <Label Text="{Binding NombreEmp}"
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label Text="Tamaño:"/>
+                                                    <Label Text="{Binding NombreEmp}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="15"
+                                                   TextColor="DarkCyan"/>
+                                                </StackLayout>
+                                            </StackLayout>
+                                            <StackLayout Grid.Column="3" Grid.Row="2" HorizontalOptions="End" Orientation="Horizontal" 
+                                                 VerticalOptions="EndAndExpand">
+                                                <Label Text="₡"/>
+                                                <Label Text="{Binding PrecioUn}"
                                                    FontAttributes="Bold"
                                                    FontSize="15"
                                                    TextColor="DarkCyan"/>
                                             </StackLayout>
                                         </StackLayout>
-                                        <StackLayout Grid.Column="3" Grid.Row="2" HorizontalOptions="End" Orientation="Horizontal" 
-                                                 VerticalOptions="EndAndExpand">
-                                            <Label Text="₡"/>
-                                            <Label Text="{Binding PrecioUn}"
-                                                   FontAttributes="Bold"
-                                                   FontSize="15"
-                                                   TextColor="DarkCyan"/>
-                                        </StackLayout>
-                                    </StackLayout>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollView>
+                <Frame x:Name="FmIElimnar" CornerRadius="2000" 
+                       Padding="2" IsVisible="false"
+                       Margin="20,0,0,30"
+                       HorizontalOptions="Start" 
+                       VerticalOptions="End"
+                       HeightRequest="35" 
+                       WidthRequest="35"
+                       BackgroundColor="PaleVioletRed">
+                    <ImageButton x:Name="BtnEliminar" CornerRadius="2000" VerticalOptions="CenterAndExpand"
+                                 HorizontalOptions="CenterAndExpand" Clicked="BtnEliminar_Clicked" 
+                                 Source="Invalidar.png" BackgroundColor="PaleVioletRed" WidthRequest="32" HeightRequest="32"/>
+                </Frame>
+                <Frame x:Name="FmModificar" CornerRadius="2000" 
+                       Padding="2" IsVisible="false"
+                       Margin="0,0,0,20"
+                       HorizontalOptions="Center" 
+                       VerticalOptions="End"
+                       HeightRequest="50" 
+                       WidthRequest="50"
+                       BackgroundColor="LightGoldenrodYellow">
+                    <ImageButton x:Name="BtnModificar" CornerRadius="50" VerticalOptions="CenterAndExpand"
+                                 HorizontalOptions="CenterAndExpand" Clicked="BtnModificar_Clicked"
+                                 Source="editarUs.png" BackgroundColor="LightGoldenrodYellow" WidthRequest="45" HeightRequest="45"/>
+                </Frame>
                 <Frame CornerRadius="2000" 
+                       x:Name="FmAgregar"
                        Padding="1" 
                        Margin="0,0,20,20"
                        HorizontalOptions="End" 

@@ -19,7 +19,7 @@ namespace ShopColibriApp.ViewModels
 
         }
 
-        public async Task<ObservableCollection<FileImageSource>> SelectMultipleImage()
+        public async Task<ObservableCollection<FileImageSource>> SelectImage()
         {
             try
             {
@@ -37,9 +37,8 @@ namespace ShopColibriApp.ViewModels
                 foreach (var item in file)
                 {
                     images.Add(new FileImageSource() { File = item.Path });
-                    
-                    return images;
                 };
+                return images;
 
             }
             catch (Exception ex)
@@ -49,7 +48,7 @@ namespace ShopColibriApp.ViewModels
             return null;
         }
 
-        public async Task<ObservableCollection<FileImageSource>> TakeMultiplePhoto()
+        public async Task<ObservableCollection<FileImageSource>> TakePhoto()
         {
 
 

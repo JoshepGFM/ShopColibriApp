@@ -7,10 +7,11 @@
              >
     <ContentPage.Content>
         <StackLayout>
-                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="End">
-                    <carrusel:ImageCarousel x:Name="ImgProductos" />
+            <Frame HeightRequest="600" WidthRequest="400" CornerRadius="20" BorderColor="Black" Margin="10" Padding="10" BackgroundColor="#E8DFDF">
+                <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="0" Padding="0">
+                    <carrusel:ImageCarousel x:Name="ImgProductos" HeightRequest="600" />
                 </StackLayout>
-            <Image x:Name="image" Source="{Binding Fotico}"/>
+            </Frame>
             <Grid Grid.RowSpan="2">
                 <Frame HorizontalOptions="End" VerticalOptions="End" BackgroundColor="Aqua"
                        Margin="0,0,20,40" CornerRadius="30" Padding="20"
@@ -26,11 +27,9 @@
                                          HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
                         </StackLayout>
                     </views:Expander>
-                    
-                        
                 </Frame>
             </Grid>
-            <StackLayout VerticalOptions="End">
+            <StackLayout VerticalOptions="EndAndExpand" Margin="0,0,0,20">
                 <Button x:Name="BtnGuardar" Text="Guargar" Clicked="BtnGuardar_Clicked" CornerRadius="50" 
                             HorizontalOptions="CenterAndExpand" WidthRequest="250" HeightRequest="40" BackgroundColor="ForestGreen" 
                             BorderColor="Gray" BorderWidth="3"/>

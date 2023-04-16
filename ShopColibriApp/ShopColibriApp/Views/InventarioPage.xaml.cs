@@ -1,14 +1,18 @@
 ﻿using Google.Apis.Drive.v3.Data;
+using Microsoft.AspNetCore.Http;
 using ShopColibriApp.Models;
 using ShopColibriApp.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using static Android.Provider.Telephony.Mms;
 
 namespace ShopColibriApp.Views
 {
@@ -18,6 +22,7 @@ namespace ShopColibriApp.Views
         ProductoViewModel pvm { get; set; }
         EmpaqueViewModel evm { get; set; }
         InventarioViewModel ivm { get; set; }
+        ImagenViewModel Imvm { get; set; }
         Drive Dv { get; set; }
         public InventarioPage()
         {
@@ -25,6 +30,7 @@ namespace ShopColibriApp.Views
             BindingContext = pvm = new ProductoViewModel();
             BindingContext = evm = new EmpaqueViewModel();
             BindingContext = ivm = new InventarioViewModel();
+            BindingContext = Imvm = new ImagenViewModel();
             //ivm.VerificarAccesoDrive();
             CargarProductos();
             CargarEmpaques();
@@ -137,9 +143,13 @@ namespace ShopColibriApp.Views
                     }
                     else
                     {
-                        R = await ivm.PostInventario(DpckFecha.Date, int.Parse(TxtStock.Text.Trim()),
-                                                     decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
-                        T = true;
+                        //R = await ivm.PostInventario(DpckFecha.Date, int.Parse(TxtStock.Text.Trim()),
+                        //                             decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
+                        List<Image> images = new List<Image>();
+                        images = TransformaImagen(ImgProductos.Images);
+                        List<Android.Media.Image> Lista = new List<Android.Media.Image>();
+                        int idIn = await ivm.GetUltimoID();
+                        T = await Imvm.PostImagen(images,idIn);
                         //TODO: Metodo para guardar imagenes
                     }
                     if (R)
@@ -163,6 +173,7 @@ namespace ShopColibriApp.Views
         private async void BtnImagen_Clicked(object sender, EventArgs e)
         {
             Producto producto = PckProducto.SelectedItem as Producto;
+            Empaque empaque = PckEmpaque.SelectedItem as Empaque;
 
             GlobalObject.GloImagenes.Clear();
             GlobalObject.GLoInventario.Fecha = DpckFecha.Date;
@@ -204,7 +215,7 @@ namespace ShopColibriApp.Views
             }
             else
             {
-                GlobalObject.GLoInventario.EmpaqueId = -1;
+                GlobalObject.GLoInventario.EmpaqueId = empaque.Id;
             }
 
             await Navigation.PushAsync(new ImagenPage());
@@ -212,17 +223,36 @@ namespace ShopColibriApp.Views
 
         private void ValidarLlenado()
         {
+            if (GlobalObject.GloInven_DTO.Id != 0)
+            {
+                GlobalObject.GLoInventario.Id = GlobalObject.GloInven_DTO.Id;
+                GlobalObject.GLoInventario.Fecha = GlobalObject.GloInven_DTO.Fecha;
+                GlobalObject.GLoInventario.Stock = GlobalObject.GloInven_DTO.Stock;
+                GlobalObject.GLoInventario.PrecioUn = GlobalObject.GloInven_DTO.PrecioUn;
+                GlobalObject.GLoInventario.Origen = GlobalObject.GloInven_DTO.Origen;
+                GlobalObject.GLoInventario.ProductoCodigo = GlobalObject.GloInven_DTO.ProductoCodigo;
+                GlobalObject.GLoInventario.EmpaqueId = GlobalObject.GloInven_DTO.EmpaqueId;
+                BtnGuardar.IsVisible = false;
+                BtnModificar.IsVisible = true;
+            }
             if(GlobalObject.GLoInventario != null)
             {
                 DpckFecha.Date = GlobalObject.GLoInventario.Fecha;
-                TxtStock.Text = GlobalObject.GLoInventario.Stock.ToString();
+                LblStock.Text = GlobalObject.GLoInventario.Stock.ToString();
                 TxtPrecioUni.Text = GlobalObject.GLoInventario.PrecioUn.ToString();
                 TxtOrigen.Text = GlobalObject.GLoInventario.Origen;
-                SeleccionarProducto(GlobalObject.GLoInventario.ProductoCodigo);
-                PckEmpaque.SelectedIndex = -1;
-                if(GlobalObject.GloImagenes != null)
+                int idP = GlobalObject.GLoInventario.ProductoCodigo;
+                int idE = GlobalObject.GLoInventario.EmpaqueId;
+                SeleccionarProducto(idP);
+                SeleccionarEmpaque(idE);
+                if(GlobalObject.GloImagenes.Count > 0)
                 {
+                    FmImagen.IsVisible = true;
                     ImgProductos.Images = GlobalObject.GloImagenes;
+                }
+                else
+                {
+                    FmImagen.IsVisible = false;
                 }
             }
         }
@@ -230,11 +260,23 @@ namespace ShopColibriApp.Views
         private async void SeleccionarProducto(int codigo)
         {
             var list = await pvm.GetProducto();
-            for(int i = 0; i > list.Count; ++i)
+            for(int i = 0; i < list.Count; ++i)
             {
-                if (list[i].Codigo == codigo)
+                if (list[i].Codigo.ToString() == codigo.ToString())
                 {
                     PckProducto.SelectedIndex = i;
+                }
+            }
+        }
+
+        private async void SeleccionarEmpaque(int id)
+        {
+            var list = await evm.GetEmpaque();
+            for (int i = 0; i < list.Count; ++i)
+            {
+                if (list[i].Id == id)
+                {
+                    PckEmpaque.SelectedIndex = i;
                 }
             }
         }
@@ -285,5 +327,58 @@ namespace ShopColibriApp.Views
             }
             return R;
         }
+
+        private async void BtnModificar_Clicked(object sender, EventArgs e)
+        {
+            bool R = false;
+            bool T = false;
+            if (ValidarCampos())
+            {
+                if (await DisplayAlert("Validación", "Esta seguro de Modificar el Inventario?", "Si", "No"))
+                {
+                    Producto producto = PckProducto.SelectedItem as Producto;
+                    int idP = producto.Codigo;
+                    Empaque empaque = PckEmpaque.SelectedItem as Empaque;
+                    int idE = empaque.Id;
+                    if (ImgProductos.Images == null)
+                    {
+                        //R = await ivm.PutInventario(DpckFecha.Date, int.Parse(TxtStock.Text.Trim()),
+                        //                             decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
+                    }
+                    else
+                    {
+                        //R = await ivm.PutInventario(DpckFecha.Date, int.Parse(TxtStock.Text.Trim()),
+                        //                             decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
+                        T = true;
+                        //TODO: Metodo para guardar imagenes
+                    }
+                    if (R)
+                    {
+                        await DisplayAlert("Validación exitosa", "Se modifico el Inventario correctamente", "OK");
+                        if (!T)
+                        {
+                            await DisplayAlert("Error Guardado", "Se tubo problemas al guardar la imagen", "OK");
+                        }
+                        await Navigation.PopToRootAsync();
+                    }
+                    else
+                    {
+                        await DisplayAlert("Error de validación", "No se a podido modificar el Inventario", "OK");
+                    }
+                }
+            }
+        }
+
+        private List<Image> TransformaImagen(ObservableCollection<FileImageSource> Lista)
+        {
+            List<Image> list = new List<Image>();
+            foreach (FileImageSource item in Lista)
+            {
+                list.Add(new Image { Source = item });
+            }
+            return list;
+        }
+
+        
     }
 }

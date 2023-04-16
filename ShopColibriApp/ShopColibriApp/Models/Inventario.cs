@@ -36,6 +36,49 @@ namespace ShopColibriApp.Models
         //public virtual Producto ProductoCodigoNavigation { get; set; } = null!;
         //public virtual ICollection<Pedido> PedidosCodigos { get; } = new List<Pedido>();
 
+        public async Task<List<Inventario>> GetInventario()
+        {
+
+            try
+            {
+                string Route = string.Format("Inventarios");
+                string FinalURL = Servicios.CnnToShopColibri.UrlProduction + Route;
+
+                RestClient client = new RestClient(FinalURL);
+
+                request = new RestRequest(FinalURL, Method.Get);
+
+                //info de seguridad del api
+                request.AddHeader(Servicios.CnnToShopColibri.ApiKeyName, Servicios.CnnToShopColibri.ApiValue);
+                request.AddHeader(Servicios.CnnToShopColibri.contentType, Servicios.CnnToShopColibri.mimetype);
+
+                RestResponse response = await client.ExecuteAsync(request);
+
+                HttpStatusCode statusCode = response.StatusCode;
+
+                //carga de la info en un json
+
+                if (statusCode == HttpStatusCode.OK)
+                {
+                    var list = JsonConvert.DeserializeObject<List<Inventario>>(response.Content);
+                    return list;
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+
+                throw;
+            }
+
+        }
+
+
         public async Task<bool> PostInventario()
         {
             try
@@ -80,6 +123,44 @@ namespace ShopColibriApp.Models
             }
         }
 
+        public async Task<bool> DeleteInventario(int id)
+        {
+            try
+            {
+                string Route = string.Format("Inventarios/{0}", id);
+
+                string FinalURL = Servicios.CnnToShopColibri.UrlProduction + Route;
+
+                RestClient client = new RestClient(FinalURL);
+
+                request = new RestRequest(FinalURL, Method.Delete);
+
+                //info de seguridad del api
+                request.AddHeader(Servicios.CnnToShopColibri.ApiKeyName, Servicios.CnnToShopColibri.ApiValue);
+                request.AddHeader(Servicios.CnnToShopColibri.contentType, Servicios.CnnToShopColibri.mimetype);
+
+                RestResponse response = await client.ExecuteAsync(request);
+
+                HttpStatusCode statusCode = response.StatusCode;
+
+                //carga de la info en un json
+
+                if (statusCode == HttpStatusCode.NoContent)
+                {
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                throw;
+            }
+        }
 
     }
 }

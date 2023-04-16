@@ -31,6 +31,8 @@ namespace ShopColibriApp.Models
 
         public string NombrePro { get; set; }
 
+        public string DescripcionPro { get; set; }
+
         public async Task<ObservableCollection<InventarioDTO>> GetBuscarInventario(string? Filtro, bool? estado)
         {
             try

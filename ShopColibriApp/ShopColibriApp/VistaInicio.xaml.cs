@@ -45,7 +45,7 @@ namespace ShopColibriApp
                     else
                     {
                         acceso = false;
-                        new NavigationPage(new Login());
+                        await Navigation.PushAsync(new Login());
                     }
                 }
                 catch (Exception)
@@ -53,6 +53,10 @@ namespace ShopColibriApp
 
                     throw;
                 }
+            }
+            else
+            {
+                await Navigation.PushAsync(new Login());
             }
         }
 

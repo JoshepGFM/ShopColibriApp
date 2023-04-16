@@ -17,5 +17,9 @@ namespace ShopColibriApp
         public static ObservableCollection<FileImageSource> GloImagenes = new ObservableCollection<FileImageSource>();
         public static Inventario GLoInventario = new Inventario();
         public static Empaque GloEmpaque = new Empaque();
+        public static InventarioDTO GloInven_DTO = new InventarioDTO();
+        public static ObservableCollection<Usuario> GloListUsu = new ObservableCollection<Usuario>();
+        public static ControlMarmita GloControMarmi = new ControlMarmita();
+        public static ControlMarmita GloControMarmi_Cont = new ControlMarmita();
     }
 }

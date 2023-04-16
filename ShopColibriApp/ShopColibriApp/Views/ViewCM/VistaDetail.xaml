@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShopColibriApp.Views.ViewCM.VistaDetail"
+             xmlns:carrusel="clr-namespace:Xamd.ImageCarousel.Forms.Plugin.Abstractions;assembly=Xamd.ImageCarousel.Forms.Plugin.Abstractions"
+             xmlns:GlobalV ="clr-namespace:ShopColibriApp.Views.ViewGlo"
+             >
+    <ContentPage.Content>
+        <Grid>
+            <GlobalV:Degradado/>
+            <StackLayout HorizontalOptions="Center" Margin="10" Padding="10">
+                <Label x:Name="LblNombre" Text="Nombre Producto" HorizontalTextAlignment="Center" 
+                       FontAttributes="Bold" FontSize="25" TextColor="DarkGreen"/>
+                <Frame HeightRequest="400" WidthRequest="300" Padding="10" CornerRadius="10">
+                    <carrusel:ImageCarousel x:Name="ImgProducto" />
+                </Frame>
+                <ScrollView HeightRequest="150">
+                    <Label x:Name="LblDescripcion" Text="Descripcion"/>
+                </ScrollView>
+                <Label Text="Tamaño de Producto:"/>
+                <Label x:Name="LblTamannio" TextColor="DarkCyan"/>
+                <Button x:Name="BtnContactar" Text="Consultar Producto" Clicked="BtnContactar_Clicked" 
+                        HeightRequest="60" CornerRadius="50" ImageSource="Consulta.png" BackgroundColor="#2FE82F"
+                        BorderWidth="2" BorderColor="DarkSlateGray"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -37,12 +37,14 @@ namespace ShopColibriApp.Views
 
         private async void BtnGaleria_Clicked(object sender, EventArgs e)
         {
+            ObservableCollection<FileImageSource> imagen = new ObservableCollection<FileImageSource>();
             if (!CrossMedia.Current.IsPickPhotoSupported)
             {
                 await DisplayAlert("No camera", "Este dispositivo no permite el uso de la galería", "OK");
                 return;
             }
-            ImgProductos.Images = await foto.SelectMultipleImage();
+            imagen = await foto.SelectImage();
+            ImgProductos.Images = imagen;
         }
 
         private async void BtnCamara_Clicked(object sender, EventArgs e)
@@ -51,7 +53,7 @@ namespace ShopColibriApp.Views
             {
                 await DisplayAlert("No camera", "Este dispositivo no permite el uso de la Camara", "OK"); ;
             }
-            ImgProductos.Images = await foto.TakeMultiplePhoto();
+            ImgProductos.Images = await foto.TakePhoto();
         }
     }
 }

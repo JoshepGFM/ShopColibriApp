@@ -133,7 +133,10 @@ namespace ShopColibriApp.Views.ViewCM
 
         private async void BtnModificar_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Registro());
+            if (GlobalObject.GloUsu_Registro != null)
+            {
+                await Navigation.PushAsync(new Registro());
+            }
         }
 
         private void LvlListaUsuarios_Refreshing(object sender, EventArgs e)

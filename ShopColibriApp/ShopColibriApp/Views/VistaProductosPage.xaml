@@ -60,7 +60,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
                 <Frame CornerRadius="2000" 
-                       Padding="5" 
+                       Padding="0" 
                        Margin="0,0,30,40"
                        HorizontalOptions="End" 
                        VerticalOptions="End"

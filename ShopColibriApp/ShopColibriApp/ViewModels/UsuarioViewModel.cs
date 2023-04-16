@@ -213,7 +213,7 @@ namespace ShopColibriApp.ViewModels
             }
             finally { IsBusy = false; }
         }
-        public async Task<ObservableCollection<Usuario>> GetUsuBuscar(string? Filtro, bool? estado)
+        public async Task<ObservableCollection<Usuario>> GetUsuBuscar(string? Filtro, bool? estado, bool cliete = true)
         {
             if (IsBusy)
             {
@@ -225,7 +225,7 @@ namespace ShopColibriApp.ViewModels
                 try
                 {
                     ObservableCollection<Usuario> list = new ObservableCollection<Usuario>();
-                    list = await MiUsuario.GetUsuarioBuscar(Filtro, estado);
+                    list = await MiUsuario.GetUsuarioBuscar(Filtro, estado, cliete);
 
                     if (list == null)
                     {

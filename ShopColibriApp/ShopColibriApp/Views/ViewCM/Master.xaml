@@ -21,7 +21,7 @@
                         </StackLayout>
                     </StackLayout>
                 </Frame>
-                <ScrollView HeightRequest="360">
+                <ScrollView x:Name="ScrollMenu" HeightRequest="360">
                     <Frame>
                         <StackLayout>
                             <Button x:Name="BtnInicio" Text="Inicio" BackgroundColor="Transparent" ImageSource="Inicio.png" Clicked="BtnInicio_Clicked"/>

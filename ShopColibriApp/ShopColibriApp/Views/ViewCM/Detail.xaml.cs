@@ -29,7 +29,7 @@ namespace ShopColibriApp.Views.ViewCM
 
         private async void CargarInventario()
         {
-            LvlListaInventario.ItemsSource = await ivm.GetInveBuscar(Filtro, SwStock.IsToggled); 
+            LvlListaInventario.ItemsSource = await ivm.GetInveBuscar(Filtro, SwStock.IsToggled);
         }
 
         private void SbBuscarPro_TextChanged(object sender, TextChangedEventArgs e)
@@ -38,9 +38,24 @@ namespace ShopColibriApp.Views.ViewCM
             CargarInventario();
         }
 
-        private void LvlListaInventario_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void LvlListaInventario_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
+            InventarioDTO inventario = e.SelectedItem as InventarioDTO;
 
+            if (inventario != null)
+            {
+                if (GlobalObject.GloUsu.TusuarioId == 3 || GlobalObject.GloUsu == null)
+                {
+                    GlobalObject.GloInven_DTO = inventario;
+                    await Navigation.PushAsync(new VistaDetail());
+                }
+                if (GlobalObject.GloUsu.TusuarioId == 1 || GlobalObject.GloUsu.TusuarioId == 2)
+                {
+                    GlobalObject.GloInven_DTO = inventario;
+                    FmModificar.IsVisible = true;
+                    FmIElimnar.IsVisible = true;
+                }
+            }
         }
 
         private void SwStock_Toggled(object sender, ToggledEventArgs e)
@@ -61,17 +76,14 @@ namespace ShopColibriApp.Views.ViewCM
         private void LvlListaInventario_Refreshing(object sender, EventArgs e)
         {
             CargarInventario();
+            FmModificar.IsVisible = false;
+            FmIElimnar.IsVisible = false;
             LvlListaInventario.IsRefreshing = false;
-        }
-
-        private void BtnDelete_Clicked(object sender, EventArgs e)
-        {
-
         }
 
         private async void BtnAgregar_Clicked(object sender, EventArgs e)
         {
-            GlobalObject.GLoInventario = null;
+            GlobalObject.GloInven_DTO = null;
             await Navigation.PushAsync(new InventarioPage());
         }
 
@@ -79,15 +91,48 @@ namespace ShopColibriApp.Views.ViewCM
         {
             if(GlobalObject.GloUsu.TusuarioId == 1 || GlobalObject.GloUsu.TusuarioId == 2)
             {
-                BtnAgregar.IsVisible = true;
+                FmAgregar.IsVisible = true;
                 LblActivo.IsVisible = true;
                 SwStock.IsVisible = true;
             }
             else
             {
-                BtnAgregar.IsVisible = false;
+                FmAgregar.IsVisible = false;
+                FmIElimnar.IsVisible = false;
+                FmModificar.IsVisible = false;
                 LblActivo.IsVisible = false;
                 SwStock.IsVisible = false;
+            }
+        }
+
+        private async void BtnEliminar_Clicked(object sender, EventArgs e)
+        {
+            if (LvlListaInventario.SelectedItem != null)
+            {
+                if (await DisplayAlert("Confirmación", "Esta seguro de eliminar " + GlobalObject.GloInven_DTO.NombrePro + " de " + GlobalObject.GloInven_DTO.NombreEmp + "?", "Si", "No"))
+                {
+                    bool R = await ivm.DeleteInventario(GlobalObject.GloInven_DTO.Id);
+
+                    if (R)
+                    {
+                        await DisplayAlert("Validación exitosa", "Se elimino con éxito del Inventario", "OK");
+                        LvlListaInventario.BeginRefresh();
+                        Task.Delay(2000);
+                        LvlListaInventario.EndRefresh();
+                    }
+                    else
+                    {
+                        await DisplayAlert("Error de validación", "No se logro eliminar del Inventario", "OK");
+                    }
+                }
+            }
+        }
+
+        private async void BtnModificar_Clicked(object sender, EventArgs e)
+        {
+            if (LvlListaInventario.SelectedItem != null)
+            {
+                await Navigation.PushAsync(new InventarioPage());
             }
         }
     }

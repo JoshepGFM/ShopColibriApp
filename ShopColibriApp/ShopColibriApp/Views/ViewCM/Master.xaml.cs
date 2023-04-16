@@ -33,7 +33,7 @@ namespace ShopColibriApp.Views.ViewCM
             if(resp)
             {
                 Application.Current.Properties.Clear();
-                GlobalObject.GloUsu = new Models.Usuario();
+                GlobalObject.GloUsu = null;
 
                 await Navigation.PushAsync(new Login());
             }
@@ -103,6 +103,10 @@ namespace ShopColibriApp.Views.ViewCM
                     BtnRegisUsu.IsVisible = false;
                     BtnInventario.IsVisible = false;
                     BtnEmpaque.IsVisible = false;
+                    BtnPedidos.IsVisible = false;
+                    BtnControlMar.IsVisible = false;
+                    BtnRegistro.IsVisible = false;
+                    ScrollMenu.HeightRequest = 50;
                 }
             }
             else
@@ -114,6 +118,7 @@ namespace ShopColibriApp.Views.ViewCM
 
         private async void BtnInventario_Clicked(object sender, EventArgs e)
         {
+            GlobalObject.GloInven_DTO = new Models.InventarioDTO();
             App.MasterDet.IsPresented = false;
             await App.MasterDet.Detail.Navigation.PushAsync(new InventarioPage());
         }
@@ -140,9 +145,13 @@ namespace ShopColibriApp.Views.ViewCM
 
         }
 
-        private void BtnControlMar_Clicked(object sender, EventArgs e)
+        private async void BtnControlMar_Clicked(object sender, EventArgs e)
         {
-
+            App.MasterDet.IsPresented = false;
+            GlobalObject.GloListUsu.Clear();
+            GlobalObject.GloControMarmi = new Models.ControlMarmita();
+            GlobalObject.GloControMarmi_Cont = new Models.ControlMarmita();
+            await App.MasterDet.Detail.Navigation.PushAsync(new ControlMarmitaPage());
         }
 
         private void BtnPedido_Clicked(object sender, EventArgs e)

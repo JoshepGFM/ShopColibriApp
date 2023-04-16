@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ShopColibriApp.Servicios;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace ShopColibriApp.ViewModels
 {
@@ -28,6 +29,26 @@ namespace ShopColibriApp.ViewModels
             MiInventario = new Inventario();
             MiDrive = new Servicios.Drive();
             MiInventarioDTO = new InventarioDTO();
+        }
+
+        public async Task<int> GetUltimoID()
+        {
+            if(IsBusy) return 0;
+            IsBusy = true;
+            try
+            {
+                List<Inventario> list = new List<Inventario>();
+                list = await MiInventario.GetInventario();
+                Inventario inventario = new Inventario();
+                inventario = list.Last();
+                return inventario.Id;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+            finally { IsBusy = false; }
         }
 
         public async Task<bool> PostInventario(DateTime pFecha,
@@ -85,6 +106,23 @@ namespace ShopColibriApp.ViewModels
 
         }
 
+        public async Task<bool> DeleteInventario( int pId )
+        {
+            if(IsBusy) return false;
+            IsBusy=true;
+            try
+            {
+                bool R = await MiInventario.DeleteInventario(pId);
+
+                return R;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+            finally { IsBusy = false; }
+        }
 
         public void VerificarAccesoDrive()
         {

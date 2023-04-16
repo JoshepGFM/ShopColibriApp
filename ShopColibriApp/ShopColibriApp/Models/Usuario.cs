@@ -193,11 +193,11 @@ namespace ShopColibriApp.Models
             }
         }
 
-        public async Task<ObservableCollection<Usuario>> GetUsuarioBuscar(string? Filtro, bool? estado)
+        public async Task<ObservableCollection<Usuario>> GetUsuarioBuscar(string? Filtro, bool? estado, bool cliente = true)
         {
             try
             {
-                string Route = string.Format("Usuarios/GetUsuarioBuscar?buscar={0}&estado={1}",Filtro,estado);
+                string Route = string.Format("Usuarios/GetUsuarioBuscar?buscar={0}&estado={1}&Cliente={2}", Filtro,estado,cliente);
                 string FinalURL = Servicios.CnnToShopColibri.UrlProduction + Route;
 
                 RestClient client = new RestClient(FinalURL);
