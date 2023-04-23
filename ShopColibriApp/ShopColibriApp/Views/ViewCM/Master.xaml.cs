@@ -184,6 +184,7 @@ namespace ShopColibriApp.Views.ViewCM
 
         private async void BtnVerControlMar_Clicked(object sender, EventArgs e)
         {
+            GlobalObject.GloControlMarDTO = new Models.ControlMarmitaDTO();
             await Navigation.PushAsync(new VistaControlMarmita());
         }
     }

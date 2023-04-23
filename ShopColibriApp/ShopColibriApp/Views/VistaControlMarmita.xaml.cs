@@ -81,5 +81,11 @@ namespace ShopColibriApp.Views
             Filter = SbBuscarControl.Text.Trim();
             CargarListaControlMarmita();
         }
+
+        private async void BtnAgregar_Clicked(object sender, EventArgs e)
+        {
+            GlobalObject.GloControlMarDTO = new Models.ControlMarmitaDTO();
+            await Navigation.PushAsync(new ControlMarmitaPage());
+        }
     }
 }

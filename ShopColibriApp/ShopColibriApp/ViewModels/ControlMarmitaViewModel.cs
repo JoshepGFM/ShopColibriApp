@@ -125,7 +125,7 @@ namespace ShopColibriApp.Servicios
                 List<UsuarioControlMarmitum> control = new List<UsuarioControlMarmitum>();
                 control = await MiUsControl.GetUsuarioControlMarmitumBusqueda(pCodigo);
                 bool T = false;
-                if (control != null)
+                if (control.Count > 0)
                 {
                     for (int i = 0; i < control.Count; i++)
                     {
@@ -190,7 +190,7 @@ namespace ShopColibriApp.Servicios
                 List<UsuarioControlMarmitum> usuarioControlMarmitum = new List<UsuarioControlMarmitum>();
                 usuarioControlMarmitum = await MiUsControl.GetUsuarioControlMarmitumBusqueda(id);
                 bool T = false;
-                if ( usuarioControlMarmitum != null)
+                if ( usuarioControlMarmitum.Count > 0)
                 {
                     for (int i = 0;i < usuarioControlMarmitum.Count;i++)
                     {
@@ -200,7 +200,6 @@ namespace ShopColibriApp.Servicios
                 if (!T)
                 {
                     await DisplayAlert("Error de Validación", "Por algún motivo no se a podido eliminar el o los Usuarios vinculados", "Ok");
-                    return false;
                 }
                 bool R = await MiControlMar.DeleteControlMar(id);
                 return R;

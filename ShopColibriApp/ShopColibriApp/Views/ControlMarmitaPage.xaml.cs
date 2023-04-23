@@ -19,6 +19,7 @@ namespace ShopColibriApp.Views
         UsuarioViewModel uvm { get; set; }
         ControlMarmitaViewModel Cmvm { get; set; }
         UsuarioControlMarmitum ucmvm { get; set; }
+        private Usuario usuario { get; set; }
         public ControlMarmitaPage()
         {
             InitializeComponent();
@@ -99,10 +100,12 @@ namespace ShopColibriApp.Views
             }
             return R;
         }
-
+        //Lista los usuarios seleccionados de la vista de seleccion
         private void LvlListaUsuarios_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-
+            Usuario usuarioSel = e.SelectedItem as Usuario;
+            usuario = usuarioSel;
+            FmEliminar.IsVisible = true;
         }
 
         private void CargarInfo()
@@ -133,7 +136,10 @@ namespace ShopColibriApp.Views
 
                     usuarios.Add(NewItem);
                 }
-                GlobalObject.GloListUsu = usuarios;
+                if (usuarios.Count > 0)
+                {
+                    GlobalObject.GloListUsu = usuarios;
+                }
                 BtnGuardar.IsVisible = false;
                 BtnModificar.IsVisible = true;
             }
@@ -153,11 +159,12 @@ namespace ShopColibriApp.Views
 
             }
         }
-
+        //refresca el listado de los usuarios seleccionados
         private void LvlListaUsuarios_Refreshing(object sender, EventArgs e)
         {
             CargarListaUsuarios();
             LvlListaUsuarios.IsRefreshing = false;
+            FmEliminar.IsVisible = false;
         }
 
         private async void BtnGuardar_Clicked(object sender, EventArgs e)
@@ -218,11 +225,6 @@ namespace ShopColibriApp.Views
             await Navigation.PushAsync(new SeleccionUsuario());
         }
 
-        private async void BtnVerControles_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new VistaControlMarmita());
-        }
-
         private async void BtnModificar_Clicked(object sender, EventArgs e)
         {
             if (ValidarEntradas())
@@ -239,13 +241,20 @@ namespace ShopColibriApp.Views
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se a modificado el control de Marmita con éxito", "OK");
-                    await Navigation.PopToRootAsync();
+                    await Navigation.PopAsync();
                 }
                 else
                 {
                     await DisplayAlert("Error de Validación", "No se a podido realizar la modificación del control.", "Ok");
                 }
             }
+        }
+        //Elimina de lista de usuarios seleccionados un usuario
+        private void BtnEliminarUsu_Clicked(object sender, EventArgs e)
+        {
+            GlobalObject.GloListUsu.Remove(usuario);
+            CargarListaUsuarios();
+            FmEliminar.IsVisible = false;
         }
     }
 }

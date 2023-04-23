@@ -11,9 +11,6 @@
                     <Label Text="Crear Control de Marmita" FontSize="25" TextColor="DarkCyan" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                     <StackLayout Orientation="Horizontal" Spacing="5" HorizontalOptions="FillAndExpand">
                         <DatePicker x:Name="PckFecha" HorizontalOptions="StartAndExpand"/>
-                        <Button x:Name="BtnVerControles" Text="Otros Controles" Clicked="BtnVerControles_Clicked"
-                                CornerRadius="50" BackgroundColor="RosyBrown" HorizontalOptions="EndAndExpand"
-                                HeightRequest="40"/>
                     </StackLayout>
                     <StackLayout  Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Spacing="30">
                         <StackLayout>
@@ -85,6 +82,17 @@
                                     </ListView.ItemTemplate>
                                 </ListView>
                             </ScrollView>
+                                <Frame x:Name="FmEliminar" CornerRadius="2000" 
+                                       Padding="0" IsVisible="false"
+                                       Margin="300,0,0,50"
+                                       HorizontalOptions="Start" 
+                                       VerticalOptions="EndAndExpand"
+                                       HeightRequest="35" 
+                                       WidthRequest="35"
+                                       BackgroundColor="PaleVioletRed">
+                                    <ImageButton x:Name="BtnEliminarUsu" Clicked="BtnEliminarUsu_Clicked" Source="Invalidar.png" 
+                                                 BackgroundColor="Transparent"/>
+                                </Frame>
                                 <Frame x:Name="FmAgregar" CornerRadius="2000" 
                                        Padding="0"
                                        Margin="300,0,0,2"
