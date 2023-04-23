@@ -28,25 +28,42 @@ namespace ShopColibriApp.Views
 
         private async void CargarListaControlMarmita()
         {
-            ObservableCollection<ControlMarmita> lista = new ObservableCollection<ControlMarmita>();
-            lista = await cvm.GetControlMarmi(Filter);
+            ObservableCollection<ControlMarmitaDTO> lista = new ObservableCollection<ControlMarmitaDTO>();
+            lista = await cvm.GetControlMarmiBuscar(Filter);
             LvlListaControlesMarmita.ItemsSource = lista;
         }
 
         private void LvlListaControlesMarmita_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-
+            ControlMarmitaDTO controlMarmita = e.SelectedItem as ControlMarmitaDTO;
+            GlobalObject.GloControlMarDTO = controlMarmita;
+            FmModificar.IsVisible = true;
         }
 
         private void LvlListaControlesMarmita_Refreshing(object sender, EventArgs e)
         {
             CargarListaControlMarmita();
+            FmModificar.IsVisible = false;
             LvlListaControlesMarmita.IsRefreshing = false;
         }
 
-        private void BtnDelete_Clicked(object sender, EventArgs e)
+        private  async void BtnDelete_Clicked(object sender, EventArgs e)
         {
-
+            if (await DisplayAlert("Confirmación", "¿Esta seguro de eliminar este Empaque?", "Si", "No"))
+            {
+                var item = (sender as MenuItem).CommandParameter;
+                int id = int.Parse(item.ToString());
+                bool R = await cvm.DeleteControlMarmita(id);
+                if (R)
+                {
+                    CargarListaControlMarmita();
+                    await DisplayAlert("Verificación", "Se elimino el control con éxito", "OK");
+                }
+                else
+                {
+                    await DisplayAlert("Error de verificación", "No se logro eliminar el Control", "OK");
+                }
+            }
         }
 
         private void BtnInvalidar_Clicked(object sender, EventArgs e)
@@ -54,14 +71,9 @@ namespace ShopColibriApp.Views
 
         }
 
-        private void BtnModificar_Clicked(object sender, EventArgs e)
+        private async void BtnModificar_Clicked(object sender, EventArgs e)
         {
-
-        }
-
-        private void BtnAgregar_Clicked(object sender, EventArgs e)
-        {
-
+            await Navigation.PushAsync(new ControlMarmitaPage());
         }
 
         private void SbBuscarControl_TextChanged(object sender, TextChangedEventArgs e)

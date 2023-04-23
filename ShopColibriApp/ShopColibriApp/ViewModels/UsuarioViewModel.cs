@@ -89,6 +89,29 @@ namespace ShopColibriApp.ViewModels
             }
         }
 
+        public async Task<List<Usuario>> GetUser()
+        {
+            try
+            {
+                List<Usuario> usuario = new List<Usuario>();
+
+                usuario = await MiUsuario.GetUser();
+
+                if (usuario == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return usuario;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         public async Task<List<Tusuario>> GetTUsuario()
         {
             try

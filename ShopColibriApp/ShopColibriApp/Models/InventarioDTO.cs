@@ -15,7 +15,7 @@ namespace ShopColibriApp.Models
 
         public int Id { get; set; }
 
-        public DateTime Fecha { get; set; }
+        public DateTime Fecha { get; set; } = DateTime.Now;
 
         public int Stock { get; set; }
 
@@ -73,5 +73,7 @@ namespace ShopColibriApp.Models
                 throw;
             }
         }
+
+
     }
 }

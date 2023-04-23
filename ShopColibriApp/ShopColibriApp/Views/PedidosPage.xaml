@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShopColibriApp.Views.PedidosPage"
+             xmlns:carrusel="clr-namespace:Xamd.ImageCarousel.Forms.Plugin.Abstractions;assembly=Xamd.ImageCarousel.Forms.Plugin.Abstractions">
+    <ContentPage.Content>
+        <Grid>
+            <StackLayout>
+                <StackLayout Orientation="Vertical">
+                    <Label Text="Crear Pedido" FontSize="25" TextColor="DarkCyan" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    <StackLayout Orientation="Horizontal" Spacing="5" HorizontalOptions="FillAndExpand">
+                        <DatePicker x:Name="PckFecha" HorizontalOptions="StartAndExpand"/>
+                        <Button x:Name="BtnVerPedidos" Text="Otros Pedidos" Clicked="BtnVerPedidos_Clicked"
+                                CornerRadius="50" BackgroundColor="RosyBrown" HorizontalOptions="EndAndExpand"
+                                HeightRequest="40"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" Spacing="5" HorizontalOptions="FillAndExpand">
+                        <Label Text="Fecha de entrega"/>
+                        <DatePicker x:Name="PckFechaEn" HorizontalOptions="StartAndExpand"/>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout>
+                    <Label Text="Productos del inventario:"/>
+                    <Frame BackgroundColor="LightGray" Margin="10" CornerRadius="10" BorderColor="Black" HeightRequest="400">
+                        <StackLayout>
+                            <Grid>
+                                <ScrollView HeightRequest="320">
+                                    <ListView x:Name="LvlListaInventario" RowHeight="130"
+                          ItemSelected="LvlListaInventario_ItemSelected"  IsPullToRefreshEnabled="True" Refreshing="LvlListaInventario_Refreshing">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <ViewCell>
+                                                    <Grid Padding="10">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <Frame Grid.Column="0" WidthRequest="80" HeightRequest="100">
+                                                            <carrusel:ImageCarousel x:Name="ImgProductos" />
+                                                        </Frame>
+                                                        <StackLayout Grid.Column="1">
+                                                            <StackLayout Orientation="Vertical">
+                                                                <Label Grid.Column="1"
+                                               Text="{Binding NombrePro}"
+                                               FontAttributes="Bold"
+                                                   FontSize="15"
+                                                   TextColor="DarkCyan"/>
+                                                                <StackLayout Orientation="Horizontal">
+                                                                    <Label Text="Tamaño:"/>
+                                                                    <Label Text="{Binding NombreEmp}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="15"
+                                                   TextColor="DarkCyan"/>
+                                                                </StackLayout>
+                                                            </StackLayout>
+                                                            <StackLayout Grid.Column="3" Grid.Row="2" HorizontalOptions="End" Orientation="Horizontal" 
+                                                 VerticalOptions="EndAndExpand">
+                                                                <Label Text="₡"/>
+                                                                <Label Text="{Binding PrecioUn}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="15"
+                                                   TextColor="DarkCyan"/>
+                                                            </StackLayout>
+                                                        </StackLayout>
+                                                    </Grid>
+                                                </ViewCell>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </ScrollView>
+                                <Frame x:Name="FmAgregar" CornerRadius="2000" 
+                                       Padding="0"
+                                       Margin="300,0,0,2"
+                                       HorizontalOptions="Start" 
+                                       VerticalOptions="EndAndExpand"
+                                       HeightRequest="35" 
+                                       WidthRequest="35"
+                                       BackgroundColor="Green">
+                                    <ImageButton x:Name="BtnagregarUsu" Clicked="BtnagregarUsu_Clicked"  Source="botonAgregar.png" 
+                                                 BackgroundColor="Transparent"/>
+                                </Frame>
+                            </Grid>
+                        </StackLayout>
+                    </Frame>
+                    
+                </StackLayout>
+                <Button Text="Guardar" x:Name="BtnGuardar" Clicked="BtnGuardar_Clicked"  BackgroundColor="ForestGreen" BorderColor="DimGray"
+                        BorderWidth="2" CornerRadius="50" Margin="30,0,30,10" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

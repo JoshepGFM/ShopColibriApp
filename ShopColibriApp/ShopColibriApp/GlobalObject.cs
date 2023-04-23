@@ -21,5 +21,9 @@ namespace ShopColibriApp
         public static ObservableCollection<Usuario> GloListUsu = new ObservableCollection<Usuario>();
         public static ControlMarmita GloControMarmi = new ControlMarmita();
         public static ControlMarmita GloControMarmi_Cont = new ControlMarmita();
+        public static Registro GloRegistro = new Registro();
+        public static Pedidos GloPedidos = new Pedidos();
+        public static Pedidos GloPedidos_Cont = new Pedidos();
+        public static ControlMarmitaDTO GloControlMarDTO = new ControlMarmitaDTO();
     }
 }

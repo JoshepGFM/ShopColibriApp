@@ -56,6 +56,7 @@ namespace ShopColibriApp
             }
             else
             {
+                acceso = false;
                 await Navigation.PushAsync(new Login());
             }
         }

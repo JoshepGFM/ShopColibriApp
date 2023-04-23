@@ -27,11 +27,14 @@
                             <Button x:Name="BtnInicio" Text="Inicio" BackgroundColor="Transparent" ImageSource="Inicio.png" Clicked="BtnInicio_Clicked"/>
                             <Button x:Name="BtnRegisUsu" Text="Usuarios" BackgroundColor="Transparent" ImageSource="verificarReg.png" Clicked="BtnRegisUsu_Clicked"/>
                             <Button x:Name="BtnProductos" Text="Productos" BackgroundColor="Transparent" ImageSource="Product.png" Clicked="BtnProductos_Clicked" />
+                            <Button x:Name="BtnNuevosPro" Text="Stocks Productos" BackgroundColor="Transparent" ImageSource="Stock.png" Clicked="BtnNuevosPro_Clicked" IsVisible="false"/>
                             <Button x:Name="BtnInventario" Text="Inventario" BackgroundColor="Transparent" ImageSource="Inventario.png" Clicked="BtnInventario_Clicked"/>
                             <Button x:Name="BtnEmpaque" Text="Empaques" BackgroundColor="Transparent" ImageSource="empaque.png" Clicked="BtnEmpaque_Clicked"/>
                             <Button x:Name="BtnPedidos" Text="Pedidos" BackgroundColor="Transparent" ImageSource="pedidos.png" Clicked="BtnPedidos_Clicked"/>
-                            <Button x:Name="BtnControlMar" Text="Control Marmita" BackgroundColor="Transparent" ImageSource="ControlMar.png" Clicked="BtnControlMar_Clicked"/>
+                            <Button x:Name="BtnControlMar" Text="Control de Marmita" BackgroundColor="Transparent" ImageSource="ControlMar.png" Clicked="BtnControlMar_Clicked"/>
+                            <Button x:Name="BtnVerControlMar" Text="Ver Controles de Marmita" BackgroundColor="Transparent" ImageSource="Vercontrol.png" Clicked="BtnVerControlMar_Clicked"/>
                             <Button x:Name="BtnRegistro" Text="Registros" BackgroundColor="Transparent" ImageSource="registro.png" Clicked="BtnRegistro_Clicked"/>
+                            <Button x:Name="BtnVerRegistros" Text="Ver Registros" BackgroundColor="Transparent" ImageSource="VerRegistro.png" Clicked="BtnVerRegistros_Clicked"/>
                         </StackLayout>
                     </Frame>
                 </ScrollView>

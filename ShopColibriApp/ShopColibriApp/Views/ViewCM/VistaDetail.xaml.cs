@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Xamarin.Forms.OpenWhatsApp;
 using Xamarin.Forms.Xaml;
 
 namespace ShopColibriApp.Views.ViewCM
@@ -33,10 +34,23 @@ namespace ShopColibriApp.Views.ViewCM
 
 			string Whatsapp = "+506" + usuario.Telefono.ToString();
 			string Mensaje = "Cliente: " + GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 + "" +
-				"Teléfono: " + GlobalObject.GloUsu.Telefono + "" +
-				"Me gustaría hacer una(s) consulta(s) por el Producto: " + LblNombre.Text + ".";
-
-			//Chat.Open(Whatsapp, Mensaje);
+				" Teléfono: " + GlobalObject.GloUsu.Telefono + ", " +
+				"Me gustaría hacer una(s) consulta(s) por el Producto: " + LblNombre.Text + " " + LblTamannio.Text + ".";
+			try
+			{
+			Chat.Open(Whatsapp, Mensaje);
+			}
+			catch (Exception ex)
+			{
+				if (ex.Message == "No Activity found to handle Intent { act=android.intent.action.VIEW dat=whatsapp://send/... flg=0x10000000 }")
+				{
+					await DisplayAlert("Error de ingreso a App", "Se requiere de whatsapp instalado en el celular para usar esta función", "OK");
+				}
+				else
+				{
+                    await DisplayAlert("Error de ingreso a App", ex.Message, "OK");
+                }
+			}
          }
 
 		private void RellenarElementos()

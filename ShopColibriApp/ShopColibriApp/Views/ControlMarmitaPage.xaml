@@ -102,6 +102,8 @@
                 </StackLayout>
                 <Button Text="Guardar" x:Name="BtnGuardar" Clicked="BtnGuardar_Clicked" BackgroundColor="ForestGreen" BorderColor="DimGray"
                         BorderWidth="2" CornerRadius="50" Margin="30,0,30,10" />
+                <Button Text="Modificar" x:Name="BtnModificar" Clicked="BtnModificar_Clicked"  BackgroundColor="LightGoldenrodYellow" BorderColor="DimGray"
+                        BorderWidth="2" CornerRadius="50" Margin="30,0,30,10" IsVisible="false"/>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

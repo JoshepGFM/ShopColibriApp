@@ -1,4 +1,5 @@
 ﻿using ShopColibriApp.Models;
+using ShopColibriApp.Servicios;
 using ShopColibriApp.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,16 @@ namespace ShopColibriApp.Views
     public partial class ControlMarmitaPage : ContentPage
     {
         UsuarioViewModel uvm { get; set; }
+        ControlMarmitaViewModel Cmvm { get; set; }
+        UsuarioControlMarmitum ucmvm { get; set; }
         public ControlMarmitaPage()
         {
             InitializeComponent();
 
             BindingContext = uvm = new UsuarioViewModel();
+            BindingContext = Cmvm = new ControlMarmitaViewModel();
 
+            CargarInfo();
             CargarListaUsuarios();
         }
 
@@ -35,9 +40,118 @@ namespace ShopColibriApp.Views
             LvlListaUsuarios.ItemsSource = list;
         }
 
+        private bool ValidarEntradas()
+        {
+            bool R = false;
+            if (PckFecha.Date != null &&
+                TmHoraEn.Time != null &&
+                TmHoraAp.Time != null &&
+                TxtTemperatura.Text != null && !string.IsNullOrEmpty(TxtTemperatura.Text.Trim()) &&
+                TxtIntensidaMov.Text != null && !string.IsNullOrEmpty(TxtIntensidaMov.Text.Trim()) &&
+                TxtLote.Text != null && !string.IsNullOrEmpty(TxtLote.Text.Trim()) &&
+                GlobalObject.GloListUsu.Count != 0)
+            {
+                R = true;
+            }
+            else
+            {
+                if(PckFecha.Date == null)
+                {
+                    PckFecha.Focus();
+                    DisplayAlert("Error de Validación", "Se requiere de una Fecha", "Ok");
+                    return false;
+                }
+                if (TmHoraEn.Time == null)
+                {
+                    TmHoraEn.Focus();
+                    DisplayAlert("Error de Validación", "Se requiere de una hora de Encendido", "Ok");
+                    return false;
+                }
+                if(TmHoraAp.Time == null)
+                {
+                    TmHoraAp.Focus();
+                    DisplayAlert("Error de Validación", "Se requiere de una hora de Apagado", "Ok");
+                    return false;
+                }
+                if (TxtTemperatura.Text == null)
+                {
+                    DisplayAlert("Error de Validación", "Se requiere el ingreso de una Temperatura", "Ok");
+                    TxtTemperatura.Focus();
+                    return false;
+                }
+                if (TxtIntensidaMov.Text == null)
+                {
+                    DisplayAlert("Error de Validación", "Se requiere de una intensidad Movimiento", "Ok");
+                    TxtIntensidaMov.Focus();
+                    return false;
+                }
+                if (TxtLote.Text == null)
+                {
+                    DisplayAlert("Error de Validación", "Se requiere de un Lote", "Ok");
+                    TxtLote.Focus();
+                    return false;
+                }
+                if (GlobalObject.GloListUsu.Count == 0)
+                {
+                    DisplayAlert("Error de Validación", "Se requiere del ingreso de un Usuario", "Ok");
+                    return false;
+                }
+            }
+            return R;
+        }
+
         private void LvlListaUsuarios_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
 
+        }
+
+        private void CargarInfo()
+        {
+            if(GlobalObject.GloControlMarDTO.Codigo > 0)
+            {
+                PckFecha.Date = GlobalObject.GloControlMarDTO.Fecha;
+                TmHoraEn.Time = GlobalObject.GloControlMarDTO.HoraEn;
+                TmHoraAp.Time = GlobalObject.GloControlMarDTO.HoraAp;
+                TxtTemperatura.Text = GlobalObject.GloControlMarDTO.Temperatura.ToString();
+                TxtIntensidaMov.Text = GlobalObject.GloControlMarDTO.IntensidadMov;
+                TxtLote.Text = GlobalObject.GloControlMarDTO.Lote;
+                List<Usuario> list = new List<Usuario>();
+                list = GlobalObject.GloControlMarDTO.Usuarios;
+                ObservableCollection<Usuario> usuarios = new ObservableCollection<Usuario>();
+                foreach (var item in list)
+                {
+                    Usuario NewItem = new Usuario();
+
+                    NewItem.IdUsuario = item.IdUsuario;
+                    NewItem.Nombre = item.Nombre;
+                    NewItem.Apellido1 = item.Apellido1;
+                    NewItem.Apellido2 = item.Apellido2;
+                    NewItem.Email = item.Email;
+                    NewItem.EmailResp = item.EmailResp;
+                    NewItem.Telefono = item.Telefono;
+                    NewItem.TusuarioId = item.TusuarioId;
+
+                    usuarios.Add(NewItem);
+                }
+                GlobalObject.GloListUsu = usuarios;
+                BtnGuardar.IsVisible = false;
+                BtnModificar.IsVisible = true;
+            }
+            else
+            {
+                if(GlobalObject.GloControMarmi_Cont.Codigo > 0)
+                {
+                    PckFecha.Date = GlobalObject.GloControlMarDTO.Fecha;
+                    TmHoraEn.Time = GlobalObject.GloControlMarDTO.HoraEn;
+                    TmHoraAp.Time = GlobalObject.GloControlMarDTO.HoraAp;
+                    TxtTemperatura.Text = GlobalObject.GloControlMarDTO.Temperatura.ToString();
+                    TxtIntensidaMov.Text = GlobalObject.GloControlMarDTO.IntensidadMov;
+                    TxtLote.Text = GlobalObject.GloControlMarDTO.Lote;
+                }
+                BtnGuardar.IsVisible = true;
+                BtnModificar.IsVisible = false;
+
+            }
         }
 
         private void LvlListaUsuarios_Refreshing(object sender, EventArgs e)
@@ -46,9 +160,28 @@ namespace ShopColibriApp.Views
             LvlListaUsuarios.IsRefreshing = false;
         }
 
-        private void BtnGuardar_Clicked(object sender, EventArgs e)
+        private async void BtnGuardar_Clicked(object sender, EventArgs e)
         {
-
+            if(ValidarEntradas())
+            {
+                bool R = false;
+                List<Usuario> list = new List<Usuario>();
+                if (GlobalObject.GloListUsu.Count != 0)
+                {
+                    list = GlobalObject.GloListUsu.ToList();
+                }
+                R = await Cmvm.PostControlMar(PckFecha.Date, TmHoraEn.Time, TmHoraAp.Time, int.Parse(TxtTemperatura.Text.Trim()), TxtIntensidaMov.Text.Trim(), TxtLote.Text.Trim(), list);
+                
+                if (R)
+                {
+                    await DisplayAlert("Validación exitosa", "Se a registrado el control de Marmita con éxito", "OK");
+                    await Navigation.PopToRootAsync();
+                }
+                else
+                {
+                    await DisplayAlert("Error de Validación", "No se a podido realizar el ingreso del control.", "Ok");
+                }
+            }
         }
 
         private async void BtnagregarUsu_Clicked(object sender, EventArgs e)
@@ -88,6 +221,31 @@ namespace ShopColibriApp.Views
         private async void BtnVerControles_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new VistaControlMarmita());
+        }
+
+        private async void BtnModificar_Clicked(object sender, EventArgs e)
+        {
+            if (ValidarEntradas())
+            {
+                bool R = false;
+                List<Usuario> list = new List<Usuario>();
+                if (GlobalObject.GloListUsu.Count != 0)
+                {
+                    list = GlobalObject.GloListUsu.ToList();
+                }
+                int codigo = GlobalObject.GloControlMarDTO.Codigo;
+                R = await Cmvm.PutControlMar(codigo, PckFecha.Date, TmHoraEn.Time, TmHoraAp.Time, int.Parse(TxtTemperatura.Text.Trim()), TxtIntensidaMov.Text.Trim(), TxtLote.Text.Trim(), list);
+
+                if (R)
+                {
+                    await DisplayAlert("Validación exitosa", "Se a modificado el control de Marmita con éxito", "OK");
+                    await Navigation.PopToRootAsync();
+                }
+                else
+                {
+                    await DisplayAlert("Error de Validación", "No se a podido realizar la modificación del control.", "Ok");
+                }
+            }
         }
     }
 }

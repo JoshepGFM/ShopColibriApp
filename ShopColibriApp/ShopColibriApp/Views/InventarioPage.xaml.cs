@@ -31,7 +31,7 @@ namespace ShopColibriApp.Views
             BindingContext = evm = new EmpaqueViewModel();
             BindingContext = ivm = new InventarioViewModel();
             BindingContext = Imvm = new ImagenViewModel();
-            //ivm.VerificarAccesoDrive();
+            
             CargarProductos();
             CargarEmpaques();
             ValidarLlenado();
