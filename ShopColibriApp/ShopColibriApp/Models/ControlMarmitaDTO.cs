@@ -15,7 +15,7 @@ namespace ShopColibriApp.Models
 
         public int Codigo { get; set; }
 
-        public DateTime Fecha { get; set; }
+        public DateTime Fecha { get; set; } = DateTime.Now;
 
         public TimeSpan HoraEn { get; set; }
 

@@ -75,7 +75,7 @@ namespace ShopColibriApp.Views
         {
             await Navigation.PushAsync(new ControlMarmitaPage());
         }
-
+        //Permite recargar la lista al escribir
         private void SbBuscarControl_TextChanged(object sender, TextChangedEventArgs e)
         {
             Filter = SbBuscarControl.Text.Trim();
@@ -85,6 +85,7 @@ namespace ShopColibriApp.Views
         private async void BtnAgregar_Clicked(object sender, EventArgs e)
         {
             GlobalObject.GloControlMarDTO = new Models.ControlMarmitaDTO();
+            GlobalObject.GloListUsu.Clear();
             await Navigation.PushAsync(new ControlMarmitaPage());
         }
     }

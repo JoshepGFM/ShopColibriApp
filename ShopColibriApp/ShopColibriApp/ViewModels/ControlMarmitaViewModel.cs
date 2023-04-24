@@ -95,6 +95,7 @@ namespace ShopColibriApp.Servicios
         {
             try
             {
+                MiUsControl.DetalleId = 0;
                 MiUsControl.ControlMarmitaCodigo = Codigo;
                 MiUsControl.UsuarioIdUsuario = id;
 
@@ -131,16 +132,16 @@ namespace ShopColibriApp.Servicios
                     {
                         if (i < usuarios.Count)
                         {
-                            T = await PutUsControlMar(control[i].DetalleId, pCodigo, usuarios[i].IdUsuario);
+                            T = await PutUsControlMar(control[i].DetalleId, pCodigo, usuarios[i].IdUsuario, control[i].Fecha);
                         }
-                        if ( i >= usuarios.Count)
+                        else if ( control.Count >= usuarios.Count)
                         {
                             T = await MiUsControl.DeleteUsuContMar(control[i].DetalleId);
                         }
                     }
                     if (control.Count < usuarios.Count)
                     {
-                        for(int i = control.Count -1; i < usuarios.Count; i++)
+                        for(int i = control.Count; i < usuarios.Count; i++)
                         {
                             T = await PostUsControlMar(pCodigo, usuarios[i].IdUsuario);
                         }
@@ -163,13 +164,14 @@ namespace ShopColibriApp.Servicios
             finally { IsBusy = false; }
         }
 
-        public async Task<bool> PutUsControlMar(int idControl, int Codigo, int id)
+        public async Task<bool> PutUsControlMar(int idControl, int Codigo, int id, DateTime pFecha)
         {
             try
             {
                 MiUsControl.DetalleId = idControl;
                 MiUsControl.ControlMarmitaCodigo = Codigo;
                 MiUsControl.UsuarioIdUsuario = id;
+                MiUsControl.Fecha = pFecha;
 
                 bool R = await MiUsControl.PutUsuarioControlMarmitum();
                 return R;

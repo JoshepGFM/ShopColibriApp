@@ -72,7 +72,7 @@ namespace ShopColibriApp.Models
         {
             try
             {
-                string Route = string.Format("ControlMarmitums/{0}", this.DetalleId);
+                string Route = string.Format("UsuarioControlMarmitums/{0}", this.DetalleId);
                 string FinalURL = Servicios.CnnToShopColibri.UrlProduction + Route;
 
                 RestClient client = new RestClient(FinalURL);

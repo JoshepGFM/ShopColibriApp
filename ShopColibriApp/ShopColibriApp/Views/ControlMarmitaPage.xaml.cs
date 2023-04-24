@@ -1,4 +1,6 @@
-﻿using ShopColibriApp.Models;
+﻿using Java.Nio.Channels;
+using Org.W3c.Dom.LS;
+using ShopColibriApp.Models;
 using ShopColibriApp.Servicios;
 using ShopColibriApp.ViewModels;
 using System;
@@ -138,25 +140,24 @@ namespace ShopColibriApp.Views
                 }
                 if (usuarios.Count > 0)
                 {
-                    GlobalObject.GloListUsu = usuarios;
+                    if (GlobalObject.GloListUsu.Count == 0)
+                    {
+                        GlobalObject.GloListUsu = usuarios;
+                    }
                 }
                 BtnGuardar.IsVisible = false;
                 BtnModificar.IsVisible = true;
             }
             else
             {
-                if(GlobalObject.GloControMarmi_Cont.Codigo > 0)
-                {
-                    PckFecha.Date = GlobalObject.GloControlMarDTO.Fecha;
-                    TmHoraEn.Time = GlobalObject.GloControlMarDTO.HoraEn;
-                    TmHoraAp.Time = GlobalObject.GloControlMarDTO.HoraAp;
-                    TxtTemperatura.Text = GlobalObject.GloControlMarDTO.Temperatura.ToString();
-                    TxtIntensidaMov.Text = GlobalObject.GloControlMarDTO.IntensidadMov;
-                    TxtLote.Text = GlobalObject.GloControlMarDTO.Lote;
-                }
+                PckFecha.Date = GlobalObject.GloControMarmi_Cont.Fecha;
+                TmHoraEn.Time = GlobalObject.GloControMarmi_Cont.HoraEn;
+                TmHoraAp.Time = GlobalObject.GloControMarmi_Cont.HoraAp;
+                TxtTemperatura.Text = GlobalObject.GloControMarmi_Cont.Temperatura.ToString();
+                TxtIntensidaMov.Text = GlobalObject.GloControMarmi_Cont.IntensidadMov;
+                TxtLote.Text = GlobalObject.GloControMarmi_Cont.Lote;
                 BtnGuardar.IsVisible = true;
                 BtnModificar.IsVisible = false;
-
             }
         }
         //refresca el listado de los usuarios seleccionados
@@ -182,7 +183,7 @@ namespace ShopColibriApp.Views
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se a registrado el control de Marmita con éxito", "OK");
-                    await Navigation.PopToRootAsync();
+                    await Navigation.PopAsync();
                 }
                 else
                 {
