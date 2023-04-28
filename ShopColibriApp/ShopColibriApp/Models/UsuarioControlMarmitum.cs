@@ -65,7 +65,6 @@ namespace ShopColibriApp.Models
                 string msg = ex.Message;
                 throw;
             }
-
         }
 
         public async Task<bool> PutUsuarioControlMarmitum()

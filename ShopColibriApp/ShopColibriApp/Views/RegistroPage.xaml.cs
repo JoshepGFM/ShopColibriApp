@@ -121,7 +121,7 @@ namespace ShopColibriApp.Views
 
         private void ValidarBotones()
         {
-            if (GlobalObject.GloRegistro == null)
+            if (GlobalObject.GloRegistro.Id == 0)
             {
                 BtnGuardar.IsVisible = true;
                 BtnModificar.IsVisible = false;

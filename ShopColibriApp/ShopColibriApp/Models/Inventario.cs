@@ -78,7 +78,6 @@ namespace ShopColibriApp.Models
 
         }
 
-
         public async Task<bool> PostInventario()
         {
             try
@@ -106,6 +105,50 @@ namespace ShopColibriApp.Models
                 //carga de la info en un json
 
                 if (statusCode == HttpStatusCode.Created)
+                {
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                throw;
+            }
+        }
+
+        public async Task<bool> PutInventario()
+        {
+            try
+            {
+                string Route = string.Format("Inventarios/{0}", this.Id);
+                string FinalURL = Servicios.CnnToShopColibri.UrlProduction + Route;
+
+                RestClient client = new RestClient(FinalURL);
+
+                request = new RestRequest(FinalURL, Method.Put);
+
+                //info de seguridad del api
+                request.AddHeader(Servicios.CnnToShopColibri.ApiKeyName, Servicios.CnnToShopColibri.ApiValue);
+                request.AddHeader(Servicios.CnnToShopColibri.contentType, Servicios.CnnToShopColibri.mimetype);
+
+                //Se transforma a Json para la api
+                string SerialClass = JsonConvert.SerializeObject(this);
+
+                request.AddBody(SerialClass, Servicios.CnnToShopColibri.mimetype);
+
+                RestResponse response = await client.ExecuteAsync(request);
+
+                HttpStatusCode statusCode = response.StatusCode;
+
+                //carga de la info en un json
+
+                if (statusCode == HttpStatusCode.NoContent)
                 {
 
                     return true;

@@ -94,7 +94,7 @@ namespace ShopColibriApp.Views
 
         private async void BtnAgregar_Clicked(object sender, EventArgs e)
         {
-            GlobalObject.GloRegistro = null;
+            GlobalObject.GloRegistro = new Models.Registro();
             await Navigation.PushAsync(new RegistroPage());
         }
     }

@@ -7,12 +7,9 @@
         <Grid>
             <StackLayout>
                 <StackLayout Orientation="Vertical">
-                    <Label Text="Crear Pedido" FontSize="25" TextColor="DarkCyan" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    <Label x:Name="LblTitulo" Text="Crear Pedido" FontSize="25" TextColor="DarkCyan" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                     <StackLayout Orientation="Horizontal" Spacing="5" HorizontalOptions="FillAndExpand">
                         <DatePicker x:Name="PckFecha" HorizontalOptions="StartAndExpand"/>
-                        <Button x:Name="BtnVerPedidos" Text="Otros Pedidos" Clicked="BtnVerPedidos_Clicked"
-                                CornerRadius="50" BackgroundColor="RosyBrown" HorizontalOptions="EndAndExpand"
-                                HeightRequest="40"/>
                     </StackLayout>
                     <StackLayout Orientation="Horizontal" Spacing="5" HorizontalOptions="FillAndExpand">
                         <Label Text="Fecha de entrega"/>
@@ -21,12 +18,12 @@
                 </StackLayout>
                 <StackLayout>
                     <Label Text="Productos del inventario:"/>
-                    <Frame BackgroundColor="LightGray" Margin="10" CornerRadius="10" BorderColor="Black" HeightRequest="400">
+                    <Frame BackgroundColor="LightGray" Margin="10" CornerRadius="10" BorderColor="Black" HeightRequest="400" Padding="0">
                         <StackLayout>
                             <Grid>
-                                <ScrollView HeightRequest="320">
-                                    <ListView x:Name="LvlListaInventario" RowHeight="130"
-                          ItemSelected="LvlListaInventario_ItemSelected"  IsPullToRefreshEnabled="True" Refreshing="LvlListaInventario_Refreshing">
+                                <ScrollView HeightRequest="390">
+                                    <ListView x:Name="LvlListaInventario" RowHeight="170"
+                                              ItemSelected="LvlListaInventario_ItemSelected"  IsPullToRefreshEnabled="True" Refreshing="LvlListaInventario_Refreshing">
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
                                                 <ViewCell>
@@ -46,25 +43,43 @@
                                                         <StackLayout Grid.Column="1">
                                                             <StackLayout Orientation="Vertical">
                                                                 <Label Grid.Column="1"
-                                               Text="{Binding NombrePro}"
-                                               FontAttributes="Bold"
-                                                   FontSize="15"
-                                                   TextColor="DarkCyan"/>
+                                                                       Text="{Binding NombrePro}"
+                                                                       FontAttributes="Bold"
+                                                                       FontSize="15"
+                                                                       TextColor="DarkCyan"/>
                                                                 <StackLayout Orientation="Horizontal">
                                                                     <Label Text="Tamaño:"/>
                                                                     <Label Text="{Binding NombreEmp}"
-                                                   FontAttributes="Bold"
-                                                   FontSize="15"
-                                                   TextColor="DarkCyan"/>
+                                                                           FontAttributes="Bold"
+                                                                           FontSize="15"
+                                                                           TextColor="DarkCyan"/>
                                                                 </StackLayout>
                                                             </StackLayout>
                                                             <StackLayout Grid.Column="3" Grid.Row="2" HorizontalOptions="End" Orientation="Horizontal" 
-                                                 VerticalOptions="EndAndExpand">
-                                                                <Label Text="₡"/>
-                                                                <Label Text="{Binding PrecioUn}"
-                                                   FontAttributes="Bold"
-                                                   FontSize="15"
-                                                   TextColor="DarkCyan"/>
+                                                                         VerticalOptions="EndAndExpand">
+                                                                <Label Text="Precio Un.: ₡"/>
+                                                                <Label Text="{Binding Precio}"
+                                                                       FontAttributes="Bold"
+                                                                       FontSize="15"
+                                                                       TextColor="DarkCyan"/>
+                                                            </StackLayout>
+                                                            <StackLayout Orientation="Horizontal"
+                                                                         VerticalOptions="EndAndExpand">
+                                                                <StackLayout>
+                                                                    <Label Text="Cantdad pedido:"/>
+                                                                    <Label Text="{Binding Cantidad}"
+                                                                       FontAttributes="Bold"
+                                                                       FontSize="15"
+                                                                       TextColor="DarkCyan"/>
+                                                                </StackLayout>
+                                                                <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal"
+                                                                             VerticalOptions="EndAndExpand">
+                                                                    <Label Text="Total:"/>
+                                                                    <Label Text="{Binding Total}"
+                                                                       FontAttributes="Bold"
+                                                                       FontSize="15"
+                                                                       TextColor="OrangeRed"/>
+                                                                </StackLayout>
                                                             </StackLayout>
                                                         </StackLayout>
                                                     </Grid>
@@ -73,15 +88,26 @@
                                         </ListView.ItemTemplate>
                                     </ListView>
                                 </ScrollView>
+                                <Frame x:Name="FmQuitar" CornerRadius="2000" 
+                                       Padding="0" IsVisible="false"
+                                       Margin="337,0,0,47"
+                                       HorizontalOptions="Start" 
+                                       VerticalOptions="EndAndExpand"
+                                       HeightRequest="30" 
+                                       WidthRequest="30"
+                                       BackgroundColor="PaleVioletRed">
+                                    <ImageButton x:Name="BtnQuitar" Clicked="BtnQuitar_Clicked"  Source="quitar.png" 
+                                                 BackgroundColor="Transparent"/>
+                                </Frame>
                                 <Frame x:Name="FmAgregar" CornerRadius="2000" 
                                        Padding="0"
-                                       Margin="300,0,0,2"
+                                       Margin="335,0,0,5"
                                        HorizontalOptions="Start" 
                                        VerticalOptions="EndAndExpand"
                                        HeightRequest="35" 
                                        WidthRequest="35"
                                        BackgroundColor="Green">
-                                    <ImageButton x:Name="BtnagregarUsu" Clicked="BtnagregarUsu_Clicked"  Source="botonAgregar.png" 
+                                    <ImageButton x:Name="BtnagregarIventa" Clicked="BtnagregarIventa_Clicked"  Source="botonAgregar.png" 
                                                  BackgroundColor="Transparent"/>
                                 </Frame>
                             </Grid>
@@ -89,8 +115,26 @@
                     </Frame>
                     
                 </StackLayout>
+                <StackLayout>
+                    <Label Text="Usuario:" FontSize="Body" FontAttributes="Bold"/>
+                    <StackLayout Orientation="Horizontal">
+                        <Label x:Name="LblUsuario" Text="Seleccione un Cliente" />
+                        <ImageButton x:Name="BtnQuitarUsu" WidthRequest="30" HeightRequest="30" IsVisible="false"
+                                     CornerRadius="2000" Source="Quitar.png" BackgroundColor="LightGoldenrodYellow"
+                                     HorizontalOptions="EndAndExpand" Margin="0,0,10,0" Clicked="BtnQuitarUsu_Clicked"/>
+                        <ImageButton x:Name="BtnAgregarUsu" WidthRequest="30" HeightRequest="30"
+                                     CornerRadius="2000" Source="botonAgregar.png" BackgroundColor="Green"
+                                     HorizontalOptions="EndAndExpand" Margin="0,0,10,0" Clicked="BtnAgregarUsu_Clicked"/>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                    <Label Text="Total:" FontSize="30" FontAttributes="Bold" TextColor="Black"/>
+                    <Label x:Name="LblTotal" Text="0" FontSize="30" TextColor="Red"/>
+                </StackLayout>
                 <Button Text="Guardar" x:Name="BtnGuardar" Clicked="BtnGuardar_Clicked"  BackgroundColor="ForestGreen" BorderColor="DimGray"
                         BorderWidth="2" CornerRadius="50" Margin="30,0,30,10" />
+                <Button Text="Modificar" x:Name="BtnModificar" Clicked="BtnModificar_Clicked"  BackgroundColor="LightGoldenrodYellow" BorderColor="DimGray"
+                        BorderWidth="2" CornerRadius="50" Margin="30,0,30,10" IsVisible="false"/>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

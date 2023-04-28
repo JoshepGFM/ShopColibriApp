@@ -235,6 +235,10 @@ namespace ShopColibriApp.Views
                 BtnGuardar.IsVisible = false;
                 BtnModificar.IsVisible = true;
             }
+            if(GlobalObject.GloInven_DTO.Id == 0)
+            {
+                GlobalObject.GLoInventario = new Inventario();
+            }
             if(GlobalObject.GLoInventario != null)
             {
                 DpckFecha.Date = GlobalObject.GLoInventario.Fecha;

@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShopColibriApp.Views.SeleccionInventario"
+             xmlns:carrusel="clr-namespace:Xamd.ImageCarousel.Forms.Plugin.Abstractions;assembly=Xamd.ImageCarousel.Forms.Plugin.Abstractions">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame >
+                <StackLayout Orientation="Horizontal">
+                    <SearchBar x:Name="SbBuscarPro" Placeholder="Buscar Producto" TextChanged="SbBuscarPro_TextChanged"/>
+                </StackLayout>
+            </Frame>
+
+            <Grid>
+                <ScrollView  HeightRequest="700">
+                    <ListView x:Name="LvlListaInventario" RowHeight="130"
+                              ItemSelected="LvlListaInventario_ItemSelected"  IsPullToRefreshEnabled="True" Refreshing="LvlListaInventario_Refreshing">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="10" HeightRequest="100" WidthRequest="100">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Frame Grid.Column="0" WidthRequest="80" HeightRequest="100">
+                                            <carrusel:ImageCarousel x:Name="ImgProductos" />
+                                        </Frame>
+                                        <StackLayout Grid.Column="1">
+                                            <StackLayout Orientation="Vertical">
+                                                <Label Grid.Column="1"
+                                               Text="{Binding NombrePro}"
+                                               FontAttributes="Bold"
+                                                   FontSize="15"
+                                                   TextColor="DarkCyan"/>
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label Text="Tamaño:"/>
+                                                    <Label Text="{Binding NombreEmp}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="15"
+                                                   TextColor="DarkCyan"/>
+                                                </StackLayout>
+                                            </StackLayout>
+                                            <StackLayout Grid.Column="3" Grid.Row="2" HorizontalOptions="End" Orientation="Horizontal" 
+                                                 VerticalOptions="EndAndExpand">
+                                                <Label Text="₡"/>
+                                                <Label Text="{Binding PrecioUn}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="15"
+                                                   TextColor="DarkCyan"/>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollView>
+
+            </Grid>
+            <Entry x:Name="TxtCantidad" FontAttributes="Bold" FontSize="25" IsEnabled="False" Placeholder="Cantidad" Keyboard="Numeric" HorizontalTextAlignment="Center"/>
+            <Button Text="Agregar" x:Name="BtnAgregar" Clicked="BtnAgregar_Clicked" BackgroundColor="green"
+                    Margin="10" CornerRadius="50" HorizontalOptions="Center"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

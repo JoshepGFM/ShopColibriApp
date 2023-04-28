@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using ShopColibriApp.Views;
 using Newtonsoft.Json.Schema;
+using ShopColibriApp.Models;
 
 namespace ShopColibriApp.Views.ViewCM
 {
@@ -143,9 +144,11 @@ namespace ShopColibriApp.Views.ViewCM
         private async void BtnPedidos_Clicked(object sender, EventArgs e)
         {
             App.MasterDet.IsPresented = false;
-            GlobalObject.GloListUsu.Clear();
-            GlobalObject.GloPedidos =new Models.Pedidos();
+            GlobalObject.GloListInven.Clear();
+            GlobalObject.GloPedidos = new Models.Pedidos();
             GlobalObject.GloPedidos_Cont = new Models.Pedidos();
+            GlobalObject.GloPedidosDTO = new Models.PedidosDTO();
+            GlobalObject.GloUsuPedi = new Usuario();
             await App.MasterDet.Detail.Navigation.PushAsync(new PedidosPage());
         }
 
@@ -161,7 +164,10 @@ namespace ShopColibriApp.Views.ViewCM
 
         private void BtnPedido_Clicked(object sender, EventArgs e)
         {
-
+            GlobalObject.GloPedidosDTO = new Models.PedidosDTO();
+            GlobalObject.GloPedidos = new Models.Pedidos();
+            GlobalObject.GloPedidos_Cont = new Models.Pedidos();
+            Navigation.PushAsync(new PedidosPage());
         }
 
         private async void BtnRegistro_Clicked(object sender, EventArgs e)
@@ -186,6 +192,14 @@ namespace ShopColibriApp.Views.ViewCM
         {
             GlobalObject.GloControlMarDTO = new Models.ControlMarmitaDTO();
             await Navigation.PushAsync(new VistaControlMarmita());
+        }
+
+        private async void BtnVerPedidos_Clicked(object sender, EventArgs e)
+        {
+            GlobalObject.GloPedidosDTO = new Models.PedidosDTO();
+            GlobalObject.GloPedidos = new Models.Pedidos();
+            GlobalObject.GloPedidos_Cont = new Models.Pedidos();
+            await Navigation.PushAsync(new VistaPedidoPage());
         }
     }
 }

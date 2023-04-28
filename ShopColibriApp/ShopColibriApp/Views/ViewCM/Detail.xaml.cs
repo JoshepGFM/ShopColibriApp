@@ -83,7 +83,7 @@ namespace ShopColibriApp.Views.ViewCM
 
         private async void BtnAgregar_Clicked(object sender, EventArgs e)
         {
-            GlobalObject.GloInven_DTO = null;
+            GlobalObject.GloInven_DTO = new InventarioDTO();
             await Navigation.PushAsync(new InventarioPage());
         }
 

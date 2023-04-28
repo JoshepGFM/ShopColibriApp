@@ -81,6 +81,38 @@ namespace ShopColibriApp.ViewModels
             finally { IsBusy = false; }
         }
 
+        public async Task<bool> PutInventario(int pId, 
+                                              DateTime pFecha,
+                                              int pStock,
+                                              decimal pPrecio,
+                                              string pOrigen,
+                                              int pProducto,
+                                              int pEmpaque)
+        {
+            if (IsBusy) return false;
+            IsBusy = true;
+            try
+            {
+                MiInventario.Id = pId;
+                MiInventario.Fecha = pFecha;
+                MiInventario.Stock = pStock;
+                MiInventario.PrecioUn = pPrecio;
+                MiInventario.Origen = pOrigen;
+                MiInventario.ProductoCodigo = pProducto;
+                MiInventario.EmpaqueId = pEmpaque;
+
+                bool R = await MiInventario.PutInventario();
+                return R;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+                throw;
+            }
+            finally { IsBusy = false; }
+        }
+
         public async Task<ObservableCollection<InventarioDTO>> GetInveBuscar(string? Filtro, bool? estado)
         {
             if (IsBusy) return null;

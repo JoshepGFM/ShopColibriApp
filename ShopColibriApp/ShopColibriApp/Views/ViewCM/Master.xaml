@@ -31,6 +31,7 @@
                             <Button x:Name="BtnInventario" Text="Inventario" BackgroundColor="Transparent" ImageSource="Inventario.png" Clicked="BtnInventario_Clicked"/>
                             <Button x:Name="BtnEmpaque" Text="Empaques" BackgroundColor="Transparent" ImageSource="empaque.png" Clicked="BtnEmpaque_Clicked"/>
                             <Button x:Name="BtnPedidos" Text="Pedidos" BackgroundColor="Transparent" ImageSource="pedidos.png" Clicked="BtnPedidos_Clicked"/>
+                            <Button x:Name="BtnVerPedidos" Text="ver Pedidos" BackgroundColor="Transparent" ImageSource="verPedidos.png" Clicked="BtnVerPedidos_Clicked"/>
                             <Button x:Name="BtnControlMar" Text="Control de Marmita" BackgroundColor="Transparent" ImageSource="ControlMar.png" Clicked="BtnControlMar_Clicked"/>
                             <Button x:Name="BtnVerControlMar" Text="Ver Controles de Marmita" BackgroundColor="Transparent" ImageSource="Vercontrol.png" Clicked="BtnVerControlMar_Clicked"/>
                             <Button x:Name="BtnRegistro" Text="Registros" BackgroundColor="Transparent" ImageSource="registro.png" Clicked="BtnRegistro_Clicked"/>
