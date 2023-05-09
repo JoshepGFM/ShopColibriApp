@@ -1,7 +1,9 @@
 ﻿//using Android.Media;
 using Android.Graphics;
 using Android.Runtime;
+using Java.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -19,68 +21,56 @@ namespace ShopColibriApp.Models
 {
     public class ImagenDrive
     {
-        [Preserve(AllMembers = true)]
-        internal class Base64ImageConverter : JsonConverter
+        public class Base64IFormFileConverter : JsonConverter
         {
             public override bool CanConvert(Type objectType)
             {
-                return objectType == typeof(byte[]);
+                // Indica que este convertidor solo se aplica a propiedades de tipo IFormFile.
+                return objectType == typeof(IFormFile);
             }
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {
-                JToken token = JToken.Load(reader);
-                return Convert.FromBase64String(token.ToString());
+                if (reader.Value == null)
+                {
+                    return null;
+                }
+
+                // Lee el valor de la propiedad del JSON.
+                var base64String = reader.Value.ToString();
+
+                // Convierte la cadena Base64 a bytes.
+                var fileBytes = Convert.FromBase64String(base64String);
+
+                // Crea una nueva instancia de IFormFile a partir de los bytes.
+                var fileName = "file_" + Guid.NewGuid().ToString("N");
+                var fileStream = new MemoryStream(fileBytes);
+                var formFile = new FormFile(fileStream, 0, fileBytes.Length, fileName, fileName);
+
+                return formFile;
             }
 
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
-                writer.WriteValue(Convert.ToBase64String((byte[])value));
+                // Obtiene el archivo enviado desde el formulario.
+                var formFile = (IFormFile)value;
+
+                // Carga los bytes del archivo en un MemoryStream.
+                byte[] fileBytes;
+                using (var stream = new MemoryStream())
+                {
+                    formFile.CopyTo(stream);
+                    fileBytes = stream.ToArray();
+                }
+
+                // Convierte los bytes del archivo a Base64 y escribe el valor en el JSON.
+                var base64String = Convert.ToBase64String(fileBytes);
+                writer.WriteValue(base64String);
             }
         }
-        //public class Base64IFormFileConverter : JsonConverter<IFormFile>
-        //{
-        //    public override IFormFile Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        //    {
-        //        throw new NotImplementedException();
-        //    }
-
-        //    public override void Write(Utf8JsonWriter writer, IFormFile value, JsonSerializerOptions options)
-        //    {
-        //        using (var ms = new MemoryStream())
-        //        {
-        //            value.CopyTo(ms);
-        //            var fileBytes = ms.ToArray();
-        //            writer.WriteStringValue(Convert.ToBase64String(fileBytes));
-        //        }
-        //    }
-        //}
-        //public class ImageConverter : JsonConverter
-        //{
-        //    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        //    {
-        //        var base64 = (string)reader.Value;
-        //        // convert base64 to byte array, put that into memory stream and feed to image
-        //        return Image.FromStream(new MemoryStream(Convert.FromBase64String(base64)));
-        //    }
-
-        //    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        //    {
-        //        var image = (Image)value;
-        //        var ms = new MemoryStream();
-        //        image.Save(ms, image.RawFormat);
-        //        byte[] imageBytes = ms.ToArray();
-        //        writer.WriteValue(imageBytes);
-        //    }
-
-        //    public override bool CanConvert(Type objectType)
-        //    {
-        //        return objectType == typeof(Image);
-        //    }
-        //}
         public RestRequest request { get; set; }
-        [JsonConverter(typeof(Base64ImageConverter))]
-        public Image Archivo { get; set; }
+        [JsonConverter(typeof(Base64IFormFileConverter))]
+        public IFormFile Archivo { get; set; }
 
         public async Task<bool> GuardarImagen()
         {

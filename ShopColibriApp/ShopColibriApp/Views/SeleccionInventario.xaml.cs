@@ -2,6 +2,7 @@
 using ShopColibriApp.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,22 @@ namespace ShopColibriApp.Views
 
         private async void CargarListaInventario()
         {
-            LvlListaInventario.ItemsSource = await ivm.GetInveBuscar(Filtro, true);
+            ObservableCollection<InventarioDTO> list = new ObservableCollection<InventarioDTO>();
+            list = await ivm.GetInveBuscar(Filtro, true);
+            if (GlobalObject.GloListInven.Count > 0)
+            {
+                for (int i = 0; i < GlobalObject.GloListInven.Count; i++)
+                {
+                    for (int j = 0; j < list.Count; j++)
+                    {
+                        if (GlobalObject.GloListInven[i].Id == list[j].Id)
+                        {
+                            list.Remove(list[j]);
+                        }
+                    }
+                }
+            }
+            LvlListaInventario.ItemsSource = list;
         }
 
         private void LvlListaInventario_ItemSelected(object sender, SelectedItemChangedEventArgs e)

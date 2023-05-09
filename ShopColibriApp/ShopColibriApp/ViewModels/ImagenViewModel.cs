@@ -25,7 +25,7 @@ namespace ShopColibriApp.ViewModels
             MiImag = new ImagenDrive();
         }
 
-        public async Task<bool> PostImagen(List<Xamarin.Forms.Image> images,int IdInve)
+        public async Task<bool> PostImagen(List<IFormFile> images,int IdInve)
         {
             if(IsBusy) return false;
             IsBusy = true;

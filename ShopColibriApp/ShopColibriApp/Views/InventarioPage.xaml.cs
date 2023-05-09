@@ -1,5 +1,6 @@
 ﻿using Google.Apis.Drive.v3.Data;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using ShopColibriApp.Models;
 using ShopColibriApp.ViewModels;
 using System;
@@ -145,8 +146,8 @@ namespace ShopColibriApp.Views
                     {
                         //R = await ivm.PostInventario(DpckFecha.Date, int.Parse(TxtStock.Text.Trim()),
                         //                             decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
-                        List<Image> images = new List<Image>();
-                        images = TransformaImagen(ImgProductos.Images);
+                        List<IFormFile> images = new List<IFormFile>();
+                        images = ToList(ImgProductos.Images);
                         List<Android.Media.Image> Lista = new List<Android.Media.Image>();
                         int idIn = await ivm.GetUltimoID();
                         T = await Imvm.PostImagen(images,idIn);
@@ -383,6 +384,25 @@ namespace ShopColibriApp.Views
             return list;
         }
 
-        
+        private List<IFormFile> ToList(ObservableCollection<FileImageSource> collection)
+        {
+            var list = new List<IFormFile>();
+            foreach (var item in collection)
+            {
+                string path = "";
+                if (item is FileImageSource)
+                {
+                    path = ((FileImageSource)item).File;
+                }
+                else
+                {
+                    path = item.ToString();
+                }
+
+                var file = new FormFile(System.IO.File.OpenRead(path), 0, System.IO.File.OpenRead(path).Length, "image", Path.GetFileName(path));
+                list.Add(file);
+            }
+            return list;
+        }
     }
 }

@@ -31,6 +31,19 @@ namespace ShopColibriApp.Views
         {
             ObservableCollection<Usuario> lista = new ObservableCollection<Usuario>();
             lista = await uvm.GetUsuBuscar(Filtro, true, false);
+            if (GlobalObject.GloListUsu.Count > 0)
+            {
+                for(int i = 0; i < GlobalObject.GloListUsu.Count; i++)
+                {
+                    for(int j = 0; j < lista.Count; j++)
+                    {
+                        if (GlobalObject.GloListUsu[i].IdUsuario == lista[j].IdUsuario)
+                        {
+                            lista.Remove(lista[j]);
+                        }
+                    }
+                }
+            }
             LvlListaUsuarios.ItemsSource = lista;
         }
 

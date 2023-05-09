@@ -27,7 +27,7 @@
 
                 <StackLayout>
                     <Button x:Name="BtnRegistrar" Text="Registrar" BackgroundColor="Green" CornerRadius="50" Clicked="BtnRegistrar_Clicked" />
-                    <Button x:Name="BtnModificar" Text="Modificar" BackgroundColor="LightGray" CornerRadius="50" Clicked="BtnModificar_Clicked" />
+                    <Button x:Name="BtnModificar" Text="Modificar" BackgroundColor="LightGray" CornerRadius="50" Clicked="BtnModificar_Clicked" IsVisible="false"/>
                 </StackLayout>
             </StackLayout>
 

@@ -22,12 +22,10 @@ namespace ShopColibriApp.ViewModels
         string[] Scopes = { DriveService.Scope.Drive };
         string AplicationName = "ShopColibriApp";
         Inventario MiInventario { get; set; }
-        Servicios.Drive MiDrive { get; set; }
         InventarioDTO MiInventarioDTO { get; set; }
         public InventarioViewModel()
         {
             MiInventario = new Inventario();
-            MiDrive = new Servicios.Drive();
             MiInventarioDTO = new InventarioDTO();
         }
 
@@ -154,11 +152,6 @@ namespace ShopColibriApp.ViewModels
                 throw;
             }
             finally { IsBusy = false; }
-        }
-
-        public void VerificarAccesoDrive()
-        {
-            MiDrive.VerificarAcceso();
         }
     }
 }
