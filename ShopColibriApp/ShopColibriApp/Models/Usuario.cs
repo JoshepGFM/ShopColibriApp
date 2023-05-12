@@ -319,17 +319,17 @@ namespace ShopColibriApp.Models
             }
         }
 
-        public async Task<bool> ValidarUsuario(int id)
+        public async Task<bool> ValidarUsuario(int id, bool R = false)
         {
             try
             {
-                string Route = string.Format("Usuarios/Validar?id={0}", id);
+                string Route = string.Format("Usuarios/Validar?id={0}&R={1}", id, R);
 
                 string FinalURL = Servicios.CnnToShopColibri.UrlProduction + Route;
 
                 RestClient client = new RestClient(FinalURL);
 
-                request = new RestRequest(FinalURL, Method.Delete);
+                request = new RestRequest(FinalURL, Method.Get);
 
                 //info de seguridad del api
                 request.AddHeader(Servicios.CnnToShopColibri.ApiKeyName, Servicios.CnnToShopColibri.ApiValue);
@@ -341,7 +341,7 @@ namespace ShopColibriApp.Models
 
                 //carga de la info en un json
 
-                if (statusCode == HttpStatusCode.NoContent)
+                if (statusCode == HttpStatusCode.OK)
                 {
 
                     return true;

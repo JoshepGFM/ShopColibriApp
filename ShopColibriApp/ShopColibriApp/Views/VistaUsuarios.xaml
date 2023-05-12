@@ -20,7 +20,7 @@
             
             <Grid Grid.RowSpan="2">
                 <GlobalV:Degradado/>
-                <ScrollView HeightRequest="700">
+                <ScrollView HeightRequest="820">
                     <ListView x:Name="LvlListaUsuarios" RowHeight="100"
                               ItemSelected="LvlListaUsuarios_ItemSelected" IsPullToRefreshEnabled="True" Refreshing="LvlListaUsuarios_Refreshing">
                         <ListView.ItemTemplate>

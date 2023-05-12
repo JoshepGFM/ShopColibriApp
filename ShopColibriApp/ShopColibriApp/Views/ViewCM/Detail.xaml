@@ -34,8 +34,9 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Frame Grid.Column="0" WidthRequest="80" HeightRequest="100">
-                                            <carrusel:ImageCarousel x:Name="ImgProductos" />
+                                            <carrusel:ImageCarousel x:Name="ImgProductos"/>
                                         </Frame>
+                                        <Image Source="https://drive.google.com/file/d/1biQPAHH3-CIOzTJDCBkbVF-zmkHqOFbM/view"/>
                                         <StackLayout Grid.Column="1">
                                             <StackLayout Orientation="Vertical">
                                                 <Label Grid.Column="1"

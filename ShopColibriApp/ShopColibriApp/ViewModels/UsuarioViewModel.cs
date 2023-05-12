@@ -303,7 +303,7 @@ namespace ShopColibriApp.ViewModels
             IsBusy = true;
             try
             {
-                bool R = await MiUsuario.ValidarUsuario(id);
+                bool R = await MiUsuario.ValidarUsuario(id, true);
                 return true;
             }
             catch (Exception)
