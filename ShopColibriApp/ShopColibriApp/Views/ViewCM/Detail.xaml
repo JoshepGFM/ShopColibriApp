@@ -18,12 +18,12 @@
 
             <Grid>
                 <ScrollView  HeightRequest="700">
-                    <ListView x:Name="LvlListaInventario" RowHeight="130"
+                    <ListView x:Name="LvlListaInventario" RowHeight="150"
                               ItemSelected="LvlListaInventario_ItemSelected"  IsPullToRefreshEnabled="True" Refreshing="LvlListaInventario_Refreshing">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <Grid Padding="10" HeightRequest="100" WidthRequest="100">
+                                    <Grid Padding="10">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="*"/>
@@ -34,9 +34,8 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Frame Grid.Column="0" WidthRequest="80" HeightRequest="100">
-                                            <carrusel:ImageCarousel x:Name="ImgProductos"/>
+                                            <carrusel:ImageCarousel x:Name="ImgProductos" Images="{Binding }"/>
                                         </Frame>
-                                        <Image Source="https://drive.google.com/file/d/1biQPAHH3-CIOzTJDCBkbVF-zmkHqOFbM/view"/>
                                         <StackLayout Grid.Column="1">
                                             <StackLayout Orientation="Vertical">
                                                 <Label Grid.Column="1"

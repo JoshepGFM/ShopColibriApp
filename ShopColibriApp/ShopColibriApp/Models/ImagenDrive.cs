@@ -97,9 +97,9 @@ namespace ShopColibriApp.Models
 
                 //carga de la info en un json
 
-                if (statusCode == HttpStatusCode.Created)
+                if (statusCode == HttpStatusCode.OK)
                 {
-
+                    string URL = statusCode.ToString();
                     return true;
                 }
                 else
