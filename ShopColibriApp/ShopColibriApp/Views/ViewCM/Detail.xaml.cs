@@ -2,6 +2,7 @@
 using ShopColibriApp.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,6 @@ namespace ShopColibriApp.Views.ViewCM
     public partial class Detail : ContentPage
     {
         InventarioViewModel ivm { get; set; }
-
         private string? Filtro {get; set;}
         public Detail()
         {

@@ -72,11 +72,11 @@ namespace ShopColibriApp.Models
         [JsonConverter(typeof(Base64IFormFileConverter))]
         public IFormFile Archivo { get; set; }
 
-        public async Task<bool> GuardarImagen()
+        public async Task<bool> GuardarImagen(int IdInve)
         {
             try
             {
-                string Route = string.Format("Imagens/GuardarImagen");
+                string Route = string.Format("Imagens/GuardarImagen?IdInve={0}", IdInve);
                 string FinalURL = Servicios.CnnToShopColibri.UrlProduction + Route;
 
                 RestClient client = new RestClient(FinalURL);
@@ -99,7 +99,6 @@ namespace ShopColibriApp.Models
 
                 if (statusCode == HttpStatusCode.OK)
                 {
-                    string URL = statusCode.ToString();
                     return true;
                 }
                 else
@@ -114,26 +113,5 @@ namespace ShopColibriApp.Models
                 throw;
             }
         }
-
-        public string SerializeObject(IFormFile file)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                file.CopyTo(memoryStream);
-                return Convert.ToBase64String(memoryStream.ToArray());
-            }
-        }
-
-        public string ConvertToJson(IFormFile file)
-        {
-            string jsonString;
-            using (var reader = new StreamReader(file.OpenReadStream()))
-            {
-                jsonString = reader.ReadToEnd();
-            }
-            return jsonString;
-        }
-
-        
     }
 }

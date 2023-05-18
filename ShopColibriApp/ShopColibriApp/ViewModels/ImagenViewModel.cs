@@ -35,7 +35,7 @@ namespace ShopColibriApp.ViewModels
                 for (int i = 0; i < images.Count; i++)
                 {
                     MiImag.Archivo = images[i];
-                    R =await MiImag.GuardarImagen();
+                    R =await MiImag.GuardarImagen(IdInve);
                 }
                 return R;
             }

@@ -34,7 +34,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Frame Grid.Column="0" WidthRequest="80" HeightRequest="100">
-                                            <carrusel:ImageCarousel x:Name="ImgProductos" Images="{Binding }"/>
+                                            <carrusel:ImageCarousel x:Name="ImgProductos" Images="{Binding imagenes.Imagen1}"/>
                                         </Frame>
                                         <StackLayout Grid.Column="1">
                                             <StackLayout Orientation="Vertical">

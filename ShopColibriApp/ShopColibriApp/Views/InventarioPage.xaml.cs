@@ -131,41 +131,61 @@ namespace ShopColibriApp.Views
             bool T = false;
             if (ValidarCampos())
             {
-                if (await DisplayAlert("Validación", "Esta seguro de no agregar una imagen?", "Si", "No"))
+                if (GlobalObject.GloImagenes.Count > 0)
                 {
-                    Producto producto = PckProducto.SelectedItem as Producto;
-                    int idP = producto.Codigo;
-                    Empaque empaque = PckEmpaque.SelectedItem as Empaque;
-                    int idE = empaque.Id;
-                    if (ImgProductos.Images == null)
+                    if (await DisplayAlert("Validación", "Esta seguro de no agregar una imagen?", "Si", "No"))
                     {
-                        R = await ivm.PostInventario(DpckFecha.Date,int.Parse(TxtStock.Text.Trim()),
-                                                     decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP,idE);
-                    }
-                    else
-                    {
-                        //R = await ivm.PostInventario(DpckFecha.Date, int.Parse(TxtStock.Text.Trim()),
-                        //                             decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
-                        List<IFormFile> images = new List<IFormFile>();
-                        images = ToList(ImgProductos.Images);
-                        List<Android.Media.Image> Lista = new List<Android.Media.Image>();
-                        int idIn = await ivm.GetUltimoID();
-                        T = await Imvm.PostImagen(images,idIn);
-                        //TODO: Metodo para guardar imagenes
-                    }
-                    if (R)
-                    {
-                        await DisplayAlert("Validación exitosa", "Se guardo el Inventario correctamente","OK");
-                        if (!T)
+                        Producto producto = PckProducto.SelectedItem as Producto;
+                        int idP = producto.Codigo;
+                        Empaque empaque = PckEmpaque.SelectedItem as Empaque;
+                        int idE = empaque.Id;
+                            R = await ivm.PostInventario(DpckFecha.Date, int.Parse(TxtStock.Text.Trim()),
+                                                         decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
+                            List<IFormFile> images = new List<IFormFile>();
+                            images = ToList(ImgProductos.Images);
+                            List<Android.Media.Image> Lista = new List<Android.Media.Image>();
+                            int idIn = await ivm.GetUltimoID();
+                            T = await Imvm.PostImagen(images, idIn);
+
+                        if (R)
                         {
-                            await DisplayAlert("Error Guardado", "Se tubo problemas al guardar la imagen", "OK");
+                            await DisplayAlert("Validación exitosa", "Se guardo el Inventario correctamente", "OK");
+                            if (!T)
+                            {
+                                await DisplayAlert("Error Guardado", "Se tubo problemas al guardar la imagen", "OK");
+                            }
+                            await Navigation.PopToRootAsync();
                         }
-                        await Navigation.PopToRootAsync();
+                        else
+                        {
+                            await DisplayAlert("Error de validación", "No se a podido guardar el inventario", "OK");
+                        }
                     }
                     else
                     {
-                        await DisplayAlert("Error de validación", "No se a podido guardar el inventario", "OK");
+                        Producto producto = PckProducto.SelectedItem as Producto;
+                        int idP = producto.Codigo;
+                        Empaque empaque = PckEmpaque.SelectedItem as Empaque;
+                        int idE = empaque.Id;
+                        
+                        R = await ivm.PostInventario(DpckFecha.Date, int.Parse(TxtStock.Text.Trim()),
+                                                         decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
+                        
+
+                        if (R)
+                        {
+                            await DisplayAlert("Validación exitosa", "Se guardo el Inventario correctamente", "OK");
+                            await Navigation.PopToRootAsync();
+                        }
+                        else
+                        {
+                            await DisplayAlert("Error de validación", "No se a podido guardar el inventario", "OK");
+                        }
                     }
+                }
+                else
+                {
+
                 }
             }
             

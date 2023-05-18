@@ -9,6 +9,7 @@ using Xamarin.Forms.Xaml;
 using ShopColibriApp.Views;
 using Newtonsoft.Json.Schema;
 using ShopColibriApp.Models;
+using System.Collections.ObjectModel;
 
 namespace ShopColibriApp.Views.ViewCM
 {
@@ -125,6 +126,7 @@ namespace ShopColibriApp.Views.ViewCM
         private async void BtnInventario_Clicked(object sender, EventArgs e)
         {
             GlobalObject.GloInven_DTO = new Models.InventarioDTO();
+            GlobalObject.GloImagenes = new ObservableCollection<FileImageSource>();
             App.MasterDet.IsPresented = false;
             await App.MasterDet.Detail.Navigation.PushAsync(new InventarioPage());
         }
