@@ -17,6 +17,7 @@ namespace ShopColibriApp.Views.ViewCM
 	public partial class VistaDetail : ContentPage
 	{
 		UsuarioViewModel uvm { get; set; }
+		private int campo;
 		public VistaDetail ()
 		{
 			InitializeComponent ();
@@ -58,10 +59,52 @@ namespace ShopColibriApp.Views.ViewCM
 			if (GlobalObject.GLoInventario != null)
 			{
 				LblNombre.Text = GlobalObject.GloInven_DTO.NombrePro;
-				//ImgProducto.Images = ;
+				if (GlobalObject.GloInven_DTO.imagenes.Count > 0)
+				{
+					if (GlobalObject.GloInven_DTO.imagenes.Count > 1)
+					{
+						FmAdelante.IsVisible = true;
+					}
+                    ImgDetail.Source = GlobalObject.GloInven_DTO.imagenes[campo].Imagen1.ToString();
+                }
 				LblDescripcion.Text = GlobalObject.GloInven_DTO.DescripcionPro;
 				LblTamannio.Text = GlobalObject.GloInven_DTO.NombreEmp;
 			}
 		}
+
+        private void btnAnterior_Clicked(object sender, EventArgs e)
+        {
+			if (campo > -1)
+			{
+				campo += 1;
+			}
+			ValidarBtn(campo, GlobalObject.GloInven_DTO.imagenes.Count);
+        }
+
+        private void btnSiguiente_Clicked(object sender, EventArgs e)
+        {
+            if (campo < GlobalObject.GloInven_DTO.imagenes.Count-1)
+            {
+                campo -= 1;
+            }
+            ValidarBtn(campo, GlobalObject.GloInven_DTO.imagenes.Count);
+        }
+
+		private void ValidarBtn(int n, int cantidad)
+		{
+			if (n > 0)
+			{
+				FmAtras.IsVisible = true;
+			}
+			if (n < cantidad)
+			{
+				FmAdelante.IsVisible = true;
+			}
+			if(n == cantidad - 1)
+			{
+				FmAdelante.IsVisible = false;
+            }
+            ImgDetail.Source = GlobalObject.GloInven_DTO.imagenes[cantidad].Imagen1.ToString();
+        }
     }
 }
