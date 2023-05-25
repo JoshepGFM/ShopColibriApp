@@ -33,7 +33,7 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <Image Source="{Binding priImagen}" Grid.Column="0" WidthRequest="100" HeightRequest="130"/>
+                                        <Image Source="{Binding priImagen}" Grid.Column="0" WidthRequest="120" HeightRequest="130"/>
                                         
                                         <StackLayout Grid.Column="1">
                                             <StackLayout Orientation="Vertical">

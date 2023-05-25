@@ -15,6 +15,7 @@ namespace ShopColibriApp
 {
     public partial class MainPage : MasterDetailPage
     {
+
         public MainPage()
         {
             InitializeComponent();
@@ -22,5 +23,6 @@ namespace ShopColibriApp
             this.Detail = new NavigationPage(new Detail());
             App.MasterDet = this;
         }
+
     }
 }

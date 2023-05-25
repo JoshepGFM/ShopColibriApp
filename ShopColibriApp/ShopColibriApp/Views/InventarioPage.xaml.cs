@@ -1,4 +1,5 @@
-﻿using Google.Apis.Drive.v3.Data;
+﻿using Android.Content.Res;
+using Google.Apis.Drive.v3.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using ShopColibriApp.Models;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using static Android.Graphics.Paint;
 using static Android.Provider.Telephony.Mms;
 
 namespace ShopColibriApp.Views
@@ -25,6 +27,8 @@ namespace ShopColibriApp.Views
         InventarioViewModel ivm { get; set; }
         ImagenViewModel Imvm { get; set; }
         Drive Dv { get; set; }
+
+        private int campo = 0;
         public InventarioPage()
         {
             InitializeComponent();
@@ -131,37 +135,9 @@ namespace ShopColibriApp.Views
             bool T = false;
             if (ValidarCampos())
             {
-                if (GlobalObject.GloImagenes.Count > 0)
+                if (GlobalObject.GloImagenes.Count == 0)
                 {
                     if (await DisplayAlert("Validación", "Esta seguro de no agregar una imagen?", "Si", "No"))
-                    {
-                        Producto producto = PckProducto.SelectedItem as Producto;
-                        int idP = producto.Codigo;
-                        Empaque empaque = PckEmpaque.SelectedItem as Empaque;
-                        int idE = empaque.Id;
-                            R = await ivm.PostInventario(DpckFecha.Date, int.Parse(TxtStock.Text.Trim()),
-                                                         decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
-                            List<IFormFile> images = new List<IFormFile>();
-                            images = ToList(ImgProductos.Images);
-                            List<Android.Media.Image> Lista = new List<Android.Media.Image>();
-                            int idIn = await ivm.GetUltimoID();
-                            T = await Imvm.PostImagen(images, idIn);
-
-                        if (R)
-                        {
-                            await DisplayAlert("Validación exitosa", "Se guardo el Inventario correctamente", "OK");
-                            if (!T)
-                            {
-                                await DisplayAlert("Error Guardado", "Se tubo problemas al guardar la imagen", "OK");
-                            }
-                            await Navigation.PopToRootAsync();
-                        }
-                        else
-                        {
-                            await DisplayAlert("Error de validación", "No se a podido guardar el inventario", "OK");
-                        }
-                    }
-                    else
                     {
                         Producto producto = PckProducto.SelectedItem as Producto;
                         int idP = producto.Codigo;
@@ -183,12 +159,37 @@ namespace ShopColibriApp.Views
                         }
                     }
                 }
-                else
+                else if (GlobalObject.GloImagenes.Count > 0)
                 {
+                        Producto producto = PckProducto.SelectedItem as Producto;
+                        int idP = producto.Codigo;
+                        Empaque empaque = PckEmpaque.SelectedItem as Empaque;
+                        int idE = empaque.Id;
+                            R = await ivm.PostInventario(DpckFecha.Date, int.Parse(TxtStock.Text.Trim()),
+                                                         decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
+                            List<IFormFile> images = new List<IFormFile>();
+                            ObservableCollection<FileImageSource> listImage = new ObservableCollection<FileImageSource>();
+                            listImage = TransformaImagen(GlobalObject.GloImagenes);
+                            images = ToList(listImage);
+                            List<Android.Media.Image> Lista = new List<Android.Media.Image>();
+                            int idIn = await ivm.GetUltimoID();
+                            T = await Imvm.PostImagen(images, idIn);
 
+                        if (R)
+                        {
+                            await DisplayAlert("Validación exitosa", "Se guardo el Inventario correctamente", "OK");
+                            if (!T)
+                            {
+                                await DisplayAlert("Error Guardado", "Se tubo problemas al guardar la imagen", "OK");
+                            }
+                            await Navigation.PopToRootAsync();
+                        }
+                        else
+                        {
+                            await DisplayAlert("Error de validación", "No se a podido guardar el inventario", "OK");
+                        }
                 }
             }
-            
         }
 
         private async void BtnImagen_Clicked(object sender, EventArgs e)
@@ -253,12 +254,27 @@ namespace ShopColibriApp.Views
                 GlobalObject.GLoInventario.Origen = GlobalObject.GloInven_DTO.Origen;
                 GlobalObject.GLoInventario.ProductoCodigo = GlobalObject.GloInven_DTO.ProductoCodigo;
                 GlobalObject.GLoInventario.EmpaqueId = GlobalObject.GloInven_DTO.EmpaqueId;
+                if (GlobalObject.GloImagenes.Count < 1 &&
+                    GlobalObject.GloInven_DTO.imagenes.Count > 0)
+                {
+                    foreach(var item in GlobalObject.GloInven_DTO.imagenes)
+                    {
+                        Imagen NewItem = new Imagen();
+
+                        NewItem.Id = item.Id;
+                        NewItem.Imagen1 = item.Imagen1;
+                        NewItem.InventarioId = item.InventarioId;
+
+                        GlobalObject.GloImagenes.Add(NewItem);
+                    }
+                }
+                else if(GlobalObject.GloInven_DTO.imagenes.Count == 0 &&
+                    GlobalObject.GloImagenes.Count == 0)
+                {
+                    GlobalObject.GloImagenes.Clear();
+                }
                 BtnGuardar.IsVisible = false;
                 BtnModificar.IsVisible = true;
-            }
-            if(GlobalObject.GloInven_DTO.Id == 0)
-            {
-                GlobalObject.GLoInventario = new Inventario();
             }
             if(GlobalObject.GLoInventario != null)
             {
@@ -273,7 +289,11 @@ namespace ShopColibriApp.Views
                 if(GlobalObject.GloImagenes.Count > 0)
                 {
                     FmImagen.IsVisible = true;
-                    ImgProductos.Images = GlobalObject.GloImagenes;
+                    ImgProductos.Source = GlobalObject.GloImagenes[0].Imagen1;
+                    if(GlobalObject.GloImagenes.Count > 0)
+                    {
+                        FmAdelante.IsVisible = true;
+                    }
                 }
                 else
                 {
@@ -365,41 +385,83 @@ namespace ShopColibriApp.Views
                     int idP = producto.Codigo;
                     Empaque empaque = PckEmpaque.SelectedItem as Empaque;
                     int idE = empaque.Id;
-                    if (ImgProductos.Images == null)
+                    int sumastock = int.Parse(LblStock.Text.Trim()) + int.Parse(TxtStock.Text.Trim());
+                    if (GlobalObject.GloImagenes[0].Imagen1.Contains("https://drive.google.com/uc?id="))
                     {
-                        //R = await ivm.PutInventario(DpckFecha.Date, int.Parse(TxtStock.Text.Trim()),
-                        //                             decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
-                    }
-                    else
-                    {
-                        //R = await ivm.PutInventario(DpckFecha.Date, int.Parse(TxtStock.Text.Trim()),
-                        //                             decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
-                        T = true;
-                        //TODO: Metodo para guardar imagenes
-                    }
-                    if (R)
-                    {
-                        await DisplayAlert("Validación exitosa", "Se modifico el Inventario correctamente", "OK");
-                        if (!T)
+                        R = await ivm.PutInventario(GlobalObject.GloInven_DTO.Id, DpckFecha.Date, sumastock,
+                                                     decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
+                        if (R)
                         {
-                            await DisplayAlert("Error Guardado", "Se tubo problemas al guardar la imagen", "OK");
+                            await DisplayAlert("Validación exitosa", "Se modifico el Inventario correctamente", "OK");
+                            await Navigation.PopToRootAsync();
                         }
-                        await Navigation.PopToRootAsync();
+                        else
+                        {
+                            await DisplayAlert("Error de validación", "No se a podido modificar el Inventario", "OK");
+                        }
                     }
                     else
                     {
-                        await DisplayAlert("Error de validación", "No se a podido modificar el Inventario", "OK");
+                        if (GlobalObject.GloImagenes.Count == 0)
+                        {
+                            if (await DisplayAlert("Validación", "Esta seguro de no agregar una imagen?", "Si", "No"))
+                            {
+                                R = await ivm.PutInventario(GlobalObject.GloInven_DTO.Id, DpckFecha.Date, sumastock,
+                                                     decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
+
+
+                                if (R)
+                                {
+                                    await DisplayAlert("Validación exitosa", "Se modifico el Inventario correctamente", "OK");
+                                    await Navigation.PopToRootAsync();
+                                }
+                                else
+                                {
+                                    await DisplayAlert("Error de validación", "No se a podido modificar el inventario", "OK");
+                                }
+                            }
+                        }
+                        else if (GlobalObject.GloImagenes.Count > 0)
+                        {
+                            R = await ivm.PutInventario(GlobalObject.GloInven_DTO.Id, DpckFecha.Date, sumastock,
+                                                     decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
+                            if (GlobalObject.GloInven_DTO.imagenes.Count > 0)
+                            {
+                                T = await Imvm.DeleteImagen(GlobalObject.GloInven_DTO.imagenes);
+                            }
+                            List<IFormFile> images = new List<IFormFile>();
+                            ObservableCollection<FileImageSource> listImage = new ObservableCollection<FileImageSource>();
+                            listImage = TransformaImagen(GlobalObject.GloImagenes);
+                            images = ToList(listImage);
+                            List<Android.Media.Image> Lista = new List<Android.Media.Image>();
+                            int idIn = GlobalObject.GloInven_DTO.Id;
+                            T = await Imvm.PostImagen(images, idIn);
+
+                            if (R)
+                            {
+                                await DisplayAlert("Validación exitosa", "Se modificar el Inventario correctamente", "OK");
+                                if (!T)
+                                {
+                                    await DisplayAlert("Error Guardado", "Se tubo problemas al guardar la imagen", "OK");
+                                }
+                                await Navigation.PopToRootAsync();
+                            }
+                            else
+                            {
+                                await DisplayAlert("Error de validación", "No se a podido modificar el inventario", "OK");
+                            }
+                        }
                     }
                 }
             }
         }
 
-        private List<Image> TransformaImagen(ObservableCollection<FileImageSource> Lista)
+        private ObservableCollection<FileImageSource> TransformaImagen(List<Imagen> Lista)
         {
-            List<Image> list = new List<Image>();
-            foreach (FileImageSource item in Lista)
+            ObservableCollection<FileImageSource> list = new ObservableCollection<FileImageSource>();
+            foreach (var item in Lista)
             {
-                list.Add(new Image { Source = item });
+                list.Add(item.Imagen1);
             }
             return list;
         }
@@ -423,6 +485,56 @@ namespace ShopColibriApp.Views
                 list.Add(file);
             }
             return list;
+        }
+
+        private void btnAnterior_Clicked(object sender, EventArgs e)
+        {
+            if (campo > -1)
+            {
+                campo -= 1;
+            }
+            ValidarTransicion(campo, GlobalObject.GloImagenes.Count);
+        }
+
+        private void btnSiguiente_Clicked(object sender, EventArgs e)
+        {
+            if (campo < GlobalObject.GloImagenes.Count - 1)
+            {
+                campo += 1;
+            }
+            ValidarTransicion(campo, GlobalObject.GloImagenes.Count);
+        }
+
+        private void ValidarTransicion(int n, int cantidad)
+        {
+            if (n > 0)
+            {
+                FmAtras.IsVisible = true;
+            }
+            if (n < cantidad)
+            {
+                FmAdelante.IsVisible = true;
+            }
+            if (n == cantidad - 1)
+            {
+                FmAdelante.IsVisible = false;
+            }
+            if (n == 0)
+            {
+                FmAtras.IsVisible = false;
+            }
+            if (n < GlobalObject.GloImagenes.Count)
+            {
+                ImgProductos.Source = GlobalObject.GloImagenes[n].Imagen1.ToString();
+            }
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            Navigation.PushAsync(new MainPage());
+
+            // Retornar true para indicar que se ha manejado el evento del botón "Back"
+            return true;
         }
     }
 }

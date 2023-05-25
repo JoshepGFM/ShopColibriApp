@@ -126,7 +126,7 @@ namespace ShopColibriApp.Views.ViewCM
         private async void BtnInventario_Clicked(object sender, EventArgs e)
         {
             GlobalObject.GloInven_DTO = new Models.InventarioDTO();
-            GlobalObject.GloImagenes = new ObservableCollection<FileImageSource>();
+            GlobalObject.GloImagenes = new List<Imagen>();
             App.MasterDet.IsPresented = false;
             await App.MasterDet.Detail.Navigation.PushAsync(new InventarioPage());
         }

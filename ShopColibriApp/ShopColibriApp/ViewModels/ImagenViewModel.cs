@@ -6,6 +6,7 @@ using Moq;
 using ShopColibriApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Net.Http;
 using System.Text;
@@ -45,6 +46,27 @@ namespace ShopColibriApp.ViewModels
                 throw;
             }
             finally { IsBusy = false; }
+        }
+
+        public async Task<bool> DeleteImagen(ObservableCollection<Imagen> imagens)
+        {
+            try
+            {
+                bool R = false;
+                List<int> list = new List<int>();
+                foreach (var imagen in imagens)
+                {
+
+                    list.Add(imagen.Id);
+                }
+                R = await MiImagen.DeleteImagen(list);
+                return R;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
 
         public static IFormFile GetIFormFileFromPath(string path)

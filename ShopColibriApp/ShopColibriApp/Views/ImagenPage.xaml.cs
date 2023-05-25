@@ -14,6 +14,7 @@ using ShopColibriApp.ViewModels;
 using static Xamarin.Essentials.Permissions;
 using System.Security.Permissions;
 using Plugin.Permissions;
+using ShopColibriApp.Models;
 
 namespace ShopColibriApp.Views
 {
@@ -31,7 +32,16 @@ namespace ShopColibriApp.Views
 
         private async void BtnGuardar_Clicked(object sender, EventArgs e)
         {
-            GlobalObject.GloImagenes = ImgProductos.Images;
+            ObservableCollection<FileImageSource> list = new ObservableCollection<FileImageSource>();
+            list = ImgProductos.Images;
+            foreach (var image in list)
+            {
+                Imagen NewItem = new Imagen();
+
+                NewItem.Imagen1 = image;
+
+                GlobalObject.GloImagenes.Add(NewItem);
+            }
             await Navigation.PushAsync(new InventarioPage());
         }
 
@@ -54,6 +64,14 @@ namespace ShopColibriApp.Views
                 await DisplayAlert("No camera", "Este dispositivo no permite el uso de la Camara", "OK"); ;
             }
             ImgProductos.Images = await foto.TakePhoto();
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            Navigation.PushAsync(new InventarioPage());
+
+            // Retornar true para indicar que se ha manejado el evento del botón "Back"
+            return true;
         }
     }
 }

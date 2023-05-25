@@ -27,9 +27,31 @@
                 </Picker>
                 <StackLayout Padding="20" Spacing="10">
                     <Frame x:Name="FmImagen" BackgroundColor="#E8DFDF" HeightRequest="300" CornerRadius="20" BorderColor="Black" IsVisible="false">
-                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="End">
-                            <carrusel:ImageCarousel x:Name="ImgProductos" HeightRequest="300"/>
-                        </StackLayout>
+                        <Grid>
+                            <Image x:Name="ImgProductos" HeightRequest="300"/>
+                            <Frame x:Name="FmAtras" CornerRadius="2000" 
+                               Padding="5" IsVisible="false"
+                               Margin="0,0,0,20"
+                               HorizontalOptions="Start" 
+                               VerticalOptions="Center"
+                               HeightRequest="20" 
+                               WidthRequest="20"
+                               >
+                                <ImageButton x:Name="btnAnterior" Source="menos.png"
+                                         BackgroundColor="Transparent" Clicked="btnAnterior_Clicked"/>
+                            </Frame>
+                            <Frame x:Name="FmAdelante" CornerRadius="2000" 
+                               Padding="5" IsVisible="false"
+                               Margin="0,0,0,20"
+                               HorizontalOptions="End" 
+                               VerticalOptions="Center"
+                               HeightRequest="20" 
+                               WidthRequest="20"
+                               >
+                                <ImageButton x:Name="btnSiguiente" Source="mas.png"
+                                         BackgroundColor="Transparent" Clicked="btnSiguiente_Clicked"/>
+                            </Frame>
+                        </Grid>
                     </Frame>
                     <Button x:Name="BtnImagen" Text="Agregar Imagen" Clicked="BtnImagen_Clicked"  CornerRadius="50" 
                             BackgroundColor="RosyBrown" BorderColor="DimGray" BorderWidth="1"/>

@@ -16,12 +16,14 @@ namespace ShopColibriApp.Views.ViewCM
     public partial class Detail : ContentPage
     {
         InventarioViewModel ivm { get; set; }
+        ImagenViewModel imgvm { get; set; }
         private string? Filtro {get; set;}
         public Detail()
         {
             InitializeComponent();
 
             BindingContext = ivm = new InventarioViewModel();
+            BindingContext = imgvm = new ImagenViewModel();
 
             CargarInventario();
             FuncionesUsuario();
@@ -29,7 +31,16 @@ namespace ShopColibriApp.Views.ViewCM
 
         private async void CargarInventario()
         {
-            LvlListaInventario.ItemsSource = await ivm.GetInveBuscar(Filtro, SwStock.IsToggled);
+            ObservableCollection<InventarioDTO> list = await ivm.GetInveBuscar(Filtro, SwStock.IsToggled);
+            for (int i = 0; i < list.Count; ++i)
+            {
+                list[i].priImagen = "https://drive.google.com/uc?id=" + list[i].priImagen;
+                for (int j = 0; j < list[i].imagenes.Count; ++j)
+                {
+                    list[i].imagenes[j].Imagen1 = "https://drive.google.com/uc?id=" + list[i].imagenes[j].Imagen1;
+                }
+            }
+            LvlListaInventario.ItemsSource = list;
         }
 
         private void SbBuscarPro_TextChanged(object sender, TextChangedEventArgs e)
@@ -40,6 +51,7 @@ namespace ShopColibriApp.Views.ViewCM
 
         private async void LvlListaInventario_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
+            GlobalObject.GloImagenes.Clear();
             InventarioDTO inventario = e.SelectedItem as InventarioDTO;
 
             if (inventario != null)
@@ -111,11 +123,16 @@ namespace ShopColibriApp.Views.ViewCM
             {
                 if (await DisplayAlert("Confirmación", "Esta seguro de eliminar " + GlobalObject.GloInven_DTO.NombrePro + " de " + GlobalObject.GloInven_DTO.NombreEmp + "?", "Si", "No"))
                 {
+                    bool T = await imgvm.DeleteImagen(GlobalObject.GloInven_DTO.imagenes);
                     bool R = await ivm.DeleteInventario(GlobalObject.GloInven_DTO.Id);
 
                     if (R)
                     {
-                        await DisplayAlert("Validación exitosa", "Se elimino con éxito del Inventario", "OK");
+                        await DisplayAlert("Validación exitosa", "Se elimino con éxito del Inventario (puede que este vinculado con otro elemento)", "OK");
+                        if (!T)
+                        {
+                            await DisplayAlert("Error de validación", "No se pudo eliminar las imágenes vinculadas", "OK");
+                        }
                         LvlListaInventario.BeginRefresh();
                         Task.Delay(2000);
                         LvlListaInventario.EndRefresh();
@@ -134,6 +151,17 @@ namespace ShopColibriApp.Views.ViewCM
             {
                 await Navigation.PushAsync(new InventarioPage());
             }
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await DisplayAlert("Mensaje", "Presionaste el botón 'Back'.", "Aceptar");
+                });
+
+            // Retornar true para indicar que se ha manejado el evento del botón "Back"
+            return true;
         }
     }
 }

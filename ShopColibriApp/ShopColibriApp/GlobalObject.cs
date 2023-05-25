@@ -16,7 +16,7 @@ namespace ShopColibriApp
         public static Usuario GloUsu_Registro = new Usuario();
         public static ObservableCollection<Usuario> GloListUsu = new ObservableCollection<Usuario>();
         public static Producto GloProd = new Producto();
-        public static ObservableCollection<FileImageSource> GloImagenes = new ObservableCollection<FileImageSource>();
+        public static List<Imagen> GloImagenes = new List<Imagen>();
         public static Inventario GLoInventario = new Inventario();
         public static InventarioDTO GloInven_DTO = new InventarioDTO();
         public static Empaque GloEmpaque = new Empaque();

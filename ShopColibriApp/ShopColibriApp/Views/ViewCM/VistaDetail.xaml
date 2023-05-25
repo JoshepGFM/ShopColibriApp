@@ -13,6 +13,7 @@
                        FontAttributes="Bold" FontSize="25" TextColor="DarkGreen"/>
                 <Frame HeightRequest="400" WidthRequest="300" Padding="10" CornerRadius="10">
                     <Grid>
+                        <Image x:Name="ImgDetail"/>
                         <Frame x:Name="FmAtras" CornerRadius="2000" 
                                Padding="5" IsVisible="false"
                                Margin="0,0,0,20"
@@ -24,7 +25,6 @@
                             <ImageButton x:Name="btnAnterior" Source="menos.png"
                                          BackgroundColor="Transparent" Clicked="btnAnterior_Clicked"/>
                         </Frame>
-                        <Image x:Name="ImgDetail"/>
                         <Frame x:Name="FmAdelante" CornerRadius="2000" 
                                Padding="5" IsVisible="false"
                                Margin="0,0,0,20"
@@ -41,8 +41,16 @@
                 <ScrollView HeightRequest="150">
                     <Label x:Name="LblDescripcion" Text="Descripcion"/>
                 </ScrollView>
-                <Label Text="Tamaño de Producto:"/>
-                <Label x:Name="LblTamannio" TextColor="DarkCyan"/>
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout HorizontalOptions="StartAndExpand">
+                        <Label Text="Tamaño de Producto:"/>
+                        <Label x:Name="LblTamannio" TextColor="DarkCyan"/>
+                    </StackLayout>
+                    <StackLayout HorizontalOptions="EndAndExpand">
+                        <Label Text="Precio:" FontAttributes="Bold"/>
+                        <Label x:Name="LblPrecio" TextColor="Black" FontAttributes="Bold"/>
+                    </StackLayout>
+                </StackLayout>
                 <Button x:Name="BtnContactar" Text="Consultar Producto" Clicked="BtnContactar_Clicked" 
                         HeightRequest="60" CornerRadius="50" ImageSource="Consulta.png" BackgroundColor="#2FE82F"
                         BorderWidth="2" BorderColor="DarkSlateGray"/>
