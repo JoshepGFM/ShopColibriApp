@@ -97,5 +97,13 @@ namespace ShopColibriApp.Views
             GlobalObject.GloRegistro = new Models.Registro();
             await Navigation.PushAsync(new RegistroPage());
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            Navigation.PushAsync(new MainPage());
+
+            // Retornar true para indicar que se ha manejado el evento del botón "Back"
+            return true;
+        }
     }
 }

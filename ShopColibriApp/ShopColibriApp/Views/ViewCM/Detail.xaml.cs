@@ -3,6 +3,7 @@ using ShopColibriApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -155,9 +156,11 @@ namespace ShopColibriApp.Views.ViewCM
 
         protected override bool OnBackButtonPressed()
         {
+
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     await DisplayAlert("Mensaje", "Presionaste el botón 'Back'.", "Aceptar");
+                    Process.GetCurrentProcess().Kill();
                 });
 
             // Retornar true para indicar que se ha manejado el evento del botón "Back"

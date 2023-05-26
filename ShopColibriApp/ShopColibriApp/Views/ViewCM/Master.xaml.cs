@@ -203,5 +203,85 @@ namespace ShopColibriApp.Views.ViewCM
             GlobalObject.GloPedidos_Cont = new Models.Pedidos();
             await Navigation.PushAsync(new VistaPedidoPage());
         }
+
+        private async void BtnVerSalidas_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new VistaSalidas());
+        }
+
+        private void BtnVerBitacora_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnInicio_Pressed(object sender, EventArgs e)
+        {
+            BtnInicio.BackgroundColor = Color.Gray;
+        }
+
+        private void BtnRegisUsu_Pressed(object sender, EventArgs e)
+        {
+            BtnRegisUsu.BackgroundColor = Color.Gray;
+        }
+
+        private void BtnProductos_Pressed(object sender, EventArgs e)
+        {
+            BtnProductos.BackgroundColor = Color.Gray;
+        }
+
+        private void BtnNuevosPro_Pressed(object sender, EventArgs e)
+        {
+            BtnNuevosPro.BackgroundColor = Color.Gray;
+        }
+
+        private void BtnInventario_Pressed(object sender, EventArgs e)
+        {
+            BtnInventario.BackgroundColor = Color.Gray;
+        }
+
+        private void BtnEmpaque_Pressed(object sender, EventArgs e)
+        {
+            BtnEmpaque.BackgroundColor = Color.Gray;
+        }
+
+        private void BtnPedidos_Pressed(object sender, EventArgs e)
+        {
+            BtnPedidos.BackgroundColor = Color.Gray;
+        }
+
+        private void BtnVerPedidos_Pressed(object sender, EventArgs e)
+        {
+            BtnVerPedidos.BackgroundColor = Color.Gray;
+        }
+
+        private void BtnControlMar_Pressed(object sender, EventArgs e)
+        {
+            BtnControlMar.BackgroundColor = Color.Gray;
+        }
+
+        private void BtnVerControlMar_Pressed(object sender, EventArgs e)
+        {
+            BtnVerControlMar.BackgroundColor = Color.Gray;
+        }
+
+        private void BtnRegistro_Pressed(object sender, EventArgs e)
+        {
+            BtnRegistro.BackgroundColor = Color.Gray;
+        }
+
+        private void BtnVerRegistros_Pressed(object sender, EventArgs e)
+        {
+            BtnVerRegistros.BackgroundColor = Color.Gray;
+        }
+
+        private void BtnVerSalidas_Pressed(object sender, EventArgs e)
+        {
+            BtnVerSalidas.BackgroundColor = Color.Gray;
+        }
+
+        private void BtnVerBitacora_Pressed(object sender, EventArgs e)
+        {
+            BtnVerBitacora.BackgroundColor = Color.Gray;
+        }
     }
 }

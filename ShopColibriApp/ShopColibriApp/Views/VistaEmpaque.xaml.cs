@@ -93,5 +93,13 @@ namespace ShopColibriApp.Views
             Filtro = SbBuscarUsu.Text;
             CargarListaEmpaques();
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            Navigation.PushAsync(new MainPage());
+
+            // Retornar true para indicar que se ha manejado el evento del botón "Back"
+            return true;
+        }
     }
 }

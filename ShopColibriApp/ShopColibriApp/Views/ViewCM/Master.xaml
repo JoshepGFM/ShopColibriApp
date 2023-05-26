@@ -24,18 +24,20 @@
                 <ScrollView x:Name="ScrollMenu" HeightRequest="360">
                     <Frame>
                         <StackLayout>
-                            <Button x:Name="BtnInicio" Text="Inicio" BackgroundColor="Transparent" ImageSource="Inicio.png" Clicked="BtnInicio_Clicked"/>
-                            <Button x:Name="BtnRegisUsu" Text="Usuarios" BackgroundColor="Transparent" ImageSource="verificarReg.png" Clicked="BtnRegisUsu_Clicked"/>
-                            <Button x:Name="BtnProductos" Text="Productos" BackgroundColor="Transparent" ImageSource="Product.png" Clicked="BtnProductos_Clicked" />
-                            <Button x:Name="BtnNuevosPro" Text="Stocks Productos" BackgroundColor="Transparent" ImageSource="Stock.png" Clicked="BtnNuevosPro_Clicked" IsVisible="false"/>
-                            <Button x:Name="BtnInventario" Text="Inventario" BackgroundColor="Transparent" ImageSource="Inventario.png" Clicked="BtnInventario_Clicked"/>
-                            <Button x:Name="BtnEmpaque" Text="Empaques" BackgroundColor="Transparent" ImageSource="empaque.png" Clicked="BtnEmpaque_Clicked"/>
-                            <Button x:Name="BtnPedidos" Text="Pedidos" BackgroundColor="Transparent" ImageSource="pedidos.png" Clicked="BtnPedidos_Clicked"/>
-                            <Button x:Name="BtnVerPedidos" Text="ver Pedidos" BackgroundColor="Transparent" ImageSource="verPedidos.png" Clicked="BtnVerPedidos_Clicked"/>
-                            <Button x:Name="BtnControlMar" Text="Control de Marmita" BackgroundColor="Transparent" ImageSource="ControlMar.png" Clicked="BtnControlMar_Clicked"/>
-                            <Button x:Name="BtnVerControlMar" Text="Ver Controles de Marmita" BackgroundColor="Transparent" ImageSource="Vercontrol.png" Clicked="BtnVerControlMar_Clicked"/>
-                            <Button x:Name="BtnRegistro" Text="Registros" BackgroundColor="Transparent" ImageSource="registro.png" Clicked="BtnRegistro_Clicked"/>
-                            <Button x:Name="BtnVerRegistros" Text="Ver Registros" BackgroundColor="Transparent" ImageSource="VerRegistro.png" Clicked="BtnVerRegistros_Clicked"/>
+                            <Button x:Name="BtnInicio" Text="Inicio" BackgroundColor="Transparent" Pressed="BtnInicio_Pressed" ImageSource="Inicio.png" Clicked="BtnInicio_Clicked"/>
+                            <Button x:Name="BtnRegisUsu" Text="Usuarios" BackgroundColor="Transparent" Pressed="BtnRegisUsu_Pressed" ImageSource="verificarReg.png" Clicked="BtnRegisUsu_Clicked"/>
+                            <Button x:Name="BtnProductos" Text="Productos" BackgroundColor="Transparent" Pressed="BtnProductos_Pressed" ImageSource="Product.png" Clicked="BtnProductos_Clicked" />
+                            <Button x:Name="BtnNuevosPro" Text="Stocks Productos" BackgroundColor="Transparent" Pressed="BtnNuevosPro_Pressed" ImageSource="Stock.png" Clicked="BtnNuevosPro_Clicked" IsVisible="false"/>
+                            <Button x:Name="BtnInventario" Text="Inventario" BackgroundColor="Transparent" Pressed="BtnInventario_Pressed" ImageSource="Inventario.png" Clicked="BtnInventario_Clicked"/>
+                            <Button x:Name="BtnEmpaque" Text="Empaques" BackgroundColor="Transparent" Pressed="BtnEmpaque_Pressed" ImageSource="empaque.png" Clicked="BtnEmpaque_Clicked"/>
+                            <Button x:Name="BtnPedidos" Text="Pedidos" BackgroundColor="Transparent" Pressed="BtnPedidos_Pressed" ImageSource="pedidos.png" Clicked="BtnPedidos_Clicked"/>
+                            <Button x:Name="BtnVerPedidos" Text="ver Pedidos" BackgroundColor="Transparent" Pressed="BtnVerPedidos_Pressed" ImageSource="verPedidos.png" Clicked="BtnVerPedidos_Clicked"/>
+                            <Button x:Name="BtnControlMar" Text="Control de Marmita" BackgroundColor="Transparent" Pressed="BtnControlMar_Pressed" ImageSource="ControlMar.png" Clicked="BtnControlMar_Clicked"/>
+                            <Button x:Name="BtnVerControlMar" Text="Ver Controles de Marmita" BackgroundColor="Transparent" Pressed="BtnVerControlMar_Pressed" ImageSource="Vercontrol.png" Clicked="BtnVerControlMar_Clicked"/>
+                            <Button x:Name="BtnRegistro" Text="Registros" BackgroundColor="Transparent" Pressed="BtnRegistro_Pressed" ImageSource="registro.png" Clicked="BtnRegistro_Clicked"/>
+                            <Button x:Name="BtnVerRegistros" Text="Ver Registros" BackgroundColor="Transparent" Pressed="BtnVerRegistros_Pressed" ImageSource="VerRegistro.png" Clicked="BtnVerRegistros_Clicked"/>
+                            <Button x:Name="BtnVerSalidas" Text="Ver Salidas" BackgroundColor="Transparent" Pressed="BtnVerSalidas_Pressed" ImageSource="VerRegistro.png" Clicked="BtnVerSalidas_Clicked"/>
+                            <Button x:Name="BtnVerBitacora" Text="Bitacora" BackgroundColor="Transparent" Pressed="BtnVerBitacora_Pressed" ImageSource="VerRegistro.png" Clicked="BtnVerBitacora_Clicked"/>
                         </StackLayout>
                     </Frame>
                 </ScrollView>

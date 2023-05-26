@@ -27,5 +27,13 @@ namespace ShopColibriApp.Views
         {
             await Navigation.PushAsync(new Recuperacion());
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            Navigation.PushAsync(new MainPage());
+
+            // Retornar true para indicar que se ha manejado el evento del botón "Back"
+            return true;
+        }
     }
 }
