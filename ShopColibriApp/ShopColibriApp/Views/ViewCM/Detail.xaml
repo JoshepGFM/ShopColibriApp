@@ -4,7 +4,7 @@
              x:Class="ShopColibriApp.Views.ViewCM.Detail">
     <ContentPage.Content>
         <StackLayout>
-            <Frame >
+            <Frame HeightRequest="40">
                 <StackLayout Orientation="Horizontal">
                     <SearchBar x:Name="SbBuscarPro" Placeholder="Buscar Producto" TextChanged="SbBuscarPro_TextChanged"/>
                     <StackLayout HorizontalOptions="EndAndExpand">
@@ -98,9 +98,6 @@
                          VerticalOptions="EndAndExpand" Clicked="BtnAgregar_Clicked" BackgroundColor="Green" 
                          CornerRadius="2000"/>
                 </Frame>
-                <StackLayout>
-                    
-                </StackLayout>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

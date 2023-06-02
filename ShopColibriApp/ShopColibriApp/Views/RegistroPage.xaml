@@ -1,12 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ShopColibriApp.Views.RegistroPage">
+             x:Class="ShopColibriApp.Views.RegistroPage"
+             xmlns:GlobalVl ="clr-namespace:ShopColibriApp.Views.ViewGlo"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <Grid>
+            <GlobalVl:Degradado/>
             <StackLayout>
-                <Label Text="Registro" TextColor="DarkCyan" FontSize="23" FontAttributes="Bold" 
-                       HorizontalTextAlignment="Center"/>
+                <Label x:Name="LblTituloRegistro" Text="Crear Registro" TextColor="DarkCyan" FontSize="30" FontAttributes="Bold" 
+                       HorizontalTextAlignment="Center" Margin="0,40,0,0" />
             </StackLayout>
             <StackLayout VerticalOptions="Center">
                 <Picker x:Name="PckUsuario" ItemDisplayBinding="{Binding Nombre}" Title="Seleccione el Usuario"/>

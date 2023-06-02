@@ -43,6 +43,10 @@ namespace ShopColibriApp.Views
             PedidosDTO list = e.SelectedItem as PedidosDTO;
             if (list != null)
             {
+                for(int i = 0; i < list.inventarios.Count; ++i)
+                {
+                    list.inventarios[i].priImagen = "https://drive.google.com/uc?id=" + list.inventarios[i].priImagen;
+                }
                 GlobalObject.GloPedidosDTO = list;
                 FmModificar.IsVisible = true;
             }

@@ -157,7 +157,7 @@ namespace ShopColibriApp.Views
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se a ingresado el registro con éxito", "OK");
-                    await Navigation.PopAsync();
+                    await Navigation.PushAsync(new VistaRegistro());
                 }
                 else
                 {
@@ -232,7 +232,7 @@ namespace ShopColibriApp.Views
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se a modificado el registro con éxito", "OK");
-                    await Navigation.PopToRootAsync();
+                    await Navigation.PushAsync(new VistaRegistro());
                 }
                 else
                 {
@@ -256,7 +256,7 @@ namespace ShopColibriApp.Views
 
         protected override bool OnBackButtonPressed()
         {
-            Navigation.PushAsync(new MainPage());
+            Navigation.PushAsync(new VistaRegistro());
 
             // Retornar true para indicar que se ha manejado el evento del botón "Back"
             return true;

@@ -1,12 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ShopColibriApp.Views.VistaEmpaque">
+             x:Class="ShopColibriApp.Views.VistaEmpaque"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <StackLayout>
             <Frame >
                 <StackLayout Orientation="Horizontal">
-                    <SearchBar x:Name="SbBuscarUsu" Placeholder="Buscar Usuario" TextChanged="SbBuscarUsu_TextChanged"/>
+                    <SearchBar x:Name="SbBuscarUsu" Placeholder="Buscar Empaque" TextChanged="SbBuscarUsu_TextChanged"/>
                     <StackLayout HorizontalOptions="EndAndExpand">
                         <Label x:Name="LblStock" Text="En stock" FontSize="10" HorizontalTextAlignment="Center"/>
                         <Switch x:Name="SwAvtivos" HorizontalOptions="CenterAndExpand" Toggled="SwAvtivos_Toggled"  IsToggled="True" />

@@ -14,8 +14,8 @@
             <Grid Grid.RowSpan="2">
                 <GlobalV:Degradado/>
                 
-                <ListView x:Name="LvlListarProducto" RowHeight="140"
-                          ItemSelected="LvlListarProducto_ItemSelected" SelectedItem="">
+                <ListView x:Name="LvlListarProducto" RowHeight="140" ItemSelected="LvlListarProducto_ItemSelected" 
+                          IsPullToRefreshEnabled="True" Refreshing="LvlListarProducto_Refreshing">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>

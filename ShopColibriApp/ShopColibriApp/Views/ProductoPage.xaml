@@ -8,12 +8,16 @@
     <ContentPage.Content>
         <Grid>
             <GlobalV:Degradado/>
+            <Label x:Name="LblTituloProducto" Text="Crear Producto" HorizontalOptions="Center" FontSize="30" 
+                   TextColor="DarkCyan" Margin="0,40,0,0" FontAttributes="Bold"/>
             <Grid IsVisible="{Binding Conectado}">
                 <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" WidthRequest="350">
                     <Entry x:Name="TxtNombre" Placeholder="Nombre de producto" HorizontalTextAlignment="Center"/>
                     <Entry x:Name="TxtDescripcion" Placeholder="Descripcion de producto" HorizontalTextAlignment="Center"/>
-                    <Button x:Name="BtnIngresar" Text="Inngresar" CornerRadius="50" BackgroundColor="ForestGreen" FontSize="Body" BorderColor="Gray" BorderWidth="2" Clicked="BtnIngresar_Clicked" Margin="0" Padding="30,0"/>
-                    <Button x:Name="BtnModificar" Text="Modificar" CornerRadius="50" BackgroundColor="LightGoldenrodYellow" FontSize="Body" BorderColor="Gray" BorderWidth="2" Clicked="BtnModificar_Clicked"/>
+                    <Button x:Name="BtnIngresar" Text="Inngresar" CornerRadius="50" BackgroundColor="ForestGreen" 
+                            FontSize="Body" BorderColor="Gray" BorderWidth="2" Clicked="BtnIngresar_Clicked" Margin="0" Padding="30,0"/>
+                    <Button x:Name="BtnModificar" Text="Modificar" CornerRadius="50" BackgroundColor="LightGoldenrodYellow" 
+                            FontSize="Body" BorderColor="Gray" BorderWidth="2" Clicked="BtnModificar_Clicked"/>
                 </StackLayout>
             </Grid>
             <GlobalV:notConnection IsVisible="{Binding Desconectado}"/>

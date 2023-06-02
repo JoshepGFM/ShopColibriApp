@@ -4,11 +4,15 @@
              x:Class="ShopColibriApp.Views.InventarioPage"
              xmlns:GlobalV ="clr-namespace:ShopColibriApp.Views.ViewGlo"
              xmlns:carrusel="clr-namespace:Xamd.ImageCarousel.Forms.Plugin.Abstractions;assembly=Xamd.ImageCarousel.Forms.Plugin.Abstractions"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
              >
     <ContentPage.Content>
         <Grid >
             <GlobalV:Degradado/>
             <StackLayout VerticalOptions="CenterAndExpand">
+                <Label x:Name="LblTituloInventario" Text="Crear Inventario" HorizontalOptions="Center" FontSize="30" 
+                       TextColor="DarkCyan" FontAttributes="Bold"/>
                 <Picker x:Name="PckProducto" Title="Seleccione Producto" ItemDisplayBinding="{Binding Nombre}"/>
                 <DatePicker x:Name="DpckFecha"/>
                 <Label Text="Stock:" FontAttributes="Bold" VerticalTextAlignment="Center"/>

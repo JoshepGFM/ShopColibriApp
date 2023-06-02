@@ -159,8 +159,10 @@ namespace ShopColibriApp.Views.ViewCM
 
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    await DisplayAlert("Mensaje", "Presionaste el botón 'Back'.", "Aceptar");
-                    Process.GetCurrentProcess().Kill();
+                    if (await DisplayAlert("Mensaje", "Quiere cerrar la aplicación", "SI", "NO"))
+                    {
+                        Process.GetCurrentProcess().Kill();
+                    }
                 });
 
             // Retornar true para indicar que se ha manejado el evento del botón "Back"

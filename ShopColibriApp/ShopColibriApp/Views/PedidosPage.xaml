@@ -2,12 +2,13 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShopColibriApp.Views.PedidosPage"
-             xmlns:carrusel="clr-namespace:Xamd.ImageCarousel.Forms.Plugin.Abstractions;assembly=Xamd.ImageCarousel.Forms.Plugin.Abstractions">
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <Grid>
             <StackLayout>
                 <StackLayout Orientation="Vertical">
-                    <Label x:Name="LblTitulo" Text="Crear Pedido" FontSize="25" TextColor="DarkCyan" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    <Label x:Name="LblTituloPedido" Text="Crear Pedido" FontSize="25" TextColor="DarkCyan" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                     <StackLayout Orientation="Horizontal" Spacing="5" HorizontalOptions="FillAndExpand">
                         <DatePicker x:Name="PckFecha" HorizontalOptions="StartAndExpand"/>
                     </StackLayout>
@@ -37,9 +38,8 @@
                                                             <ColumnDefinition Width="*"/>
                                                         </Grid.ColumnDefinitions>
 
-                                                        <Frame Grid.Column="0" WidthRequest="80" HeightRequest="100">
-                                                            <carrusel:ImageCarousel x:Name="ImgProductos" />
-                                                        </Frame>
+                                                        <Image Source="{Binding priImagen}" Grid.Column="0" WidthRequest="120" HeightRequest="130"/>
+                                                        
                                                         <StackLayout Grid.Column="1">
                                                             <StackLayout Orientation="Vertical">
                                                                 <Label Grid.Column="1"

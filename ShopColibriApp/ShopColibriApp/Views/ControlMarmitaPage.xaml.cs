@@ -183,7 +183,7 @@ namespace ShopColibriApp.Views
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se a registrado el control de Marmita con éxito", "OK");
-                    await Navigation.PopAsync();
+                    await Navigation.PushAsync(new VistaControlMarmita());
                 }
                 else
                 {
@@ -242,7 +242,7 @@ namespace ShopColibriApp.Views
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se a modificado el control de Marmita con éxito", "OK");
-                    await Navigation.PopAsync();
+                    await Navigation.PushAsync(new VistaControlMarmita());
                 }
                 else
                 {
@@ -260,7 +260,7 @@ namespace ShopColibriApp.Views
 
         protected override bool OnBackButtonPressed()
         {
-            Navigation.PushAsync(new MainPage());
+            Navigation.PushAsync(new VistaControlMarmita());
 
             // Retornar true para indicar que se ha manejado el evento del botón "Back"
             return true;

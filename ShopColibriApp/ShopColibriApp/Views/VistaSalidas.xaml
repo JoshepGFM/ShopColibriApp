@@ -6,23 +6,36 @@
         <StackLayout>
             <Frame BorderColor="Black" Padding="5" Margin="3">
                 <StackLayout>
+                    <Label Text="Parametros de busqueda:" FontAttributes="Bold"/>
                     <Frame Padding="0" BorderColor="Black" CornerRadius="10">
                         <StackLayout Spacing="0" >
                             <Label Text="Fecha inicial:" FontSize="10" Margin="20,5,0,0"/>
-                            <DatePicker HeightRequest="41"/>
+                            <DatePicker x:Name="DtpInicio" HeightRequest="41"/>
                         </StackLayout>
                     </Frame>
                     <Frame Padding="0" BorderColor="Black" CornerRadius="10">
                         <StackLayout Spacing="0">
                             <Label Text="Fecha final:" FontSize="10" Margin="20,5,0,0"/>
-                            <DatePicker HeightRequest="41"/>
+                            <DatePicker x:Name="DtpFinal" HeightRequest="41"/>
                         </StackLayout>
                     </Frame>
+                    <StackLayout Orientation="Horizontal">
+                        <Frame Padding="0" BorderColor="Black" CornerRadius="10" WidthRequest="330">
+                            <StackLayout Spacing="0">
+                                <Label Text="Producto:" FontSize="10" Margin="20,5,0,0"/>
+                                <Picker x:Name="PckProducto" Title="Seleccione un Producto" ItemDisplayBinding="{Binding Nombre}"/>
+                            </StackLayout>
+                        </Frame>
+                        <StackLayout>
+                            <Label Text="Todo" FontAttributes="Bold"/>
+                            <Switch x:Name="CkbTodo" IsToggled="False" Toggled="CkbTodo_Toggled"/>
+                        </StackLayout>
+                    </StackLayout>
                 </StackLayout>
             </Frame>
             <Grid Grid.RowSpan="2">
                 <ScrollView HeightRequest="700">
-                    <ListView x:Name="LvlListaBitacora" RowHeight="200"
+                    <ListView x:Name="LvlListaBitacora" RowHeight="120" SelectionMode="None"
                               ItemSelected="LvlListaBitacora_ItemSelected" IsPullToRefreshEnabled="True" Refreshing="LvlListaBitacora_Refreshing">
                         <ListView.ItemTemplate>
                             <DataTemplate>
@@ -36,153 +49,19 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0"
-                                               Text="{Binding Fecha}"
-                                               FontAttributes="Bold"
-                                                   FontSize="15"
-                                                   TextColor="DarkCyan"
-                                                   WidthRequest="80"
-                                                   HorizontalTextAlignment="Center"/>
-                                        <StackLayout Grid.Row="1">
-                                            <StackLayout Spacing="2">
-                                                <Label Text="Total horas:"
-                                               FontAttributes="Bold"
-                                                   FontSize="15"
-                                                   TextColor="DarkCyan"
-                                                   WidthRequest="80"
-                                                   HorizontalTextAlignment="Center"/>
-                                                <Label Text="{Binding TotalHoras}"
-                                                   FontSize="15"
-                                                   TextColor="OrangeRed"
-                                                   WidthRequest="80"
-                                                   HorizontalTextAlignment="Center"/>
-                                            </StackLayout>
-                                            <StackLayout VerticalOptions="EndAndExpand">
-                                                <Label Text="Total"
-                                               FontAttributes="Bold"
-                                                   FontSize="15"
-                                                   TextColor="DarkCyan"
-                                                   WidthRequest="80"
-                                                   HorizontalTextAlignment="Center"/>
-                                                <Label Text="{Binding Total}"
-                                                   FontSize="15"
-                                                   TextColor="OrangeRed"
-                                                   WidthRequest="80"
-                                                   HorizontalTextAlignment="Center"/>
-                                            </StackLayout>
+                                        <StackLayout Grid.Column="0" Grid.Row="0"
+                                                     Orientation="Horizontal">
+                                            <Label Text="Fecha:"/>
+                                            <Label Text="{Binding Fecha}"/>
                                         </StackLayout>
-                                        <StackLayout Grid.Column="1" Grid.Row="0" VerticalOptions="Center" 
-                                                         HorizontalOptions="Center" Orientation="Horizontal"
-                                                         HeightRequest="70">
-                                            <Frame WidthRequest="70" Padding="5">
-                                                <StackLayout>
-                                                    <Label
-                                               Text="Lunes"
-                                               FontAttributes="Bold"
-                                                   FontSize="15"
-                                                   TextColor="Black"
-                                                        HorizontalOptions="Center"/>
-                                                    <Label
-                                               Text="{Binding HorasL}"
-                                                   FontSize="15"
-                                                   TextColor="DarkCyan"
-                                                        HorizontalOptions="Center"/>
-                                                </StackLayout>
-                                            </Frame>
-                                            <Frame WidthRequest="70" Padding="5">
-                                                <StackLayout>
-                                                    <Label
-                                               Text="Martes"
-                                               FontAttributes="Bold"
-                                                   FontSize="15"
-                                                   TextColor="Black"
-                                                        HorizontalOptions="Center"/>
-                                                    <Label
-                                               Text="{Binding HorasX}"
-                                                   FontSize="15"
-                                                   TextColor="DarkCyan"
-                                                        HorizontalOptions="Center"/>
-                                                </StackLayout>
-                                            </Frame>
-                                            <Frame WidthRequest="70" Padding="5">
-                                                <StackLayout>
-                                                    <Label
-                                               Text="Miercoles"
-                                               FontAttributes="Bold"
-                                                   FontSize="15"
-                                                   TextColor="Black"
-                                                        HorizontalOptions="Center"/>
-                                                    <Label
-                                               Text="{Binding HorasM}"
-                                                   FontSize="15"
-                                                   TextColor="DarkCyan"
-                                                        HorizontalOptions="Center"/>
-                                                </StackLayout>
-                                            </Frame>
-                                        </StackLayout>
-                                        <StackLayout Grid.Column="1" Grid.Row="1">
-                                            <StackLayout VerticalOptions="CenterAndExpand" 
-                                                         HorizontalOptions="CenterAndExpand" Orientation="Horizontal"
-                                                         HeightRequest="70">
-                                                <Frame WidthRequest="70" Padding="5">
-                                                    <StackLayout>
-                                                        <Label
-                                               Text="Jueves"
-                                               FontAttributes="Bold"
-                                                   FontSize="15"
-                                                   TextColor="Black"
-                                                        HorizontalOptions="Center"/>
-                                                        <Label
-                                               Text="{Binding HorasJ}"
-                                                   FontSize="15"
-                                                   TextColor="DarkCyan"
-                                                        HorizontalOptions="Center"/>
-                                                    </StackLayout>
-                                                </Frame>
-                                                <Frame WidthRequest="70" Padding="5">
-                                                    <StackLayout>
-                                                        <Label
-                                               Text="Viernes"
-                                               FontAttributes="Bold"
-                                                   FontSize="15"
-                                                   TextColor="Black"
-                                                        HorizontalOptions="Center"/>
-                                                        <Label
-                                               Text="{Binding HorasV}"
-                                                   FontSize="15"
-                                                   TextColor="DarkCyan"
-                                                        HorizontalOptions="Center"/>
-                                                    </StackLayout>
-                                                </Frame>
-                                                <Frame WidthRequest="70" Padding="5">
-                                                    <StackLayout>
-                                                        <Label
-                                               Text="Sabado"
-                                               FontAttributes="Bold"
-                                                   FontSize="15"
-                                                   TextColor="Black"
-                                                        HorizontalOptions="Center"/>
-                                                        <Label
-                                               Text="{Binding HorasS}"
-                                                   FontSize="15"
-                                                   TextColor="DarkCyan"
-                                                        HorizontalOptions="Center"/>
-                                                    </StackLayout>
-                                                </Frame>
+                                        <StackLayout Grid.Column="0" Grid.Row="1" WidthRequest="400" Orientation="Vertical" Spacing="5">
+                                            <StackLayout HeightRequest="30" VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand">
+                                                <Label Text="Referencia:"/>
+                                                <Label Text="{Binding ObjetoRef}"/>
                                             </StackLayout>
-                                            <StackLayout Orientation="Horizontal">
-                                                <Label
-                                               Text="Nombre"
-                                               FontAttributes="Bold"
-                                                   FontSize="15"
-                                                   TextColor="Black"
-                                                        HorizontalOptions="Center"
-                                                        Margin="20,0,0,0"/>
-                                                <Label
-                                               Text="{Binding UsuarioName}"
-                                                   FontSize="15"
-                                                   TextColor="DarkCyan"
-                                                        HorizontalOptions="Center"/>
+                                            <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand" Orientation="Horizontal">
+                                                <Label Text="Salida:"/>
+                                                <Label Text="{Binding Salida}" FontAttributes="Bold"/>
                                             </StackLayout>
                                         </StackLayout>
                                     </Grid>
@@ -201,6 +80,17 @@
                         <Label x:Name="LblTotal" Text="0" FontSize="20" FontAttributes="Bold"
                                TextColor="Black"/>
                     </StackLayout>
+                </Frame>
+                <Frame CornerRadius="2000" 
+                       Padding="6" 
+                       Margin="0,0,10,10"
+                       HorizontalOptions="End" 
+                       VerticalOptions="End"
+                       HeightRequest="35"
+                       WidthRequest="35" BorderColor="Black">
+                    <ImageButton Source="recargar.png" 
+                                 Clicked="ImageButton_Clicked"
+                                 BackgroundColor="Transparent"/>
                 </Frame>
             </Grid>
         </StackLayout>

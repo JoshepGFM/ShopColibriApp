@@ -29,6 +29,7 @@ namespace ShopColibriApp.Views
                 TxtNombre.Text = GlobalObject.GloProd.Nombre;
                 TxtDescripcion.Text = GlobalObject.GloProd.Descripcion;
                 BtnModificar.IsVisible = true;
+                LblTituloProducto.Text = "Modificar Producto";
                 BtnIngresar.IsVisible = false;
             }
             else
@@ -55,7 +56,7 @@ namespace ShopColibriApp.Views
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se Ingreso el producto con éxito", "OK");
-                    await Navigation.PopAsync();
+                    await Navigation.PushAsync(new VistaProductosPage());
                 }
                 else
                 {
@@ -101,13 +102,21 @@ namespace ShopColibriApp.Views
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se Modifico el producto con éxito", "OK");
-                    await Navigation.PopAsync();
+                    await Navigation.PushAsync(new VistaProductosPage());
                 }
                 else
                 {
                     await DisplayAlert("Error de ingreso", "No se pudo Modificar el producto", "OK");
                 }
             }
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            Navigation.PushAsync(new VistaProductosPage());
+
+            // Retornar true para indicar que se ha manejado el evento del botón "Back"
+            return true;
         }
     }
 }

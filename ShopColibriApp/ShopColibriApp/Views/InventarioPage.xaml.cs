@@ -274,6 +274,7 @@ namespace ShopColibriApp.Views
                     GlobalObject.GloImagenes.Clear();
                 }
                 BtnGuardar.IsVisible = false;
+                LblTituloInventario.Text = "Modificar Inventario";
                 BtnModificar.IsVisible = true;
             }
             if(GlobalObject.GLoInventario != null)
@@ -393,7 +394,7 @@ namespace ShopColibriApp.Views
                         if (R)
                         {
                             await DisplayAlert("Validación exitosa", "Se modifico el Inventario correctamente", "OK");
-                            await Navigation.PopToRootAsync();
+                            await Navigation.PushAsync(new MainPage());
                         }
                         else
                         {
@@ -413,7 +414,7 @@ namespace ShopColibriApp.Views
                                 if (R)
                                 {
                                     await DisplayAlert("Validación exitosa", "Se modifico el Inventario correctamente", "OK");
-                                    await Navigation.PopToRootAsync();
+                                    await Navigation.PushAsync(new MainPage());
                                 }
                                 else
                                 {
@@ -444,7 +445,7 @@ namespace ShopColibriApp.Views
                                 {
                                     await DisplayAlert("Error Guardado", "Se tubo problemas al guardar la imagen", "OK");
                                 }
-                                await Navigation.PopToRootAsync();
+                                await Navigation.PushAsync(new MainPage());
                             }
                             else
                             {

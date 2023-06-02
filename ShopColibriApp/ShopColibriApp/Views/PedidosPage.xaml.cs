@@ -57,6 +57,7 @@ namespace ShopColibriApp.Views
                     MiUsuario = GlobalObject.GloPedidosDTO.Usuario;
                 }
                 BtnGuardar.IsVisible = false;
+                LblTituloPedido.Text = "Modificar Pedido";
                 BtnModificar.IsVisible = true;
             }
             else
@@ -133,7 +134,7 @@ namespace ShopColibriApp.Views
                     GlobalObject.GloUsuPedi = new Usuario();
                     MiUsuario = new Usuario();
                     await DisplayAlert("Validación exitosa", "Se a ingresado el pedido con éxito", "OK");
-                    await Navigation.PopAsync();
+                    await Navigation.PushAsync(new VistaPedidoPage());
                 }
                 else
                 {
@@ -237,7 +238,7 @@ namespace ShopColibriApp.Views
                     GlobalObject.GloUsuPedi = new Usuario();
                     MiUsuario = new Usuario();
                     await DisplayAlert("Validación exitosa", "Se a modificado el pedido con éxito", "OK");
-                    await Navigation.PopAsync();
+                    await Navigation.PushAsync(new VistaPedidoPage());
                 }
                 else
                 {
@@ -248,7 +249,7 @@ namespace ShopColibriApp.Views
 
         protected override bool OnBackButtonPressed()
         {
-            Navigation.PushAsync(new MainPage());
+            Navigation.PushAsync(new VistaPedidoPage());
 
             // Retornar true para indicar que se ha manejado el evento del botón "Back"
             return true;

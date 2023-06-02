@@ -16,6 +16,7 @@ namespace ShopColibriApp.ViewModels
         PedidosDTO MiPedidosDTO { get; set; }
         PedidosInventario MiPedidosInve { get; set; }
         InventarioViewModel ivm { get; set; }
+        ViewModelBitacoraSalida vmb { get; set; }
         public PedidosViewModel()
         {
             ValidarConexionInternet();
@@ -24,6 +25,7 @@ namespace ShopColibriApp.ViewModels
             MiPedidosDTO = new PedidosDTO();
             MiPedidosInve = new PedidosInventario();
             ivm = new InventarioViewModel();
+            vmb = new ViewModelBitacoraSalida();
         }
 
         public async Task<ObservableCollection<PedidosDTO>> GetPedidosBusqueda(string? Filtro)
@@ -86,7 +88,13 @@ namespace ShopColibriApp.ViewModels
                         T = await ivm.PutInventario(pIventario[i].Id, pIventario[i].Fecha, restaStock, pIventario[i].Precio, 
                             pIventario[i].Origen, pIventario[i].ProductoCodigo, pIventario[i].EmpaqueId);
                     }
-
+                    string usu = GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2;
+                    string objetoRef = usu + " realizo un pedido de " + pIventario[i].Cantidad + " '" + pIventario[i].NombrePro + "'. En el pedido " + codigo;
+                    bool U = await vmb.PostBitacoraSalidas(DateTime.Now, objetoRef, pIventario[i].Cantidad);
+                    if (!U)
+                    {
+                        await DisplayAlert("Error de validación", "Error de Bitácora de Salida", "OK");
+                    }
                 }
                 if (!T)
                 {
@@ -292,6 +300,9 @@ namespace ShopColibriApp.ViewModels
                 for (int i = 0; i < list.Count; i++)
                 {
                     T = await MiPedidosInve.DeletePedidosInventario(list[i].DetalleId);
+                    string usu = GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2;
+                    string objetoRef = usu + " elimino un pedido de " + list[i].Cantidad + " '" + GlobalObject.GloPedidosDTO.inventarios[i].NombrePro + "'. En el pedido cod." + pId;
+                    bool U = await vmb.PostBitacoraSalidas(DateTime.Now, objetoRef, -list[i].Cantidad);
                 }
                 if (!T)
                 {

@@ -93,7 +93,6 @@ namespace ShopColibriApp.Views.ViewCM
                         BtnPedidos.IsVisible = true;
                         BtnControlMar.IsVisible = true;
                         BtnRegistro.IsVisible = true;
-                        BtnVerRegistros.IsVisible = true;
                     }
                     else
                     {
@@ -112,7 +111,6 @@ namespace ShopColibriApp.Views.ViewCM
                     BtnPedidos.IsVisible = false;
                     BtnControlMar.IsVisible = false;
                     BtnRegistro.IsVisible = false;
-                    BtnVerRegistros.IsVisible = false;
                     ScrollMenu.HeightRequest = 80;
                 }
             }
@@ -151,17 +149,7 @@ namespace ShopColibriApp.Views.ViewCM
             GlobalObject.GloPedidos_Cont = new Models.Pedidos();
             GlobalObject.GloPedidosDTO = new Models.PedidosDTO();
             GlobalObject.GloUsuPedi = new Usuario();
-            await App.MasterDet.Detail.Navigation.PushAsync(new PedidosPage());
-        }
-
-        private async void BtnControlMar_Clicked(object sender, EventArgs e)
-        {
-            App.MasterDet.IsPresented = false;
-            GlobalObject.GloListUsu.Clear();
-            GlobalObject.GloControMarmi = new Models.ControlMarmita();
-            GlobalObject.GloControMarmi_Cont = new Models.ControlMarmita();
-            GlobalObject.GloControlMarDTO = new Models.ControlMarmitaDTO();
-            await App.MasterDet.Detail.Navigation.PushAsync(new ControlMarmitaPage());
+            await App.MasterDet.Detail.Navigation.PushAsync(new VistaPedidoPage());
         }
 
         private void BtnPedido_Clicked(object sender, EventArgs e)
@@ -175,7 +163,7 @@ namespace ShopColibriApp.Views.ViewCM
         private async void BtnRegistro_Clicked(object sender, EventArgs e)
         {
             App.MasterDet.IsPresented = false;
-            GlobalObject.GloRegistro = null;
+            GlobalObject.GloRegistro = new Models.Registro();
             await App.MasterDet.Detail.Navigation.PushAsync(new RegistroPage());
         }
 
@@ -209,79 +197,9 @@ namespace ShopColibriApp.Views.ViewCM
             await Navigation.PushAsync(new VistaSalidas());
         }
 
-        private void BtnVerBitacora_Clicked(object sender, EventArgs e)
+        private async void BtnVerBitacora_Clicked(object sender, EventArgs e)
         {
-
-        }
-
-        private void BtnInicio_Pressed(object sender, EventArgs e)
-        {
-            BtnInicio.BackgroundColor = Color.Gray;
-        }
-
-        private void BtnRegisUsu_Pressed(object sender, EventArgs e)
-        {
-            BtnRegisUsu.BackgroundColor = Color.Gray;
-        }
-
-        private void BtnProductos_Pressed(object sender, EventArgs e)
-        {
-            BtnProductos.BackgroundColor = Color.Gray;
-        }
-
-        private void BtnNuevosPro_Pressed(object sender, EventArgs e)
-        {
-            BtnNuevosPro.BackgroundColor = Color.Gray;
-        }
-
-        private void BtnInventario_Pressed(object sender, EventArgs e)
-        {
-            BtnInventario.BackgroundColor = Color.Gray;
-        }
-
-        private void BtnEmpaque_Pressed(object sender, EventArgs e)
-        {
-            BtnEmpaque.BackgroundColor = Color.Gray;
-        }
-
-        private void BtnPedidos_Pressed(object sender, EventArgs e)
-        {
-            BtnPedidos.BackgroundColor = Color.Gray;
-        }
-
-        private void BtnVerPedidos_Pressed(object sender, EventArgs e)
-        {
-            BtnVerPedidos.BackgroundColor = Color.Gray;
-        }
-
-        private void BtnControlMar_Pressed(object sender, EventArgs e)
-        {
-            BtnControlMar.BackgroundColor = Color.Gray;
-        }
-
-        private void BtnVerControlMar_Pressed(object sender, EventArgs e)
-        {
-            BtnVerControlMar.BackgroundColor = Color.Gray;
-        }
-
-        private void BtnRegistro_Pressed(object sender, EventArgs e)
-        {
-            BtnRegistro.BackgroundColor = Color.Gray;
-        }
-
-        private void BtnVerRegistros_Pressed(object sender, EventArgs e)
-        {
-            BtnVerRegistros.BackgroundColor = Color.Gray;
-        }
-
-        private void BtnVerSalidas_Pressed(object sender, EventArgs e)
-        {
-            BtnVerSalidas.BackgroundColor = Color.Gray;
-        }
-
-        private void BtnVerBitacora_Pressed(object sender, EventArgs e)
-        {
-            BtnVerBitacora.BackgroundColor = Color.Gray;
+            await Navigation.PushAsync(new VistaBitacora());
         }
     }
 }

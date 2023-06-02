@@ -18,11 +18,13 @@ namespace ShopColibriApp.Views.ViewCM
 	public partial class VistaUsuarios : ContentPage
 	{
 		UsuarioViewModel vm;
+        ViewModelBitacora vmb { get; set; }
 		private string? Filtro { get; set; }
 		public VistaUsuarios ()
 		{
 			InitializeComponent ();
 
+            vmb = new ViewModelBitacora();
 			BindingContext = vm = new UsuarioViewModel ();
 
             CargarListaUsuarios();
@@ -103,7 +105,9 @@ namespace ShopColibriApp.Views.ViewCM
                         if (FmIvalidar.BackgroundColor == Color.PaleVioletRed)
                         {
                             await DisplayAlert("Validación", "El usuario se Invalido correctamente", "OK");
-                            GlobalObject.GloUsu_Registro = null;
+                            await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                                " Inhabilito un Usuario. Usuario: " + GlobalObject.GloUsu_Registro.Nombre + " " + GlobalObject.GloUsu_Registro.Apellido1 + " " + GlobalObject.GloUsu_Registro.Apellido2);
+                            GlobalObject.GloUsu_Registro = new Usuario();
                             LvlListaUsuarios.BeginRefresh();
                             Task.Delay(2000);
                             LvlListaUsuarios.EndRefresh();
@@ -112,7 +116,9 @@ namespace ShopColibriApp.Views.ViewCM
                         if (FmIvalidar.BackgroundColor == Color.PaleGreen)
                         {
                             await DisplayAlert("Validación", "El usuario se Valido correctamente", "OK");
-                            GlobalObject.GloUsu_Registro = null;
+                            await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                                " Valido un Usuario. Usuario: " + GlobalObject.GloUsu_Registro.Nombre + " " + GlobalObject.GloUsu_Registro.Apellido1 + " " + GlobalObject.GloUsu_Registro.Apellido2);
+                            GlobalObject.GloUsu_Registro = new Usuario();
                             LvlListaUsuarios.BeginRefresh();
                             Task.Delay(2000);
                             LvlListaUsuarios.EndRefresh();
@@ -155,6 +161,7 @@ namespace ShopColibriApp.Views.ViewCM
             {
                 var item = (sender as MenuItem).CommandParameter;
                 int id = int.Parse(item.ToString());
+                Usuario usuarioDele = await vm.GetUsuarioId(id);
                 if (id != 1)
                 {
                     bool R = await vm.DeleteUsuario(id);
@@ -162,6 +169,8 @@ namespace ShopColibriApp.Views.ViewCM
                     {
                         CargarListaUsuarios();
                         await DisplayAlert("Verificación", "Se elimino el usuario con éxito", "OK");
+                        await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                          " Elimino un Usuario. Usuario: " + usuarioDele.Nombre + " " + usuarioDele.Apellido1 + " " + usuarioDele.Apellido2);
                     }
                     else
                     {

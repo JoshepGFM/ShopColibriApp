@@ -44,6 +44,14 @@ namespace ShopColibriApp.Views
                     }
                 }
             }
+            for (int i = 0; i < list.Count; ++i)
+            {
+                list[i].priImagen = "https://drive.google.com/uc?id=" + list[i].priImagen;
+                for (int j = 0; j < list[i].imagenes.Count; ++j)
+                {
+                    list[i].imagenes[j].Imagen1 = "https://drive.google.com/uc?id=" + list[i].imagenes[j].Imagen1;
+                }
+            }
             LvlListaInventario.ItemsSource = list;
         }
 
@@ -87,6 +95,7 @@ namespace ShopColibriApp.Views
                 pedidosCalcu.Cantidad = 0;
                 pedidosCalcu.Precio = 0;
                 pedidosCalcu.Total = 0;
+                pedidosCalcu.priImagen = inventarioDTO.priImagen;
                 int entrada = 0;
                 if (TxtCantidad.Text != null)
                 {

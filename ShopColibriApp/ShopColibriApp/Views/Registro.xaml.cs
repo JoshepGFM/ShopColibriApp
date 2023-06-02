@@ -17,9 +17,11 @@ namespace ShopColibriApp.Views
     public partial class Registro : ContentPage
     {
         UsuarioViewModel vm;
+        ViewModelBitacora vmb;
         public Registro()
         {
             InitializeComponent();
+            vmb = new ViewModelBitacora();
             BindingContext = vm = new UsuarioViewModel();
             CargarTusuario();
             ValidarNivel();
@@ -45,6 +47,7 @@ namespace ShopColibriApp.Views
                     SelectItem(GlobalObject.GloUsu_Registro.TusuarioId);
 
                     BtnRegistrar.IsVisible = false;
+                    LblTituloRegistro.Text = "Modificar Usuario";
                     BtnModificar.IsVisible = true;
                 }
                 else if(GlobalObject.GloUsu != null && !GlobalObject.AgregadoUsuSis)
@@ -95,7 +98,6 @@ namespace ShopColibriApp.Views
                 TxtContrasennia2.IsPassword = false;
             }
         }
-
 
         private bool ValidarElementos()
         {
@@ -354,6 +356,12 @@ namespace ShopColibriApp.Views
                         {
 
                             await DisplayAlert("Validación exitosa", "Se agrego con éxito el Usuario", "OK");
+                            string Usuario = "Se";
+                            if (GlobalObject.GloUsu.IdUsuario > 0)
+                            {
+                                Usuario = GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2;
+                            }
+                            await vmb.PostBitacora(DateTime.Now, Usuario + " Guardo un Usuario. Usuario: " + TxtNombre.Text + " " + TxtApellido1.Text + " " + TxtApellido2.Text);
                             await Navigation.PopAsync();
                         }
                         else
@@ -404,6 +412,8 @@ namespace ShopColibriApp.Views
                 {
                     GlobalObject.GloUsu_Registro = null;
                     await DisplayAlert("Validación exitosa", "Se Modifico con éxito el Usuario", "OK");
+                    await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                          " Modifico un Usuario. Usuario: " + usuario.Nombre + " " + usuario.Apellido1 + " " + usuario.Apellido2);
                     await Navigation.PopAsync();
                 }
                 else

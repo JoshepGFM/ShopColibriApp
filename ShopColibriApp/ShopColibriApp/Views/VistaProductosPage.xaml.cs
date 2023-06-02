@@ -69,6 +69,12 @@ namespace ShopColibriApp.Views
             }
         }
 
+        private void LvlListarProducto_Refreshing(object sender, EventArgs e)
+        {
+            CargarListaProducto();
+            LvlListarProducto.IsRefreshing = false;
+        }
+
         protected override bool OnBackButtonPressed()
         {
             Navigation.PushAsync(new MainPage());

@@ -3,11 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShopColibriApp.Views.Registro"
              xmlns:GlobalV="clr-namespace:ShopColibriApp.Views.ViewGlo"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
              >
     <ContentPage.Content>
         <Grid>
             <GlobalV:Degradado/>
-            
+            <Label x:Name="LblTituloRegistro" Text="Crear Usuario" HorizontalOptions="Center" FontSize="30" 
+                   TextColor="DarkCyan" Margin="0,40,0,0" FontAttributes="Bold"/>
             <StackLayout Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" IsVisible="{Binding Conectado}">
                 <Entry x:Name="TxtNombre" Placeholder="Nombre" />
                 <Entry x:Name="TxtApellido1" Placeholder="Pri.Apellido"/>

@@ -135,6 +135,21 @@ namespace ShopColibriApp.ViewModels
             }
         }
 
+        public async Task<Usuario> GetUsuarioId(int id)
+        {
+            try
+            {
+                Usuario usuario = new Usuario();
+                usuario = await MiUsuario.GetUsuarioId(id);
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
+
         public async Task<bool> ValidarAccesoUsuario(string pEmail, string pass)
         {
             if (IsBusy) return false;

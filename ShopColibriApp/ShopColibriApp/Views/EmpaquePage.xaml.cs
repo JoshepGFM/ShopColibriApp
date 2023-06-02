@@ -29,6 +29,7 @@ namespace ShopColibriApp.Views
                 TxtTamannio.Text = GlobalObject.GloEmpaque.Tamannio;
                 LblStock.Text = GlobalObject.GloEmpaque.Stock.ToString();
                 BtnGuardar.IsVisible = false;
+                LblTituloEmpaque.Text = "Modificar Empaque";
                 BtnModificar.IsVisible = true;
             }
             else
@@ -46,7 +47,7 @@ namespace ShopColibriApp.Views
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se agrego exitosamente el Empaque", "Ok");
-                    await Navigation.PopAsync();
+                    await Navigation.PushAsync(new VistaEmpaque());
                 }
                 else
                 {
@@ -60,11 +61,12 @@ namespace ShopColibriApp.Views
             if (ValidarEntradas())
             {
                 int id = GlobalObject.GloEmpaque.Id;
-                bool R = await evm.PutEmpaque(id, TxtNombre.Text.Trim(), TxtTamannio.Text.Trim(), int.Parse(TxtStock.Text.Trim()));
+                int stock = int.Parse(TxtStock.Text.Trim()) + int.Parse(LblStock.Text.Trim());
+                bool R = await evm.PutEmpaque(id, TxtNombre.Text.Trim(), TxtTamannio.Text.Trim(), stock, int.Parse(TxtStock.Text.Trim()));
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se a modificado el Empaque exitosamente", "Ok");
-                    await Navigation.PopAsync();
+                    await Navigation.PushAsync(new VistaEmpaque());
                 }
                 else
                 {
@@ -175,6 +177,14 @@ namespace ShopColibriApp.Views
             {
                 BtnMas.IsEnabled = true;
             }
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            Navigation.PushAsync(new VistaEmpaque());
+
+            // Retornar true para indicar que se ha manejado el evento del botón "Back"
+            return true;
         }
     }
 }
