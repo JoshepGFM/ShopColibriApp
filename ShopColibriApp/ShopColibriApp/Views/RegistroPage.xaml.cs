@@ -16,10 +16,12 @@ namespace ShopColibriApp.Views
     {
         UsuarioViewModel uvm { get; set; }
         RegistroViewModel rvm { get; set; }
+        ViewModelBitacora vmb { get; set; }
         public RegistroPage()
         {
             InitializeComponent();
 
+            vmb = new ViewModelBitacora();
             BindingContext = uvm = new UsuarioViewModel();
             BindingContext = rvm = new RegistroViewModel();
 
@@ -129,6 +131,7 @@ namespace ShopColibriApp.Views
             else
             {
                 BtnGuardar.IsVisible = false;
+                LblTituloRegistro.Text = "Modificar Registro";
                 BtnModificar.IsVisible = true;
 
                 SeleccionarUsuario(GlobalObject.GloRegistro.UsuarioIdUsuario);
@@ -149,14 +152,16 @@ namespace ShopColibriApp.Views
         {
             if (ValidarEntradas())
             {
-                Usuario id = PckUsuario.SelectedItem as Usuario;
-                bool R = await rvm.PostRegistro(id.IdUsuario, PckFecha.Date, int.Parse(TxtLunes.Text.Trim()), int.Parse(TxtMartes.Text.Trim()),
+                Usuario usuario = PckUsuario.SelectedItem as Usuario;
+                bool R = await rvm.PostRegistro(usuario.IdUsuario, PckFecha.Date, int.Parse(TxtLunes.Text.Trim()), int.Parse(TxtMartes.Text.Trim()),
                      int.Parse(TxtMiercoles.Text.Trim()), int.Parse(TxtJueves.Text.Trim()), int.Parse(TxtViernes.Text.Trim()), 
                      int.Parse(TxtViernes.Text.Trim()), int.Parse(LblTotalHoras.Text), int.Parse(TxtCostoHora.Text.Trim()),
                      int.Parse(LblTotal.Text.Trim()));
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se a ingresado el registro con éxito", "OK");
+                    await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                            " Guardo un Registro. Registro: Del usuario, " + usuario.Nombre + " del " + PckFecha.Date.ToString());
                     await Navigation.PushAsync(new VistaRegistro());
                 }
                 else
@@ -232,6 +237,8 @@ namespace ShopColibriApp.Views
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se a modificado el registro con éxito", "OK");
+                    await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                            " Modifico un Registro. Registro: Del usuario, " + usuario.Nombre + " del " + PckFecha.Date.ToString());
                     await Navigation.PushAsync(new VistaRegistro());
                 }
                 else

@@ -16,11 +16,13 @@ namespace ShopColibriApp.Views
     public partial class VistaPedidoPage : ContentPage
     {
         PedidosViewModel pvm;
+        ViewModelBitacora vmb { get; set; }
         private string? Filtro;
         public VistaPedidoPage()
         {
             InitializeComponent();
 
+            vmb = new ViewModelBitacora();
             BindingContext = pvm = new PedidosViewModel();
 
             CargarListaPedidos();
@@ -65,11 +67,15 @@ namespace ShopColibriApp.Views
             {
                 var item = (sender as MenuItem).CommandParameter;
                 int id = int.Parse(item.ToString());
+                Pedidos pedidos = new Pedidos();
+                pedidos = await pvm.GetPedidoId(id);
                 bool R = await pvm.DeletePedido(id);
                 if (R)
                 {
                     CargarListaPedidos();
                     await DisplayAlert("Verificación", "Se elimino el pedido con éxito", "OK");
+                    await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                            " Elimino un Pedido. Pedido de: " + pedidos.Total.ToString() + " colones");
                 }
                 else
                 {

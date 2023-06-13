@@ -16,10 +16,12 @@ namespace ShopColibriApp.Views
     public partial class VistaEmpaque : ContentPage
     {
         EmpaqueViewModel evm { get; set; }
+        ViewModelBitacora vmb { get; set; }
         private string? Filtro { get; set; }
         public VistaEmpaque()
         {
             InitializeComponent();
+            vmb = new ViewModelBitacora();
             BindingContext = evm = new EmpaqueViewModel();
             CargarListaEmpaques();
         }
@@ -60,11 +62,15 @@ namespace ShopColibriApp.Views
             {
                 var item = (sender as MenuItem).CommandParameter;
                 int id = int.Parse(item.ToString());
+                Empaque empaque = new Empaque();
+                empaque = await evm.GetEmpaqueId(id);
                 bool R = await evm.DeleteEmpaque(id);
                 if (R)
                 {
                     CargarListaEmpaques();
                     await DisplayAlert("Verificación", "Se elimino el empaque con éxito", "OK");
+                    await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                            " Elimino un Empaque. Empaque: " + empaque.Nombre + " " + empaque.Tamannio + " con " + empaque.Stock.ToString() + " de Stock");
                 }
                 else
                 {

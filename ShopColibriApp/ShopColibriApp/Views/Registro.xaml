@@ -35,6 +35,7 @@
             </StackLayout>
 
             <GlobalV:notConnection IsVisible="{Binding Desconectado}"/>
+            <GlobalV:Carga x:Name="ViewCarga" IsVisible="false"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -22,7 +22,9 @@ namespace ShopColibriApp.Models
         {
             try
             {
-                string Route = string.Format("Bitacoras/Consulta?inicio={0}&final={1}&busqueda={2}&Todo={3}", inicio, final, producto, Todo);
+                string fechIni = Uri.EscapeDataString(inicio.Date.ToString("MM/dd/yyyy").Split(' ')[0]);
+                string fechFin = Uri.EscapeDataString(final.Date.ToString("MM/dd/yyyy").Split(' ')[0]);
+                string Route = string.Format("Bitacoras/Consulta?inicio={0}&final={1}&busqueda={2}&Todo={3}", fechIni, fechFin, producto, Todo);
                 string FinalURL = Servicios.CnnToShopColibri.UrlProduction + Route;
 
                 RestClient client = new RestClient(FinalURL);

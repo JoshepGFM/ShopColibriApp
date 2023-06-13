@@ -23,16 +23,19 @@ namespace ShopColibriApp.ViewModels
         string AplicationName = "ShopColibriApp";
         Inventario MiInventario { get; set; }
         InventarioDTO MiInventarioDTO { get; set; }
+        FechaIngre MiFechaIngre { get; set; }
+        UsuarioFechaIngre MiUsuFechaIngre { get; set; }
+        EmpaqueViewModel evm { get; set; }
         public InventarioViewModel()
         {
             MiInventario = new Inventario();
             MiInventarioDTO = new InventarioDTO();
+            MiFechaIngre = new FechaIngre();
+            MiUsuFechaIngre = new UsuarioFechaIngre();
         }
 
-        public async Task<int> GetUltimoID()
+        public async Task<int> GetUltimoInventario()
         {
-            if(IsBusy) return 0;
-            IsBusy = true;
             try
             {
                 List<Inventario> list = new List<Inventario>();
@@ -46,7 +49,6 @@ namespace ShopColibriApp.ViewModels
                 Console.WriteLine(ex.Message);
                 throw;
             }
-            finally { IsBusy = false; }
         }
 
         public async Task<bool> PostInventario(DateTime pFecha,
@@ -68,6 +70,25 @@ namespace ShopColibriApp.ViewModels
                 MiInventario.EmpaqueId = pEmpaque;
 
                 bool R = await MiInventario.PostInventario();
+                if (R)
+                {
+                    MiFechaIngre.Id = 0;
+                    MiFechaIngre.Fecha = DateTime.Now;
+                    MiFechaIngre.Entrada = pStock;
+                    MiFechaIngre.InventarioId = await GetUltimoInventario();
+                    bool T = await MiFechaIngre.PostFechaIngre();
+
+                    MiUsuFechaIngre.DetalleId = 0;
+                    MiUsuFechaIngre.Fecha = DateTime.Now;
+                    MiUsuFechaIngre.UsuarioIdUsuario = GlobalObject.GloUsu.IdUsuario;
+                    MiUsuFechaIngre.FechaIngreId = await GetUltiFechaIngre();
+                    bool U = await MiUsuFechaIngre.PostUsuarioFechaIngre();
+
+                    if (!T && !U)
+                    {
+                        await DisplayAlert("Error de validación", "No se a crear la fecha de ingreso de empaques", "OK");
+                    }
+                }
                 return R;
             }
             catch (Exception ex)
@@ -85,7 +106,8 @@ namespace ShopColibriApp.ViewModels
                                               decimal pPrecio,
                                               string pOrigen,
                                               int pProducto,
-                                              int pEmpaque)
+                                              int pEmpaque,
+                                              int pEntradaSt)
         {
             if (IsBusy) return false;
             IsBusy = true;
@@ -100,6 +122,26 @@ namespace ShopColibriApp.ViewModels
                 MiInventario.EmpaqueId = pEmpaque;
 
                 bool R = await MiInventario.PutInventario();
+                if (R && pStock > 0)
+                {
+                    MiFechaIngre.Id = 0;
+                    MiFechaIngre.InventarioId = pId;
+                    MiFechaIngre.Entrada = pEntradaSt;
+                    MiFechaIngre.Fecha = DateTime.Now;
+
+                    bool T = await MiFechaIngre.PostFechaIngre();
+
+                    MiUsuFechaIngre.DetalleId = 0;
+                    MiUsuFechaIngre.Fecha = DateTime.Now;
+                    MiUsuFechaIngre.UsuarioIdUsuario = GlobalObject.GloUsu.IdUsuario;
+                    MiUsuFechaIngre.FechaIngreId = await GetUltiFechaIngre();
+                    bool U = await MiUsuFechaIngre.PostUsuarioFechaIngre();
+
+                    if (!T && !U)
+                    {
+                        await DisplayAlert("Error de validación", "No se a crear la fecha de ingreso de empaques", "OK");
+                    }
+                }
                 return R;
             }
             catch (Exception ex)
@@ -153,5 +195,23 @@ namespace ShopColibriApp.ViewModels
             }
             finally { IsBusy = false; }
         }
+
+        public async Task<int> GetUltiFechaIngre()
+        {
+            try
+            {
+                List<FechaIngre> list = new List<FechaIngre>();
+                list = await MiFechaIngre.GetFechaIngre();
+                FechaIngre item = new FechaIngre();
+                item = list.Last();
+                return item.Id;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
+
     }
 }

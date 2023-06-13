@@ -26,12 +26,14 @@ namespace ShopColibriApp.Views
         EmpaqueViewModel evm { get; set; }
         InventarioViewModel ivm { get; set; }
         ImagenViewModel Imvm { get; set; }
+        ViewModelBitacora vmb { get; set; }
         Drive Dv { get; set; }
 
         private int campo = 0;
         public InventarioPage()
         {
             InitializeComponent();
+            vmb = new ViewModelBitacora();
             BindingContext = pvm = new ProductoViewModel();
             BindingContext = evm = new EmpaqueViewModel();
             BindingContext = ivm = new InventarioViewModel();
@@ -54,7 +56,7 @@ namespace ShopColibriApp.Views
             list = await evm.GetEmpaque();
             for (int i = 0; i < list.Count; i++)
             {
-                list[i].Nombre += " " + list[i].Tamannio;
+                list[i].Nombre += " " + list[i].Tamannio + "      Can." + list[i].Stock;
             }
             PckEmpaque.ItemsSource = list;
         }
@@ -135,59 +137,89 @@ namespace ShopColibriApp.Views
             bool T = false;
             if (ValidarCampos())
             {
-                if (GlobalObject.GloImagenes.Count == 0)
+                Producto producto = PckProducto.SelectedItem as Producto;
+                int idP = producto.Codigo;
+                Empaque empaque = PckEmpaque.SelectedItem as Empaque;
+                int idE = empaque.Id;
+                int suma = int.Parse(TxtStock.Text.Trim()) + int.Parse(LblStock.Text.Trim());
+                if (suma <= empaque.Stock)
                 {
-                    if (await DisplayAlert("Validación", "Esta seguro de no agregar una imagen?", "Si", "No"))
+                    if (GlobalObject.GloImagenes.Count == 0)
                     {
-                        Producto producto = PckProducto.SelectedItem as Producto;
-                        int idP = producto.Codigo;
-                        Empaque empaque = PckEmpaque.SelectedItem as Empaque;
-                        int idE = empaque.Id;
-                        
-                        R = await ivm.PostInventario(DpckFecha.Date, int.Parse(TxtStock.Text.Trim()),
-                                                         decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
-                        
+                        if (await DisplayAlert("Validación", "Esta seguro de no agregar una imagen?", "Si", "No"))
+                        {
 
-                        if (R)
-                        {
-                            await DisplayAlert("Validación exitosa", "Se guardo el Inventario correctamente", "OK");
-                            await Navigation.PopToRootAsync();
-                        }
-                        else
-                        {
-                            await DisplayAlert("Error de validación", "No se a podido guardar el inventario", "OK");
+                            ViewCarga.IsVisible = true;
+                            R = await ivm.PostInventario(DpckFecha.Date, suma,
+                                                             decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
+                            if (R)
+                            {
+                                int resta = 0;
+                                resta = empaque.Stock - int.Parse(TxtStock.Text.Trim());
+                                Empaque Emp = new Empaque();
+                                Emp = await evm.GetEmpaqueId(empaque.Id);
+                                await evm.PutEmpaque(Emp.Id, Emp.Nombre, Emp.Tamannio, resta, -suma);
+                            }
+                            if (R)
+                            {
+                                ViewCarga.IsVisible = false;
+                                await DisplayAlert("Validación exitosa", "Se guardo el Inventario correctamente", "OK");
+                                await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                                " Guardo un Inventario. Inventario: " + producto.Nombre + " de " + empaque.Nombre + " " + empaque.Tamannio);
+                                await Navigation.PushAsync(new MainPage());
+                            }
+                            else
+                            {
+                                ViewCarga.IsVisible = false;
+                                await DisplayAlert("Error de validación", "No se a podido guardar el inventario", "OK");
+                            }
                         }
                     }
-                }
-                else if (GlobalObject.GloImagenes.Count > 0)
-                {
-                        Producto producto = PckProducto.SelectedItem as Producto;
-                        int idP = producto.Codigo;
-                        Empaque empaque = PckEmpaque.SelectedItem as Empaque;
-                        int idE = empaque.Id;
-                            R = await ivm.PostInventario(DpckFecha.Date, int.Parse(TxtStock.Text.Trim()),
-                                                         decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
+                    else if (GlobalObject.GloImagenes.Count > 0)
+                    {
+                        ViewCarga.IsVisible = true;
+                        R = await ivm.PostInventario(DpckFecha.Date, suma,
+                                                     decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
+                        if (R)
+                        {
+                            int resta = 0;
+                            resta = empaque.Stock - int.Parse(TxtStock.Text.Trim());
+                            Empaque Emp = new Empaque();
+                            Emp = await evm.GetEmpaqueId(empaque.Id);
+                            await evm.PutEmpaque(Emp.Id, Emp.Nombre, Emp.Tamannio, resta, -suma);
                             List<IFormFile> images = new List<IFormFile>();
                             ObservableCollection<FileImageSource> listImage = new ObservableCollection<FileImageSource>();
                             listImage = TransformaImagen(GlobalObject.GloImagenes);
                             images = ToList(listImage);
                             List<Android.Media.Image> Lista = new List<Android.Media.Image>();
-                            int idIn = await ivm.GetUltimoID();
+                            int idIn = await ivm.GetUltimoInventario();
                             T = await Imvm.PostImagen(images, idIn);
+                        }
 
                         if (R)
                         {
+                            ViewCarga.IsVisible = false;
                             await DisplayAlert("Validación exitosa", "Se guardo el Inventario correctamente", "OK");
+                            await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                                " Guardo un Inventario. Inventario: " + producto.Nombre + " de " + empaque.Nombre + " " + empaque.Tamannio);
                             if (!T)
                             {
                                 await DisplayAlert("Error Guardado", "Se tubo problemas al guardar la imagen", "OK");
                             }
-                            await Navigation.PopToRootAsync();
+                            await Navigation.PushAsync(new MainPage());
                         }
                         else
                         {
+                            ViewCarga.IsVisible = false;
                             await DisplayAlert("Error de validación", "No se a podido guardar el inventario", "OK");
                         }
+                    }
+                }
+                else
+                {
+                    await DisplayAlert("Error de validación", "No se puede agregar una cantidad de stock mayor a la cantidad de empaque", "OK");
+                    TxtStock.Focus();
+                    return;
                 }
             }
         }
@@ -342,7 +374,7 @@ namespace ShopColibriApp.Views
             {
                 if (PckProducto.SelectedIndex == -1)
                 {
-                    TxtStock.Focus();
+                    PckProducto.Focus();
                     DisplayAlert("Error de validación", "Se requiere seleccionar un producto", "Ok");
                     return false;
                 }
@@ -366,8 +398,8 @@ namespace ShopColibriApp.Views
                 }
                 if (PckEmpaque.SelectedIndex == -1)
                 {
-                    TxtStock.Focus();
-                    DisplayAlert("Error de validación", "Se requiere seleccionar un producto", "Ok");
+                    PckEmpaque.Focus();
+                    DisplayAlert("Error de validación", "Se requiere seleccionar un Empaque", "Ok");
                     return false;
                 }
             }
@@ -387,71 +419,117 @@ namespace ShopColibriApp.Views
                     Empaque empaque = PckEmpaque.SelectedItem as Empaque;
                     int idE = empaque.Id;
                     int sumastock = int.Parse(LblStock.Text.Trim()) + int.Parse(TxtStock.Text.Trim());
-                    if (GlobalObject.GloImagenes[0].Imagen1.Contains("https://drive.google.com/uc?id="))
+                    if (int.Parse(TxtStock.Text) <= empaque.Stock)
                     {
-                        R = await ivm.PutInventario(GlobalObject.GloInven_DTO.Id, DpckFecha.Date, sumastock,
-                                                     decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
-                        if (R)
+                        if (GlobalObject.GloImagenes.Count > 0 &&
+                            GlobalObject.GloImagenes[0].Imagen1.Contains("https://drive.google.com/uc?id="))
                         {
-                            await DisplayAlert("Validación exitosa", "Se modifico el Inventario correctamente", "OK");
-                            await Navigation.PushAsync(new MainPage());
-                        }
-                        else
-                        {
-                            await DisplayAlert("Error de validación", "No se a podido modificar el Inventario", "OK");
-                        }
-                    }
-                    else
-                    {
-                        if (GlobalObject.GloImagenes.Count == 0)
-                        {
-                            if (await DisplayAlert("Validación", "Esta seguro de no agregar una imagen?", "Si", "No"))
-                            {
-                                R = await ivm.PutInventario(GlobalObject.GloInven_DTO.Id, DpckFecha.Date, sumastock,
-                                                     decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
-
-
-                                if (R)
-                                {
-                                    await DisplayAlert("Validación exitosa", "Se modifico el Inventario correctamente", "OK");
-                                    await Navigation.PushAsync(new MainPage());
-                                }
-                                else
-                                {
-                                    await DisplayAlert("Error de validación", "No se a podido modificar el inventario", "OK");
-                                }
-                            }
-                        }
-                        else if (GlobalObject.GloImagenes.Count > 0)
-                        {
+                            ViewCarga.IsVisible = true;
                             R = await ivm.PutInventario(GlobalObject.GloInven_DTO.Id, DpckFecha.Date, sumastock,
-                                                     decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE);
-                            if (GlobalObject.GloInven_DTO.imagenes.Count > 0)
+                                                         decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE, int.Parse(TxtStock.Text.Trim()));
+                            if (R && int.Parse(TxtStock.Text) > 0)
                             {
-                                T = await Imvm.DeleteImagen(GlobalObject.GloInven_DTO.imagenes);
+                                int resta = 0;
+                                resta = empaque.Stock - int.Parse(TxtStock.Text.Trim());
+                                Empaque Emp = new Empaque();
+                                Emp = await evm.GetEmpaqueId(empaque.Id);
+                                await evm.PutEmpaque(Emp.Id, Emp.Nombre, Emp.Tamannio, resta, -int.Parse(TxtStock.Text.Trim()));
                             }
-                            List<IFormFile> images = new List<IFormFile>();
-                            ObservableCollection<FileImageSource> listImage = new ObservableCollection<FileImageSource>();
-                            listImage = TransformaImagen(GlobalObject.GloImagenes);
-                            images = ToList(listImage);
-                            List<Android.Media.Image> Lista = new List<Android.Media.Image>();
-                            int idIn = GlobalObject.GloInven_DTO.Id;
-                            T = await Imvm.PostImagen(images, idIn);
-
                             if (R)
                             {
-                                await DisplayAlert("Validación exitosa", "Se modificar el Inventario correctamente", "OK");
-                                if (!T)
-                                {
-                                    await DisplayAlert("Error Guardado", "Se tubo problemas al guardar la imagen", "OK");
-                                }
+                                ViewCarga.IsVisible = false;
+                                await DisplayAlert("Validación exitosa", "Se modifico el Inventario correctamente", "OK");
+                                await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                                " Modifico un Inventario. Inventario: " + producto.Nombre + " de " + empaque.Nombre + " " + empaque.Tamannio);
                                 await Navigation.PushAsync(new MainPage());
                             }
                             else
                             {
-                                await DisplayAlert("Error de validación", "No se a podido modificar el inventario", "OK");
+                                ViewCarga.IsVisible = false;
+                                await DisplayAlert("Error de validación", "No se a podido modificar el Inventario", "OK");
                             }
                         }
+                        else
+                        {
+                            if (GlobalObject.GloImagenes.Count == 0)
+                            {
+                                if (await DisplayAlert("Validación", "Esta seguro de no agregar una imagen?", "Si", "No"))
+                                {
+                                    ViewCarga.IsVisible = true;
+                                    R = await ivm.PutInventario(GlobalObject.GloInven_DTO.Id, DpckFecha.Date, sumastock,
+                                                         decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE, int.Parse(TxtStock.Text.Trim()));
+
+                                    if (R && int.Parse(TxtStock.Text) > 0)
+                                    {
+                                        int resta = 0;
+                                        resta = empaque.Stock - int.Parse(TxtStock.Text.Trim());
+                                        Empaque Emp = new Empaque();
+                                        Emp = await evm.GetEmpaqueId(empaque.Id);
+                                        await evm.PutEmpaque(Emp.Id, Emp.Nombre, Emp.Tamannio, resta, -int.Parse(TxtStock.Text.Trim()));
+                                    }
+                                    if (R)
+                                    {
+                                        ViewCarga.IsVisible = false;
+                                        await DisplayAlert("Validación exitosa", "Se modifico el Inventario correctamente", "OK");
+                                        await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                                        " Modifico un Inventario. Inventario: " + producto.Nombre + " de " + empaque.Nombre + " " + empaque.Tamannio);
+                                        await Navigation.PushAsync(new MainPage());
+                                    }
+                                    else
+                                    {
+                                        ViewCarga.IsVisible = false;
+                                        await DisplayAlert("Error de validación", "No se a podido modificar el inventario", "OK");
+                                    }
+                                }
+                            }
+                            else if (GlobalObject.GloImagenes.Count > 0)
+                            {
+                                ViewCarga.IsVisible = true;
+                                R = await ivm.PutInventario(GlobalObject.GloInven_DTO.Id, DpckFecha.Date, sumastock,
+                                                         decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE, int.Parse(TxtStock.Text.Trim()));
+                                if (GlobalObject.GloInven_DTO.imagenes.Count > 0)
+                                {
+                                    T = await Imvm.DeleteImagen(GlobalObject.GloInven_DTO.imagenes);
+                                }
+                                if (R && int.Parse(TxtStock.Text) > 0)
+                                {
+                                    int resta = 0;
+                                    resta = empaque.Stock - int.Parse(TxtStock.Text.Trim());
+                                    Empaque Emp = new Empaque();
+                                    Emp = await evm.GetEmpaqueId(empaque.Id);
+                                    await evm.PutEmpaque(Emp.Id, Emp.Nombre, Emp.Tamannio, resta, -int.Parse(TxtStock.Text.Trim()));
+                                }
+                                List<IFormFile> images = new List<IFormFile>();
+                                ObservableCollection<FileImageSource> listImage = new ObservableCollection<FileImageSource>();
+                                listImage = TransformaImagen(GlobalObject.GloImagenes);
+                                images = ToList(listImage);
+                                List<Android.Media.Image> Lista = new List<Android.Media.Image>();
+                                int idIn = GlobalObject.GloInven_DTO.Id;
+                                T = await Imvm.PostImagen(images, idIn);
+
+                                if (R)
+                                {
+                                    ViewCarga.IsVisible = false;
+                                    await DisplayAlert("Validación exitosa", "Se modificar el Inventario correctamente", "OK");
+                                    await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                                    " Modifico un Inventario. Inventario: " + producto.Nombre + " de " + empaque.Nombre + " " + empaque.Tamannio);
+                                    if (!T)
+                                    {
+                                        await DisplayAlert("Error Guardado", "Se tubo problemas al guardar la imagen", "OK");
+                                    }
+                                    await Navigation.PushAsync(new MainPage());
+                                }
+                                else
+                                {
+                                    ViewCarga.IsVisible = false;
+                                    await DisplayAlert("Error de validación", "No se a podido modificar el inventario", "OK");
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+
                     }
                 }
             }

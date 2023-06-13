@@ -3,75 +3,78 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShopColibriApp.Views.VistaEmpaque"
              Shell.NavBarIsVisible="False"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             xmlns:GlobalV ="clr-namespace:ShopColibriApp.Views.ViewGlo">
     <ContentPage.Content>
-        <StackLayout>
-            <Frame >
-                <StackLayout Orientation="Horizontal">
-                    <SearchBar x:Name="SbBuscarUsu" Placeholder="Buscar Empaque" TextChanged="SbBuscarUsu_TextChanged"/>
-                    <StackLayout HorizontalOptions="EndAndExpand">
-                        <Label x:Name="LblStock" Text="En stock" FontSize="10" HorizontalTextAlignment="Center"/>
-                        <Switch x:Name="SwAvtivos" HorizontalOptions="CenterAndExpand" Toggled="SwAvtivos_Toggled"  IsToggled="True" />
-                    </StackLayout>
+        <Grid>
+            <GlobalV:Degradado/>
+            <StackLayout>
+                <Frame >
+                    <StackLayout Orientation="Horizontal">
+                        <SearchBar x:Name="SbBuscarUsu" Placeholder="Buscar Empaque" TextChanged="SbBuscarUsu_TextChanged"/>
+                        <StackLayout HorizontalOptions="EndAndExpand">
+                            <Label x:Name="LblStock" Text="En stock" FontSize="10" HorizontalTextAlignment="Center"/>
+                            <Switch x:Name="SwAvtivos" HorizontalOptions="CenterAndExpand" Toggled="SwAvtivos_Toggled"  IsToggled="True" />
+                        </StackLayout>
 
-                </StackLayout>
-            </Frame>
-            
-            <Grid>
-                
-                <ListView x:Name="LvlListaEmpaque" RowHeight="100"
+                    </StackLayout>
+                </Frame>
+
+                <Grid>
+                    <ListView x:Name="LvlListaEmpaque" RowHeight="100"
                               ItemSelected="LvlListaEmpaque_ItemSelected"  IsPullToRefreshEnabled="True" Refreshing="LvlListaEmpaque_Refreshing">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.ContextActions>
-                                    <MenuItem x:Name="BtnDelete"
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <ViewCell.ContextActions>
+                                        <MenuItem x:Name="BtnDelete"
                                               Text="Eliminar"
                                               IsDestructive="True"
                                               Clicked="BtnDelete_Clicked"
                                               CommandParameter="{Binding Id}"/>
-                                </ViewCell.ContextActions>
-                                <Grid Padding="10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="1"
+                                    </ViewCell.ContextActions>
+                                    <Grid Padding="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="1"
                                                Text="{Binding Nombre}"
                                                FontAttributes="Bold"
                                                    FontSize="15"
                                                    TextColor="DarkCyan"/>
-                                    <Label Grid.Column="2"
+                                        <Label Grid.Column="2"
                                                Text="{Binding Tamannio}"
                                                FontAttributes="Bold"
                                                    FontSize="15"
                                                    TextColor="DarkCyan"/>
-                                    <StackLayout Grid.Column="3" Grid.Row="1" VerticalOptions="End" 
+                                        <StackLayout Grid.Column="3" Grid.Row="1" VerticalOptions="End" 
                                                  HorizontalOptions="End" Orientation="Horizontal">
-                                        <Label Text="Stock:" FontAttributes="Bold" HorizontalTextAlignment="End"/>
-                                        <Label Text="{Binding Stock}" HorizontalTextAlignment="End"/>
-                                    </StackLayout>
+                                            <Label Text="Stock:" FontAttributes="Bold" HorizontalTextAlignment="End"/>
+                                            <Label Text="{Binding Stock}" HorizontalTextAlignment="End"/>
+                                        </StackLayout>
 
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <Frame CornerRadius="2000" 
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Frame CornerRadius="2000" 
                        Padding="0" 
                        Margin="0,0,20,20"
                        HorizontalOptions="End" 
                        VerticalOptions="End"
                        HeightRequest="50">
-                    <ImageButton x:Name="BtnAgregar" Source="botonAgregar.png" HorizontalOptions="EndAndExpand" 
+                        <ImageButton x:Name="BtnAgregar" Source="botonAgregar.png" HorizontalOptions="EndAndExpand" 
                          VerticalOptions="EndAndExpand" Clicked="BtnAgregar_Clicked" BackgroundColor="Green" 
                          CornerRadius="2000"/>
-                </Frame>
-            </Grid>
-        </StackLayout>
+                    </Frame>
+                </Grid>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -6,74 +6,75 @@
              xmlns:GlobalV="clr-namespace:ShopColibriApp.Views.ViewGlo"
              >
     <ContentPage.Content>
-        <StackLayout>
-            <Frame >
-                <StackLayout Orientation="Horizontal">
-                    <SearchBar x:Name="SbBuscarUsu" Placeholder="Buscar Usuario" TextChanged="SearchBar_TextChanged"/>
-                    <StackLayout HorizontalOptions="EndAndExpand">
-                        <Label x:Name="LblActivo" Text="Activos" FontSize="10" HorizontalTextAlignment="Center"/>
-                        <Switch x:Name="SwAvtivos" HorizontalOptions="CenterAndExpand" Toggled="SwAvtivos_Toggled" IsToggled="True" />
+        <Grid>
+            <GlobalV:Degradado/>
+            <StackLayout>
+                <Frame >
+                    <StackLayout Orientation="Horizontal">
+                        <SearchBar x:Name="SbBuscarUsu" Placeholder="Buscar Usuario" TextChanged="SearchBar_TextChanged"/>
+                        <StackLayout HorizontalOptions="EndAndExpand">
+                            <Label x:Name="LblActivo" Text="Activos" FontSize="10" HorizontalTextAlignment="Center"/>
+                            <Switch x:Name="SwAvtivos" HorizontalOptions="CenterAndExpand" Toggled="SwAvtivos_Toggled" IsToggled="True" />
+                        </StackLayout>
+
                     </StackLayout>
-                    
-                </StackLayout>
-            </Frame>
-            
-            <Grid Grid.RowSpan="2">
-                <GlobalV:Degradado/>
-                <ScrollView HeightRequest="820">
-                    <ListView x:Name="LvlListaUsuarios" RowHeight="100"
+                </Frame>
+
+                <Grid Grid.RowSpan="2">
+                    <ScrollView HeightRequest="820">
+                        <ListView x:Name="LvlListaUsuarios" RowHeight="100"
                               ItemSelected="LvlListaUsuarios_ItemSelected" IsPullToRefreshEnabled="True" Refreshing="LvlListaUsuarios_Refreshing">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <ViewCell.ContextActions>
-                                        <MenuItem x:Name="BtnDelete"
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <ViewCell.ContextActions>
+                                            <MenuItem x:Name="BtnDelete"
                                               Text="Eliminar"
                                               IsDestructive="True"
                                               Clicked="BtnDelete_Clicked"
                                               CommandParameter="{Binding IdUsuario}"/>
-                                    </ViewCell.ContextActions>
-                                    <Grid Padding="10">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Image Grid.RowSpan="2"
+                                        </ViewCell.ContextActions>
+                                        <Grid Padding="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Grid.RowSpan="2"
                                                Source="usuarios.png"
                                                Aspect="AspectFill"
                                                WidthRequest="80"/>
-                                        <Label Grid.Column="1"
+                                            <Label Grid.Column="1"
                                                Text="{Binding Nombre}"
                                                FontAttributes="Bold"
                                                    FontSize="15"
                                                    TextColor="DarkCyan"/>
-                                        <Label Grid.Column="2"
+                                            <Label Grid.Column="2"
                                                Text="{Binding Apellido1}"
                                                FontAttributes="Bold"
                                                    FontSize="15"
                                                    TextColor="DarkCyan"/>
-                                        <Label Grid.Column="3"
+                                            <Label Grid.Column="3"
                                                Text="{Binding Apellido2}"
                                                FontAttributes="Bold"
                                                    FontSize="15"
                                                    TextColor="DarkCyan"/>
-                                        <Label Grid.Column="3"
+                                            <Label Grid.Column="3"
                                                    Grid.Row="1"
                                                Text="{Binding Tipo}"
                                                VerticalOptions="End" HorizontalTextAlignment="End"/>
 
 
-                                    </Grid>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </ScrollView>
-                <Frame x:Name="FmIvalidar" CornerRadius="2000" 
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </ScrollView>
+                    <Frame x:Name="FmIvalidar" CornerRadius="2000" 
                        Padding="2"
                        Margin="20,0,0,30"
                        HorizontalOptions="Start" 
@@ -81,11 +82,11 @@
                        HeightRequest="35" 
                        WidthRequest="35"
                        BackgroundColor="PaleVioletRed">
-                    <ImageButton x:Name="BtnInvalidar" CornerRadius="2000" VerticalOptions="CenterAndExpand"
+                        <ImageButton x:Name="BtnInvalidar" CornerRadius="2000" VerticalOptions="CenterAndExpand"
                                  HorizontalOptions="CenterAndExpand" Clicked="BtnInvalidar_Clicked" 
                                  Source="Invalidar.png" BackgroundColor="PaleVioletRed" WidthRequest="32" HeightRequest="32"/>
-                </Frame>
-                <Frame x:Name="FmModificar" CornerRadius="2000" 
+                    </Frame>
+                    <Frame x:Name="FmModificar" CornerRadius="2000" 
                        Padding="2"
                        Margin="0,0,0,20"
                        HorizontalOptions="Center" 
@@ -93,23 +94,23 @@
                        HeightRequest="50" 
                        WidthRequest="50"
                        BackgroundColor="LightGoldenrodYellow">
-                    <ImageButton x:Name="BtnModificar" CornerRadius="50" VerticalOptions="CenterAndExpand"
+                        <ImageButton x:Name="BtnModificar" CornerRadius="50" VerticalOptions="CenterAndExpand"
                                   HorizontalOptions="CenterAndExpand" Clicked="BtnModificar_Clicked" 
                                   Source="editarUs.png" BackgroundColor="LightGoldenrodYellow" WidthRequest="45" HeightRequest="45"/>
-                </Frame>
-                <Frame CornerRadius="2000" 
+                    </Frame>
+                    <Frame CornerRadius="2000" 
                        Padding="0" 
                        Margin="0,0,20,20"
                        HorizontalOptions="End" 
                        VerticalOptions="End"
                        HeightRequest="50">
-                    <ImageButton x:Name="BtnAgregar" Source="botonAgregar.png" HorizontalOptions="EndAndExpand" 
+                        <ImageButton x:Name="BtnAgregar" Source="botonAgregar.png" HorizontalOptions="EndAndExpand" 
                          VerticalOptions="EndAndExpand" Clicked="BtnAgregar_Clicked" BackgroundColor="Green" 
                          CornerRadius="2000"/>
-                </Frame>
-            </Grid>
-            
-        </StackLayout>
-        
+                    </Frame>
+                </Grid>
+            </StackLayout>
+        </Grid>
+
     </ContentPage.Content>
 </ContentPage>

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using ShopColibriApp.Servicios;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace ShopColibriApp.ViewModels
 {
@@ -221,7 +222,7 @@ namespace ShopColibriApp.ViewModels
                 Usuario usuario = GlobalObject.GloUsu;
                 int id = 3;
                 bool R = false;
-                if (usuario != null)
+                if (usuario.IdUsuario > 0)
                 {
                     id = usuario.IdUsuario;
                      R = await MiUsuario.PostUsuario(1);
@@ -230,11 +231,11 @@ namespace ShopColibriApp.ViewModels
                 {
                     R = await MiUsuario.PostUsuario(id);
                 }
-                
 
+                MiUsuario.IdUsuario = await GetUltUser();
                 if ( R && id != 1)
                 {
-                    string enlace = string.Format(Servicios.CnnToShopColibri.UrlProduction + "Usuario/ModificarUsuario?id={0}", MiUsuario.IdUsuario);
+                    string enlace = string.Format(Servicios.CnnToShopColibri.UrlProduction + "Usuarios/Validar?id={0}&R={1}", MiUsuario.IdUsuario, false);
                     string menssage = string.Format("<h5>Para activar tu cuenta dar <a href='{0}'> Click aquí</a></h5>", enlace);
 
                     VEmail.Index(pEmail, "Verificar cuenta", menssage);
@@ -336,7 +337,7 @@ namespace ShopColibriApp.ViewModels
             try
             {
                 bool R = await MiUsuario.DeleteUsuario(id);
-                return true;
+                return R;
             }
             catch (Exception)
             {
@@ -346,5 +347,28 @@ namespace ShopColibriApp.ViewModels
             finally { IsBusy = false; }
         }
 
+        private async Task<int> GetUltUser()
+        {
+            try
+            {
+                List<Usuario> usuario = new List<Usuario>();
+                usuario = await MiUsuario.GetAllUser();
+                Usuario item = new Usuario();
+                item = usuario.Last();
+
+                if (item != null)
+                {
+                    return item.IdUsuario;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
     }
 }

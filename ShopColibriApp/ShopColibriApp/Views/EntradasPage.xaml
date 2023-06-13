@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShopColibriApp.Views.EntradasPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame BorderColor="Black" Padding="5" Margin="3">
+                <StackLayout>
+                    <Label Text="Parametros de busqueda:" FontAttributes="Bold"/>
+                    <Frame Padding="0" BorderColor="Black" CornerRadius="10">
+                        <StackLayout Spacing="0" >
+                            <Label Text="Fecha inicial:" FontSize="10" Margin="20,5,0,0"/>
+                            <DatePicker x:Name="DtpInicio" HeightRequest="41"/>
+                        </StackLayout>
+                    </Frame>
+                    <Frame Padding="0" BorderColor="Black" CornerRadius="10">
+                        <StackLayout Spacing="0">
+                            <Label Text="Fecha final:" FontSize="10" Margin="20,5,0,0"/>
+                            <DatePicker x:Name="DtpFinal" HeightRequest="41"/>
+                        </StackLayout>
+                    </Frame>
+                    <StackLayout Orientation="Horizontal">
+                        <Frame Padding="0" BorderColor="Black" CornerRadius="10" WidthRequest="330">
+                            <StackLayout Spacing="0">
+                                <Label Text="Clasificación:" FontSize="10" Margin="20,5,0,0"/>
+                                <Picker x:Name="PckEntradas" Title="Seleccione la Entrada"/>
+                            </StackLayout>
+                        </Frame>
+                        <StackLayout>
+                            <Label Text="Todo" FontAttributes="Bold"/>
+                            <Switch x:Name="CkbTodo" IsToggled="False" Toggled="CkbTodo_Toggled"/>
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+            <Grid Grid.RowSpan="2">
+                <ScrollView HeightRequest="700">
+                    <ListView x:Name="LvlListaEntrada" RowHeight="120" SelectionMode="None"
+                              ItemSelected="LvlListaEntrada_ItemSelected" IsPullToRefreshEnabled="True" Refreshing="LvlListaEntrada_Refreshing">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Grid.Column="0" Grid.Row="0"
+                                                     Orientation="Horizontal">
+                                            <Label Text="Fecha:"/>
+                                            <Label Text="{Binding Fecha}"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="0" Grid.Row="1" WidthRequest="400" Orientation="Vertical" Spacing="5">
+                                            <StackLayout HeightRequest="30" VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand">
+                                                <Label Text="Empaque/Inventario:"/>
+                                                <Grid>
+                                                    <StackLayout>
+                                                        <Label Text="{Binding InventarioNombre}" VerticalOptions="Center"/>
+                                                    </StackLayout>
+                                                    <StackLayout>
+                                                        <Label Text="{Binding EmpaqueNombre}"/>
+                                                    </StackLayout>
+                                                </Grid>
+                                            </StackLayout>
+                                            <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand" Orientation="Horizontal">
+                                                <Label Text="Entradas:"/>
+                                                <Label Text="{Binding Entrada}" FontAttributes="Bold"/>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollView>
+                <Frame CornerRadius="50" BorderColor="Gray"
+                       VerticalOptions="End" HorizontalOptions="Center"
+                       HeightRequest="40" WidthRequest="200"
+                       Padding="0" Margin="10">
+                    <StackLayout Orientation="Horizontal" VerticalOptions="Center"
+                                 HorizontalOptions="Center">
+                        <Label Text="TOTAL:" FontSize="20" FontAttributes="Italic"/>
+                        <Label x:Name="LblTotal" Text="0" FontSize="20" FontAttributes="Bold"
+                               TextColor="Black"/>
+                    </StackLayout>
+                </Frame>
+                <Frame CornerRadius="2000" 
+                       Padding="6" 
+                       Margin="0,0,10,10"
+                       HorizontalOptions="End" 
+                       VerticalOptions="End"
+                       HeightRequest="35"
+                       WidthRequest="35" BorderColor="Black">
+                    <ImageButton Source="recargar.png" 
+                                 Clicked="ImageButton_Clicked"
+                                 BackgroundColor="Transparent"/>
+                </Frame>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

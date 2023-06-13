@@ -16,11 +16,13 @@ namespace ShopColibriApp.Views
     public partial class VistaRegistro : ContentPage
     {
         RegistroViewModel rvm { get; set; }
+        ViewModelBitacora vmb { get; set; }
         private string? Filtro { get; set; }
         public VistaRegistro()
         {
             InitializeComponent();
 
+            vmb = new ViewModelBitacora();
             BindingContext = rvm = new RegistroViewModel();
 
             CargarListaRegistros();
@@ -74,11 +76,15 @@ namespace ShopColibriApp.Views
             {
                 var item = (sender as MenuItem).CommandParameter;
                 int id = int.Parse(item.ToString());
+                RegistroDTO registro = new RegistroDTO();
+                registro = await rvm.GetRegistroId(id);
                 bool R = await rvm.DeleteRegistro(id);
                 if (R)
                 {
-                    CargarListaRegistros();
                     await DisplayAlert("Verificación", "Se elimino el registro con éxito", "OK");
+                    CargarListaRegistros();
+                    await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                            " Elimino un Registro. Control: Id." + registro.Id + " del Usuario, " + registro.UsuarioName);
                 }
                 else
                 {

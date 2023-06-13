@@ -3,18 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShopColibriApp.Views.VistaRegistro"
              Shell.NavBarIsVisible="False"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             xmlns:GlobalV="clr-namespace:ShopColibriApp.Views.ViewGlo">
     <ContentPage.Content>
         <Grid>
+            <GlobalV:Degradado/>
             <StackLayout>
                 <Frame >
                     <StackLayout Orientation="Vertical">
                         <SearchBar x:Name="SbBuscarReg" Placeholder="Buscar Registro" TextChanged="SbBuscarReg_TextChanged"/>
                     </StackLayout>
                 </Frame>
-
                 <Grid Grid.RowSpan="2">
-                    <ScrollView HeightRequest="700">
+                    <ScrollView>
                         <ListView x:Name="LvlListaRegistro" RowHeight="200"
                               ItemSelected="LvlListaRegistro_ItemSelected"  IsPullToRefreshEnabled="True" Refreshing="LvlListaRegistro_Refreshing">
                             <ListView.ItemTemplate>

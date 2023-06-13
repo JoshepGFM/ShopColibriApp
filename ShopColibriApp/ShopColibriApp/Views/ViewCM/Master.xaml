@@ -42,6 +42,8 @@
                                     ImageSource="ControlMar.png" Clicked="BtnVerControlMar_Clicked"/>
                             <Button x:Name="BtnRegistro" Text="Registros" BackgroundColor="Transparent" 
                                     ImageSource="registro.png" Clicked="BtnVerRegistros_Clicked"/>
+                            <Button x:Name="BtnEntradas" Text="Entradas" BackgroundColor="Transparent" 
+                                    ImageSource="entradas.png" Clicked="BtnEntradas_Clicked"/>
                             <Button x:Name="BtnVerSalidas" Text="Ver Salidas" BackgroundColor="Transparent" 
                                     ImageSource="salida.png" Clicked="BtnVerSalidas_Clicked"/>
                             <Button x:Name="BtnVerBitacora" Text="Bitacora" BackgroundColor="Transparent" 

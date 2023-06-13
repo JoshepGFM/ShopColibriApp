@@ -3,80 +3,83 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShopColibriApp.Views.VistaPedidoPage"
              Shell.NavBarIsVisible="False"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             xmlns:GlobalV ="clr-namespace:ShopColibriApp.Views.ViewGlo">
     <ContentPage.Content>
-        <StackLayout>
-            <Frame >
-                <StackLayout Orientation="Horizontal">
-                    <SearchBar x:Name="SbBuscarPed" Placeholder="Buscar Pedido" TextChanged="SbBuscarPed_TextChanged"/>
-                </StackLayout>
-            </Frame>
+        <Grid>
+            <GlobalV:Degradado/>
+            <StackLayout>
+                <Frame >
+                    <StackLayout Orientation="Horizontal">
+                        <SearchBar x:Name="SbBuscarPed" Placeholder="Buscar Pedido" TextChanged="SbBuscarPed_TextChanged"/>
+                    </StackLayout>
+                </Frame>
 
-            <Grid Grid.RowSpan="2">
-                <ScrollView HeightRequest="700">
-                    <ListView x:Name="LvlListaPedido" RowHeight="160"
+                <Grid Grid.RowSpan="2">
+                    <ScrollView>
+                        <ListView x:Name="LvlListaPedido" RowHeight="160"
                               ItemSelected="LvlListaPedido_ItemSelected"  IsPullToRefreshEnabled="True" Refreshing="LvlListaPedido_Refreshing">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <ViewCell.ContextActions>
-                                        <MenuItem x:Name="BtnDelete"
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <ViewCell.ContextActions>
+                                            <MenuItem x:Name="BtnDelete"
                                               Text="Eliminar"
                                               IsDestructive="True"
                                               Clicked="BtnDelete_Clicked"
                                               CommandParameter="{Binding Codigo}"/>
-                                    </ViewCell.ContextActions>
-                                    <Grid Padding="10">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <StackLayout Grid.Column="0" Grid.Row="0">
-                                            <Label Text="Cod." />
-                                            <Label Text="{Binding Codigo}"
+                                        </ViewCell.ContextActions>
+                                        <Grid Padding="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackLayout Grid.Column="0" Grid.Row="0">
+                                                <Label Text="Cod." />
+                                                <Label Text="{Binding Codigo}"
                                                FontAttributes="Bold"
                                                    FontSize="15"
                                                    TextColor="DarkCyan"/>
-                                        </StackLayout>
-                                        <StackLayout Grid.Column="1" Grid.Row="0">
-                                            <Label Text="Fecha de creacion:" />
-                                            <Label Text="{Binding Fecha}"
+                                            </StackLayout>
+                                            <StackLayout Grid.Column="1" Grid.Row="0">
+                                                <Label Text="Fecha de creacion:" />
+                                                <Label Text="{Binding Fecha}"
                                                FontAttributes="Bold"
                                                    FontSize="12"
                                                    TextColor="DarkCyan"/>
-                                            <Label Text="Fecha de entrega:" />
-                                            <Label Text="{Binding FechaEn}"
+                                                <Label Text="Fecha de entrega:" />
+                                                <Label Text="{Binding FechaEn}"
                                                FontAttributes="Bold"
                                                    FontSize="12"
                                                    TextColor="DarkCyan"/>
-                                        </StackLayout>
-                                        <StackLayout Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
-                                            <Label Text="Usuario:"/>
-                                            <Label Text="{Binding Usuario.Nombre}"
+                                            </StackLayout>
+                                            <StackLayout Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+                                                <Label Text="Usuario:"/>
+                                                <Label Text="{Binding Usuario.Nombre}"
                                                FontAttributes="Bold"
                                                    FontSize="15"
                                                    TextColor="DarkCyan"/>
-                                        </StackLayout>
-                                        <StackLayout Grid.Column="2" Grid.Row="1" HorizontalOptions="End"
+                                            </StackLayout>
+                                            <StackLayout Grid.Column="2" Grid.Row="1" HorizontalOptions="End"
                                                      WidthRequest="75">
-                                            <Label Text="Precio total:" HorizontalTextAlignment="Center"/>
-                                            <Label Text="{Binding Total}"
+                                                <Label Text="Precio total:" HorizontalTextAlignment="Center"/>
+                                                <Label Text="{Binding Total}"
                                                FontAttributes="Bold"
                                                    FontSize="15"
                                                    TextColor="OrangeRed"
                                                    HorizontalTextAlignment="Center"/>
-                                        </StackLayout>
-                                    </Grid>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </ScrollView>
-                <Frame x:Name="FmModificar" CornerRadius="2000" 
+                                            </StackLayout>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </ScrollView>
+                    <Frame x:Name="FmModificar" CornerRadius="2000" 
                        Padding="2" IsVisible="false"
                        Margin="0,0,0,20"
                        HorizontalOptions="Start" 
@@ -84,22 +87,22 @@
                        HeightRequest="50" 
                        WidthRequest="50"
                        BackgroundColor="LightGoldenrodYellow">
-                    <ImageButton x:Name="BtnModificar" CornerRadius="50" VerticalOptions="CenterAndExpand"
+                        <ImageButton x:Name="BtnModificar" CornerRadius="50" VerticalOptions="CenterAndExpand"
                                   HorizontalOptions="CenterAndExpand" Clicked="BtnModificar_Clicked"
                                   Source="editarUs.png" BackgroundColor="LightGoldenrodYellow" WidthRequest="45" HeightRequest="45"/>
-                </Frame>
-                <Frame CornerRadius="2000" 
+                    </Frame>
+                    <Frame CornerRadius="2000" 
                        Padding="0" 
                        Margin="0,0,20,20"
                        HorizontalOptions="End" 
                        VerticalOptions="End"
                        HeightRequest="50">
-                    <ImageButton x:Name="BtnAgregar" Source="botonAgregar.png" HorizontalOptions="EndAndExpand" 
+                        <ImageButton x:Name="BtnAgregar" Source="botonAgregar.png" HorizontalOptions="EndAndExpand" 
                          VerticalOptions="EndAndExpand" Clicked="BtnAgregar_Clicked"  BackgroundColor="Green" 
                          CornerRadius="2000"/>
-                </Frame>
-            </Grid>
-
-        </StackLayout>
+                    </Frame>
+                </Grid>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

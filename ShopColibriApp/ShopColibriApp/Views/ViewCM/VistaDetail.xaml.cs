@@ -114,5 +114,15 @@ namespace ShopColibriApp.Views.ViewCM
 				ImgDetail.Source = GlobalObject.GloInven_DTO.imagenes[n].Imagen1.ToString();
 			}
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+
+			Navigation.PushAsync(new MainPage());
+
+            // Retornar true para indicar que se ha manejado el evento del botón "Back"
+            return true;
+        }
+
     }
 }

@@ -80,6 +80,47 @@ namespace ShopColibriApp.Models
             }
         }
 
+        public async Task<Registro> GetRegistroId(int id)
+        {
+            try
+            {
+                string Route = string.Format("Registroes/{0}", id);
+                string FinalURL = Servicios.CnnToShopColibri.UrlProduction + Route;
+
+                RestClient client = new RestClient(FinalURL);
+
+                request = new RestRequest(FinalURL, Method.Get);
+
+                //agregar la info de seguridad del api, en este caso Apikey
+                request.AddHeader(Servicios.CnnToShopColibri.ApiKeyName, Servicios.CnnToShopColibri.ApiValue);
+                request.AddHeader(Servicios.CnnToShopColibri.contentType, Servicios.CnnToShopColibri.mimetype);
+
+                RestResponse response = await client.ExecuteAsync(request);
+
+                HttpStatusCode statusCode = response.StatusCode;
+
+                //carga de la info en un json
+
+                if (statusCode == HttpStatusCode.OK)
+                {
+                    var registro = JsonConvert.DeserializeObject<Registro>(response.Content);
+
+                    return registro;
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                // TO DO: Guardar estos errores en una bitácora para su posterior análisis
+                throw;
+            }
+        }
+
         public async Task<bool> PostRegistro()
         {
             try

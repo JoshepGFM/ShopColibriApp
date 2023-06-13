@@ -39,6 +39,21 @@ namespace ShopColibriApp.ViewModels
             }
         }
 
+        public async Task<Producto> GetProductoId(int id)
+        {
+            try
+            {
+                Producto producto = new Producto();
+                producto = await MiProducto.GetProductoId(id);
+                return producto;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
+
         public async Task<bool> PostProducto(string pNombre,
                                             string? pDescripcion)
         {

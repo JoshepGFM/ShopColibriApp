@@ -21,11 +21,13 @@ namespace ShopColibriApp.Views
         UsuarioViewModel uvm { get; set; }
         ControlMarmitaViewModel Cmvm { get; set; }
         UsuarioControlMarmitum ucmvm { get; set; }
+        ViewModelBitacora vmb { get; set; }
         private Usuario usuario { get; set; }
         public ControlMarmitaPage()
         {
             InitializeComponent();
 
+            vmb = new ViewModelBitacora();
             BindingContext = uvm = new UsuarioViewModel();
             BindingContext = Cmvm = new ControlMarmitaViewModel();
 
@@ -146,6 +148,7 @@ namespace ShopColibriApp.Views
                     }
                 }
                 BtnGuardar.IsVisible = false;
+                TituloControlMarmita.Text = "Modificar Control de Marmita";
                 BtnModificar.IsVisible = true;
             }
             else
@@ -179,10 +182,13 @@ namespace ShopColibriApp.Views
                     list = GlobalObject.GloListUsu.ToList();
                 }
                 R = await Cmvm.PostControlMar(PckFecha.Date, TmHoraEn.Time, TmHoraAp.Time, int.Parse(TxtTemperatura.Text.Trim()), TxtIntensidaMov.Text.Trim(), TxtLote.Text.Trim(), list);
+                int codigo = await Cmvm.GetUltimoID();
                 
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se a registrado el control de Marmita con éxito", "OK");
+                    await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                            " Guardo un Control de Marmita. control: Cod." + codigo + " del lote" + TxtLote.Text.ToString());
                     await Navigation.PushAsync(new VistaControlMarmita());
                 }
                 else
@@ -242,6 +248,13 @@ namespace ShopColibriApp.Views
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se a modificado el control de Marmita con éxito", "OK");
+                    await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                            " Modifico un Control de Marmita. control: Cod." + codigo + " del lote" + TxtLote.Text.ToString());
+                    GlobalObject.GloListInven.Clear();
+                    GlobalObject.GloPedidos = new Models.Pedidos();
+                    GlobalObject.GloPedidos_Cont = new Models.Pedidos();
+                    GlobalObject.GloPedidosDTO = new Models.PedidosDTO();
+                    GlobalObject.GloUsuPedi = new Usuario();
                     await Navigation.PushAsync(new VistaControlMarmita());
                 }
                 else
@@ -260,6 +273,11 @@ namespace ShopColibriApp.Views
 
         protected override bool OnBackButtonPressed()
         {
+            GlobalObject.GloListInven.Clear();
+            GlobalObject.GloPedidos = new Models.Pedidos();
+            GlobalObject.GloPedidos_Cont = new Models.Pedidos();
+            GlobalObject.GloPedidosDTO = new Models.PedidosDTO();
+            GlobalObject.GloUsuPedi = new Usuario();
             Navigation.PushAsync(new VistaControlMarmita());
 
             // Retornar true para indicar que se ha manejado el evento del botón "Back"

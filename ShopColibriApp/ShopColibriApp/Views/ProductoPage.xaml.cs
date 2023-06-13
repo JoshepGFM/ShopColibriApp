@@ -15,9 +15,11 @@ namespace ShopColibriApp.Views
     public partial class ProductoPage : ContentPage
     {
         ProductoViewModel pvm { get; set; }
+        ViewModelBitacora vmb { get; set; }
         public ProductoPage()
         {
             InitializeComponent();
+            vmb = new ViewModelBitacora();
             BindingContext = pvm = new ProductoViewModel();
             DataProduct();
         }
@@ -56,6 +58,8 @@ namespace ShopColibriApp.Views
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se Ingreso el producto con éxito", "OK");
+                    await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                          " Guardo un Producto. Producto: " + TxtNombre.Text.Trim());
                     await Navigation.PushAsync(new VistaProductosPage());
                 }
                 else
@@ -102,6 +106,8 @@ namespace ShopColibriApp.Views
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se Modifico el producto con éxito", "OK");
+                    await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                          " Modifico un Producto. Producto: " + GlobalObject.GloProd.Nombre);
                     await Navigation.PushAsync(new VistaProductosPage());
                 }
                 else

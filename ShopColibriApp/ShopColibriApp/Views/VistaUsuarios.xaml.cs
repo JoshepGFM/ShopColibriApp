@@ -174,7 +174,7 @@ namespace ShopColibriApp.Views.ViewCM
                     }
                     else
                     {
-                        await DisplayAlert("Error de verificación", "No se logro elimino el usuario", "OK");
+                        await DisplayAlert("Error de verificación", "No se logro elimino el usuario\n(Puede que este vinculado a un mantenimiento)", "OK");
                     }
                 }
                 else

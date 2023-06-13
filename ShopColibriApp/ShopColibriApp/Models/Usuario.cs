@@ -112,6 +112,47 @@ namespace ShopColibriApp.Models
             }
         }
 
+        public async Task<List<Usuario>> GetAllUser()
+        {
+            try
+            {
+                string Route = string.Format("Usuarios");
+
+                string FinalURL = Servicios.CnnToShopColibri.UrlProduction + Route;
+
+                RestClient client = new RestClient(FinalURL);
+
+                request = new RestRequest(FinalURL, Method.Get);
+
+                //info de seguridad del api
+                request.AddHeader(Servicios.CnnToShopColibri.ApiKeyName, Servicios.CnnToShopColibri.ApiValue);
+                request.AddHeader(Servicios.CnnToShopColibri.contentType, Servicios.CnnToShopColibri.mimetype);
+
+                RestResponse response = await client.ExecuteAsync(request);
+
+                HttpStatusCode statusCode = response.StatusCode;
+
+                //carga de la info en un json
+
+                if (statusCode == HttpStatusCode.OK)
+                {
+                    var list = JsonConvert.DeserializeObject<List<Usuario>>(response.Content);
+                    return list;
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                // TO DO: Guardar estos errores en una bitácora para su posterior análisis
+                throw;
+            }
+        }
+
         public async Task<Usuario> GetUsuarioId(int id)
         {
             try

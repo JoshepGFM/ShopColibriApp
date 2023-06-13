@@ -18,10 +18,12 @@ namespace ShopColibriApp.Views
         public Usuario MiUsuario { get; set; }
         private PedidosCalcu pedidosCalcu { get; set; }
         PedidosViewModel pvm { get; set; }
+        ViewModelBitacora vmb { get; set; }
         public PedidosPage()
         {
             InitializeComponent();
 
+            vmb = new ViewModelBitacora();
             BindingContext = pvm = new PedidosViewModel();
 
             MiUsuario = new Usuario();
@@ -127,13 +129,16 @@ namespace ShopColibriApp.Views
 
                 if (R)
                 {
+                    
+                    await DisplayAlert("Validación exitosa", "Se a ingresado el pedido con éxito", "OK");
+                    await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                            " Guardo un Pedido. Pedido: Del cliente, " + GlobalObject.GloUsuPedi.Nombre + " " + GlobalObject.GloUsuPedi.Apellido1 + " " + GlobalObject.GloUsuPedi.Apellido2);
                     GlobalObject.GloListInven.Clear();
                     GlobalObject.GloPedidos = new Models.Pedidos();
                     GlobalObject.GloPedidos_Cont = new Models.Pedidos();
                     GlobalObject.GloPedidosDTO = new Models.PedidosDTO();
                     GlobalObject.GloUsuPedi = new Usuario();
                     MiUsuario = new Usuario();
-                    await DisplayAlert("Validación exitosa", "Se a ingresado el pedido con éxito", "OK");
                     await Navigation.PushAsync(new VistaPedidoPage());
                 }
                 else
@@ -231,13 +236,15 @@ namespace ShopColibriApp.Views
 
                 if (R)
                 {
+                    await DisplayAlert("Validación exitosa", "Se a modificado el pedido con éxito", "OK");
+                    await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                            " Modifico un Pedido. Pedido: Cod." + GlobalObject.GloPedidosDTO.Codigo + " del cliente, " + GlobalObject.GloUsuPedi.Nombre + " " + GlobalObject.GloUsuPedi.Apellido1 + " " + GlobalObject.GloUsuPedi.Apellido2);
                     GlobalObject.GloListInven.Clear();
                     GlobalObject.GloPedidos = new Models.Pedidos();
                     GlobalObject.GloPedidos_Cont = new Models.Pedidos();
                     GlobalObject.GloPedidosDTO = new Models.PedidosDTO();
                     GlobalObject.GloUsuPedi = new Usuario();
                     MiUsuario = new Usuario();
-                    await DisplayAlert("Validación exitosa", "Se a modificado el pedido con éxito", "OK");
                     await Navigation.PushAsync(new VistaPedidoPage());
                 }
                 else

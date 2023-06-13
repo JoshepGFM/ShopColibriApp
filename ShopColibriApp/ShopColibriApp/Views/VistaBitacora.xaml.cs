@@ -1,4 +1,5 @@
-﻿using ShopColibriApp.ViewModels;
+﻿using ShopColibriApp.Models;
+using ShopColibriApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,7 +31,9 @@ namespace ShopColibriApp.Views
         public async void CargarBitacora()
         {
             string busqueda = PckProducto.SelectedItem as string;
-            LvlListaBitacora.ItemsSource = await vmb.GetBitacora(DtpInicio.Date, DtpFinal.Date, busqueda, CkbTodo.IsToggled);
+            ObservableCollection<Bitacora> list = new ObservableCollection<Bitacora>();
+            list = await vmb.GetBitacora(DtpInicio.Date, DtpFinal.Date, busqueda, CkbTodo.IsToggled);
+            LvlListaBitacora.ItemsSource = list.Reverse();
         }
 
 		public void CargarAccion()

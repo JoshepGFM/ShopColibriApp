@@ -1,5 +1,6 @@
 ﻿using ShopColibriApp.Models;
 using ShopColibriApp.ViewModels;
+using ShopColibriApp.Views.ViewCM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,7 +51,7 @@ namespace ShopColibriApp.Views
                     LblTituloRegistro.Text = "Modificar Usuario";
                     BtnModificar.IsVisible = true;
                 }
-                else if(GlobalObject.GloUsu != null && !GlobalObject.AgregadoUsuSis)
+                else if(GlobalObject.GloUsu.IdUsuario > 0 && !GlobalObject.AgregadoUsuSis)
                 {
                     LlenarUsuario();
                 }
@@ -65,7 +66,7 @@ namespace ShopColibriApp.Views
             {
                 if (!GlobalObject.AgregadoUsuSis)
                 {
-                    if (GlobalObject.GloUsu != null) { LlenarUsuario(); }
+                    if (GlobalObject.GloUsu.IdUsuario > 0) { LlenarUsuario(); }
                 }
                 else
                 {
@@ -75,6 +76,7 @@ namespace ShopColibriApp.Views
                 PckTipo.IsVisible = false;
             }
         }
+
         private void SwVer1_Toggled(object sender, ToggledEventArgs e)
         {
             if(SwVer1.IsToggled == false)
@@ -343,6 +345,7 @@ namespace ShopColibriApp.Views
                     var answer = await DisplayAlert("Confirmación", "¿Quiere registrarse?", "Si", "No");
                     if (answer)
                     {
+                        ViewCarga.IsVisible = true;
                         bool R = await vm.PostUsuario(TxtNombre.Text.Trim(),
                                                       TxtApellido1.Text.Trim(),
                                                       TxtApellido2.Text.Trim(),
@@ -354,7 +357,7 @@ namespace ShopColibriApp.Views
 
                         if (R)
                         {
-
+                            ViewCarga.IsVisible = false;
                             await DisplayAlert("Validación exitosa", "Se agrego con éxito el Usuario", "OK");
                             string Usuario = "Se";
                             if (GlobalObject.GloUsu.IdUsuario > 0)
@@ -362,10 +365,19 @@ namespace ShopColibriApp.Views
                                 Usuario = GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2;
                             }
                             await vmb.PostBitacora(DateTime.Now, Usuario + " Guardo un Usuario. Usuario: " + TxtNombre.Text + " " + TxtApellido1.Text + " " + TxtApellido2.Text);
-                            await Navigation.PopAsync();
+                            if (GlobalObject.GloUsu.IdUsuario > 0 && !GlobalObject.EditUsuario)
+                            {
+                                Navigation.PushAsync(new VistaUsuarios());
+                            }
+                            else
+                            {
+                                GlobalObject.EditUsuario = false;
+                                Navigation.PopAsync(true);
+                            }
                         }
                         else
                         {
+                            ViewCarga.IsVisible = false;
                             await DisplayAlert("Error de Validación", "Se ocasiono un error al ingresar el Usuario", "OK");
                         }
                     }
@@ -407,20 +419,49 @@ namespace ShopColibriApp.Views
                 usuario.EmailResp = emailRes;
                 usuario.Telefono = TxtTelefono.Text.Trim();
                 usuario.TusuarioId = tus.Id;
+                ViewCarga.IsVisible = true;
                 bool R = await vm.PatchUsuario(usuario,usuario.Contrasennia);
                 if (R)
                 {
+                    ViewCarga.IsVisible = false;
                     GlobalObject.GloUsu_Registro = null;
                     await DisplayAlert("Validación exitosa", "Se Modifico con éxito el Usuario", "OK");
                     await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
                           " Modifico un Usuario. Usuario: " + usuario.Nombre + " " + usuario.Apellido1 + " " + usuario.Apellido2);
-                    await Navigation.PopAsync();
+                    GlobalObject.EditUsuario = false;
+                    if (GlobalObject.GloUsu.IdUsuario > 0 && !GlobalObject.EditUsuario)
+                    {
+                        Navigation.PushAsync(new VistaUsuarios());
+                    }
+                    else
+                    {
+                        GlobalObject.EditUsuario = false;
+                        Navigation.PopAsync(true);
+                    }
                 }
                 else
                 {
+                    ViewCarga.IsVisible = false;
                     await DisplayAlert("Error de Validación", "Se ocasiono un error al modificar el Usuario", "OK");
                 }
             }
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (GlobalObject.GloUsu.IdUsuario > 0 && !GlobalObject.EditUsuario)
+            {
+                Navigation.PushAsync(new VistaUsuarios());
+            }
+            else
+            {
+                GlobalObject.EditUsuario = false;
+                Navigation.PopAsync(true);
+            }
+
+            // Retornar true para indicar que se ha manejado el evento del botón "Back"
+            return true;
+        }
+
     }
 }

@@ -3,18 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShopColibriApp.Views.PedidosPage"
              Shell.NavBarIsVisible="False"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             xmlns:GlobalV="clr-namespace:ShopColibriApp.Views.ViewGlo">
     <ContentPage.Content>
         <Grid>
+            <GlobalV:Degradado/>
             <StackLayout>
                 <StackLayout Orientation="Vertical">
                     <Label x:Name="LblTituloPedido" Text="Crear Pedido" FontSize="25" TextColor="DarkCyan" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                     <StackLayout Orientation="Horizontal" Spacing="5" HorizontalOptions="FillAndExpand">
                         <DatePicker x:Name="PckFecha" HorizontalOptions="StartAndExpand"/>
-                    </StackLayout>
-                    <StackLayout Orientation="Horizontal" Spacing="5" HorizontalOptions="FillAndExpand">
-                        <Label Text="Fecha de entrega"/>
-                        <DatePicker x:Name="PckFechaEn" HorizontalOptions="StartAndExpand"/>
                     </StackLayout>
                 </StackLayout>
                 <StackLayout>
@@ -126,6 +124,10 @@
                                      CornerRadius="2000" Source="botonAgregar.png" BackgroundColor="Green"
                                      HorizontalOptions="EndAndExpand" Margin="0,0,10,0" Clicked="BtnAgregarUsu_Clicked"/>
                     </StackLayout>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Spacing="5" HorizontalOptions="FillAndExpand">
+                    <Label Text="Fecha de entrega"/>
+                    <DatePicker x:Name="PckFechaEn" HorizontalOptions="StartAndExpand"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                     <Label Text="Total:" FontSize="30" FontAttributes="Bold" TextColor="Black"/>

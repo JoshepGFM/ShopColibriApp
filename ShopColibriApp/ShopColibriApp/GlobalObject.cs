@@ -11,6 +11,7 @@ namespace ShopColibriApp
     {
         public static int NumeroRecuperacion;
         public static bool AgregadoUsuSis = false;
+        public static bool EditUsuario = false;
         public static Usuario GloUsu = new Usuario();
         public static Usuario GloUsuPedi = new Usuario();
         public static Usuario GloUsu_Registro = new Usuario();

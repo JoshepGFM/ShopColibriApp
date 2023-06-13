@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShopColibriApp.Views.ViewGlo.Carga"
+             xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms">
+    <StackLayout VerticalOptions="Center">
+        <Frame  VerticalOptions="Center" HeightRequest="250" 
+                CornerRadius="10" Margin="20,0" BackgroundColor="#808080"
+                BorderColor="Black" Opacity="0.7">
+            <lottie:AnimationView Animation="Carga.json" AutoPlay="True"
+                          RepeatMode="Infinite"/>
+        </Frame>
+    </StackLayout>
+</ContentView>

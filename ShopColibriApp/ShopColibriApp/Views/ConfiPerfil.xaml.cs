@@ -20,6 +20,7 @@ namespace ShopColibriApp.Views
         private async void BtnEditarPer_Clicked(object sender, EventArgs e)
         {
             GlobalObject.GloUsu_Registro = null;
+            GlobalObject.EditUsuario = true;
             await Navigation.PushAsync(new Registro());
         }
 

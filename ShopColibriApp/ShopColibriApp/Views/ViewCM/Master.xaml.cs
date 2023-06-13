@@ -35,7 +35,7 @@ namespace ShopColibriApp.Views.ViewCM
             if(resp)
             {
                 Application.Current.Properties.Clear();
-                GlobalObject.GloUsu = null;
+                GlobalObject.GloUsu = new Usuario();
 
                 await Navigation.PushAsync(new Login());
             }
@@ -84,22 +84,14 @@ namespace ShopColibriApp.Views.ViewCM
                 if (GlobalObject.GloUsu.TusuarioId == 1 ||
                         GlobalObject.GloUsu.TusuarioId == 2)
                 {
-                    if (GlobalObject.GloUsu.TusuarioId == 1)
-                    {
-                        BtnProductos.IsVisible = true;
-                        BtnRegisUsu.IsVisible = true;
-                        BtnInventario.IsVisible = true;
-                        BtnEmpaque.IsVisible = true;
-                        BtnPedidos.IsVisible = true;
-                        BtnControlMar.IsVisible = true;
-                        BtnRegistro.IsVisible = true;
-                    }
-                    else
+                    if (GlobalObject.GloUsu.TusuarioId == 2)
                     {
                         BtnProductos.IsVisible = false;
                         BtnRegisUsu.IsVisible = false;
-                        BtnInventario.IsVisible = true;
-                        BtnEmpaque.IsVisible = true;
+                        BtnRegistro.IsVisible = false;
+                        BtnEntradas.IsVisible = false;
+                        BtnVerSalidas.IsVisible = false;
+                        BtnVerBitacora.IsVisible = false;
                     }
                 }
                 else
@@ -111,6 +103,9 @@ namespace ShopColibriApp.Views.ViewCM
                     BtnPedidos.IsVisible = false;
                     BtnControlMar.IsVisible = false;
                     BtnRegistro.IsVisible = false;
+                    BtnEntradas.IsVisible = false;
+                    BtnVerSalidas.IsVisible = false;
+                    BtnVerBitacora.IsVisible = false;
                     ScrollMenu.HeightRequest = 80;
                 }
             }
@@ -123,8 +118,9 @@ namespace ShopColibriApp.Views.ViewCM
 
         private async void BtnInventario_Clicked(object sender, EventArgs e)
         {
-            GlobalObject.GloInven_DTO = new Models.InventarioDTO();
-            GlobalObject.GloImagenes = new List<Imagen>();
+            GlobalObject.GloImagenes.Clear();
+            GlobalObject.GLoInventario = new Inventario();
+            GlobalObject.GloInven_DTO = new InventarioDTO();
             App.MasterDet.IsPresented = false;
             await App.MasterDet.Detail.Navigation.PushAsync(new InventarioPage());
         }
@@ -200,6 +196,11 @@ namespace ShopColibriApp.Views.ViewCM
         private async void BtnVerBitacora_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new VistaBitacora());
+        }
+
+        private async void BtnEntradas_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new EntradasPage());
         }
     }
 }

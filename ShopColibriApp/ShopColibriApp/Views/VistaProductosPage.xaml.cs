@@ -15,10 +15,12 @@ namespace ShopColibriApp.Views
     public partial class VistaProductosPage : ContentPage
     {
         ProductoViewModel pvm { get; set; }
+        ViewModelBitacora vmb { get; set; }
         private string? Filtre { get; set; }
         public VistaProductosPage()
         {
             InitializeComponent();
+            vmb = new ViewModelBitacora();
             BindingContext = pvm = new ProductoViewModel();
             CargarListaProducto();
         }
@@ -56,11 +58,15 @@ namespace ShopColibriApp.Views
             {
                 var item = (sender as MenuItem).CommandParameter;
                 int id = int.Parse(item.ToString());
+                Producto producto = new Producto();
+                producto = await pvm.GetProductoId(id);
                 bool R = await pvm.deleteProducto(id);
                 if (R)
                 {
                     CargarListaProducto();
                     await DisplayAlert("Verificación","Se elimino el producto con éxito","OK");
+                    await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                          " Elimino un Producto. Producto: " + producto.Nombre);
                 }
                 else
                 {

@@ -5,71 +5,74 @@
              NavigationPage.HasNavigationBar="False"
              xmlns:GlobalV="clr-namespace:ShopColibriApp.Views.ViewGlo">
     <ContentPage.Content>
-        <StackLayout>
-            <Frame Margin="10,0">
-                <StackLayout>
+        <Grid>
+            <GlobalV:Degradado/>
+            <StackLayout>
+                <Frame Margin="10,0">
+                    <StackLayout>
                         <SearchBar Placeholder="Buscar Producto" x:Name="SbBuscarPro" TextChanged="SbBuscarPro_TextChanged" HeightRequest="20"/>
-                </StackLayout>
-            </Frame>
-            <Grid Grid.RowSpan="2">
-                <GlobalV:Degradado/>
-                
-                <ListView x:Name="LvlListarProducto" RowHeight="140" ItemSelected="LvlListarProducto_ItemSelected" 
+                    </StackLayout>
+                </Frame>
+                <Grid Grid.RowSpan="2">
+                    <ScrollView>
+                        <ListView x:Name="LvlListarProducto" RowHeight="140" ItemSelected="LvlListarProducto_ItemSelected" 
                           IsPullToRefreshEnabled="True" Refreshing="LvlListarProducto_Refreshing">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.ContextActions>
-                                    <MenuItem x:Name="BtnDelete"
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <ViewCell.ContextActions>
+                                            <MenuItem x:Name="BtnDelete"
                                               Text="Eliminar"
                                               IsDestructive="True"
                                               Clicked="BtnDelete_Clicked"
                                               CommandParameter="{Binding Codigo}"/>
-                                </ViewCell.ContextActions>
-                                <Grid Padding="10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackLayout Padding="10">
-                                        <Frame Padding="10" WidthRequest="330" BackgroundColor="LightGray" CornerRadius="10">
-                                            <StackLayout Orientation="Horizontal" Spacing="10" VerticalOptions="CenterAndExpand" 
+                                        </ViewCell.ContextActions>
+                                        <Grid Padding="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackLayout Padding="10">
+                                                <Frame Padding="10" WidthRequest="330" BackgroundColor="LightGray" CornerRadius="10">
+                                                    <StackLayout Orientation="Horizontal" Spacing="10" VerticalOptions="CenterAndExpand" 
                                                      HorizontalOptions="CenterAndExpand">
-                                                <Label 
+                                                        <Label 
                                                 Text="{Binding Nombre}" 
                                                 FontSize="14"
                                                 FontAttributes="Bold"
                                                 TextColor="DarkCyan"/>
-                                            </StackLayout>
-                                        </Frame>
-                                        <ScrollView HeightRequest="50">
-                                            <Label Grid.Row="1"
+                                                    </StackLayout>
+                                                </Frame>
+                                                <ScrollView HeightRequest="50">
+                                                    <Label Grid.Row="1"
                                            Text="{Binding Descripcion}"
                                            FontSize="12"
                                            FontAttributes="Italic"/>
-                                        </ScrollView>
-                                        
-                                    </StackLayout>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <Frame CornerRadius="2000" 
-                       Padding="0" 
-                       Margin="0,0,30,40"
-                       HorizontalOptions="End" 
-                       VerticalOptions="End"
-                       HeightRequest="50">
-                    <ImageButton x:Name="BtnAgregar" Source="botonAgregar.png" HorizontalOptions="EndAndExpand" 
-                         VerticalOptions="EndAndExpand" Clicked="BtnAgregar_Clicked" BackgroundColor="Green" 
-                         CornerRadius="2000"/>
-                </Frame>
-            </Grid>
-        </StackLayout>
+                                                </ScrollView>
+
+                                            </StackLayout>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </ScrollView>
+                    <Frame CornerRadius="2000" 
+                   Padding="0" 
+                   Margin="0,0,30,40"
+                   HorizontalOptions="End" 
+                   VerticalOptions="End"
+                   HeightRequest="50">
+                        <ImageButton x:Name="BtnAgregar" Source="botonAgregar.png" HorizontalOptions="EndAndExpand" 
+                     VerticalOptions="EndAndExpand" Clicked="BtnAgregar_Clicked" BackgroundColor="Green" 
+                     CornerRadius="2000"/>
+                    </Frame>
+                </Grid>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

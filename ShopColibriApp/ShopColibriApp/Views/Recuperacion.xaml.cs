@@ -67,7 +67,7 @@ namespace ShopColibriApp.Views
 
 		private void ValidarUsuarioGlobal()
 		{
-			if(GlobalObject.GloUsu != null)
+			if(GlobalObject.GloUsu.IdUsuario > 0)
 			{
 				TxtEmail.Text = GlobalObject.GloUsu.Email;
 				TxtEmail.IsEnabled = false;

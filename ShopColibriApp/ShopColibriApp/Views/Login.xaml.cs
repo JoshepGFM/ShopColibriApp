@@ -2,6 +2,7 @@
 using ShopColibriApp.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -107,6 +108,20 @@ namespace ShopColibriApp.Views
             {
                 EstadoApi.BackgroundColor = Color.Red;
             }
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                if (await DisplayAlert("Mensaje", "Quiere cerrar la aplicación", "SI", "NO"))
+                {
+                    Process.GetCurrentProcess().Kill();
+                }
+            });
+
+            // Retornar true para indicar que se ha manejado el evento del botón "Back"
+            return true;
         }
     }
 }

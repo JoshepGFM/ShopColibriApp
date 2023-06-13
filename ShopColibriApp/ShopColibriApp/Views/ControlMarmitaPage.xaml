@@ -10,7 +10,7 @@
             <GlobalV:Degradado/>
             <StackLayout>
                 <StackLayout Orientation="Vertical">
-                    <Label Text="Crear Control de Marmita" FontSize="25" TextColor="DarkCyan" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    <Label x:Name="TituloControlMarmita" Text="Crear Control de Marmita" FontSize="25" TextColor="DarkCyan" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                     <StackLayout Orientation="Horizontal" Spacing="5" HorizontalOptions="FillAndExpand">
                         <DatePicker x:Name="PckFecha" HorizontalOptions="StartAndExpand"/>
                     </StackLayout>

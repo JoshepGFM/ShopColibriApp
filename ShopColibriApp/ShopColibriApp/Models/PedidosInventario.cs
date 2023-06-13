@@ -24,7 +24,7 @@ namespace ShopColibriApp.Models
 
         public decimal Total { get; set; }
 
-        public DateTime Fecha { get; set; }
+        public DateTime Fecha { get; set; } = DateTime.Now;
 
         //public virtual Inventario? Inventario { get; set; } = null!;
         //public virtual Pedido? PedidosCodigoNavigation { get; set; } = null!;

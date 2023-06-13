@@ -18,11 +18,13 @@ namespace ShopColibriApp.Views.ViewCM
     {
         InventarioViewModel ivm { get; set; }
         ImagenViewModel imgvm { get; set; }
+        ViewModelBitacora vmb { get; set; }
         private string? Filtro {get; set;}
         public Detail()
         {
             InitializeComponent();
 
+            vmb = new ViewModelBitacora();
             BindingContext = ivm = new InventarioViewModel();
             BindingContext = imgvm = new ImagenViewModel();
 
@@ -96,6 +98,8 @@ namespace ShopColibriApp.Views.ViewCM
 
         private async void BtnAgregar_Clicked(object sender, EventArgs e)
         {
+            GlobalObject.GloImagenes.Clear();
+            GlobalObject.GLoInventario = new Inventario();
             GlobalObject.GloInven_DTO = new InventarioDTO();
             await Navigation.PushAsync(new InventarioPage());
         }
@@ -129,10 +133,12 @@ namespace ShopColibriApp.Views.ViewCM
 
                     if (R)
                     {
-                        await DisplayAlert("Validación exitosa", "Se elimino con éxito del Inventario (puede que este vinculado con otro elemento)", "OK");
+                        await DisplayAlert("Validación exitosa", "Se elimino con éxito del Inventario", "OK");
+                        await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                          " Elimino un Inventario. Inventario: " + GlobalObject.GloInven_DTO.NombrePro + " " + GlobalObject.GloInven_DTO.NombreEmp);
                         if (!T)
                         {
-                            await DisplayAlert("Error de validación", "No se pudo eliminar las imágenes vinculadas", "OK");
+                            await DisplayAlert("Error de validación", "No se pudo eliminar las imágenes vinculadas (puede que este vinculado con otro elemento)", "OK");
                         }
                         LvlListaInventario.BeginRefresh();
                         Task.Delay(2000);
@@ -153,7 +159,7 @@ namespace ShopColibriApp.Views.ViewCM
                 await Navigation.PushAsync(new InventarioPage());
             }
         }
-
+        //Permite que al presionar la tecla back del teléfono la aplicación realice la funcionalidad de dentro de la función.
         protected override bool OnBackButtonPressed()
         {
 

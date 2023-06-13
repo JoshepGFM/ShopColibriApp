@@ -49,7 +49,7 @@ namespace ShopColibriApp.Views
             {
                 list = await vmb.GetBitacoraSalidas(DtpInicio.Date, DtpFinal.Date, null, CkbTodo.IsToggled);
             }
-            LvlListaBitacora.ItemsSource = list;
+            LvlListaBitacora.ItemsSource = list.Reverse();
         }
 
         private void LvlListaBitacora_ItemSelected(object sender, SelectedItemChangedEventArgs e)

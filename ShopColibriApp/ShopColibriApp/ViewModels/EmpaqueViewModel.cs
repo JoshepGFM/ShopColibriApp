@@ -44,6 +44,29 @@ namespace ShopColibriApp.ViewModels
             }
         }
 
+        public async Task<Empaque> GetEmpaqueId(int id)
+        {
+            try
+            {
+                Empaque empaque = new Empaque();
+
+                empaque = await MiEmpaque.GetEmpaqueId(id);
+
+                if (empaque == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return empaque;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         public async Task<bool> PostEmpaque(string pNombre, string pTamannio, int pStock)
         {
             bool R = false;

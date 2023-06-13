@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace ShopColibriApp.Models
 {
@@ -17,9 +18,13 @@ namespace ShopColibriApp.Models
 
         public int Entrada { get; set; }
 
-        public int EmpaqueId { get; set; }
+        public int? EmpaqueId { get; set; }
 
-        public virtual Empaque? Empaque { get; set; } = null!;
+        public int? InventarioId { get; set; }
+
+        public virtual Empaque? Empaque { get; set; }
+
+        public virtual Inventario? Inventario { get; set; }
 
         //public virtual ICollection<UsuarioFechaIngre> UsuarioFechaIngres { get; set; } = new List<UsuarioFechaIngre>();
 

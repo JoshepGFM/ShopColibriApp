@@ -5,10 +5,11 @@
              Shell.NavBarIsVisible="False"
              NavigationPage.HasNavigationBar="False"
              BackgroundImageSource="InicioAPP.jpg"
+             xmlns:GlobalV="clr-namespace:ShopColibriApp.Views.ViewGlo"
              >
     <ContentPage.Content>
-        <StackLayout>
-            
-        </StackLayout>
+        <Grid>
+            <GlobalV:Carga/>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -58,6 +58,23 @@ namespace ShopColibriApp.Servicios
             }
         }
 
+        public async Task<ControlMarmita> GetControlMarmiId(int id)
+        {
+            try
+            {
+                ControlMarmita controlMaris = new ControlMarmita();
+
+                controlMaris = await MiControlMar.GetControlMarmitumsId(id);
+
+                return controlMaris;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
+
         public async Task<bool> PostControlMar(DateTime pFecha, TimeSpan pHoraEn, TimeSpan pHoraAp, int pTemparatura, string pIntenciadaMov, string pLote, List<Usuario> usuarios)
         {
             if(IsBusy) return false;

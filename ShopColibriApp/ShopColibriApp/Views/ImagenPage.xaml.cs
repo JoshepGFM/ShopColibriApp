@@ -32,17 +32,24 @@ namespace ShopColibriApp.Views
 
         private async void BtnGuardar_Clicked(object sender, EventArgs e)
         {
-            ObservableCollection<FileImageSource> list = new ObservableCollection<FileImageSource>();
-            list = ImgProductos.Images;
-            foreach (var image in list)
+            if (ImgProductos.Images != null)
             {
-                Imagen NewItem = new Imagen();
+                ObservableCollection<FileImageSource> list = new ObservableCollection<FileImageSource>();
+                list = ImgProductos.Images;
+                foreach (var image in list)
+                {
+                    Imagen NewItem = new Imagen();
 
-                NewItem.Imagen1 = image;
+                    NewItem.Imagen1 = image;
 
-                GlobalObject.GloImagenes.Add(NewItem);
+                    GlobalObject.GloImagenes.Add(NewItem);
+                }
+                await Navigation.PushAsync(new InventarioPage());
             }
-            await Navigation.PushAsync(new InventarioPage());
+            else
+            {
+                await DisplayAlert("Error de validación", "Se tiene seleccionar una imagen para guardar", "OK");
+            }
         }
 
         private async void BtnGaleria_Clicked(object sender, EventArgs e)

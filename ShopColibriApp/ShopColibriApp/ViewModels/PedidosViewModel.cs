@@ -13,14 +13,19 @@ namespace ShopColibriApp.ViewModels
     public class PedidosViewModel : BaseViewModel
     {
         Pedidos MiPedidos { get; set; }
+        Empaque MiEmpaque { get; set; }
+        Producto MiProducto { get; set; }
         PedidosDTO MiPedidosDTO { get; set; }
         PedidosInventario MiPedidosInve { get; set; }
+        Inventario MiInventario { get; set; }
         InventarioViewModel ivm { get; set; }
         ViewModelBitacoraSalida vmb { get; set; }
         public PedidosViewModel()
         {
             ValidarConexionInternet();
-
+            MiEmpaque = new Empaque();
+            MiProducto = new Producto();
+            MiInventario = new Inventario();
             MiPedidos = new Pedidos();
             MiPedidosDTO = new PedidosDTO();
             MiPedidosInve = new PedidosInventario();
@@ -63,6 +68,21 @@ namespace ShopColibriApp.ViewModels
             }
         }
 
+        public async Task<Pedidos> GetPedidoId(int id)
+        {
+            try
+            {
+                Pedidos pedido = new Pedidos();
+                pedido = await MiPedidos.GetPedidosId(id);
+                return pedido;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
+
         public async Task<bool> PostPedidos(DateTime pFecha, DateTime pFechaEn, ObservableCollection<PedidosCalcu> pIventario, 
                                            Usuario pUsuario, decimal pTotal)
         {
@@ -86,10 +106,10 @@ namespace ShopColibriApp.ViewModels
                     {
                         int restaStock = pIventario[i].Stock - pIventario[i].Cantidad;
                         T = await ivm.PutInventario(pIventario[i].Id, pIventario[i].Fecha, restaStock, pIventario[i].Precio, 
-                            pIventario[i].Origen, pIventario[i].ProductoCodigo, pIventario[i].EmpaqueId);
+                            pIventario[i].Origen, pIventario[i].ProductoCodigo, pIventario[i].EmpaqueId, -pIventario[i].Cantidad);
                     }
                     string usu = GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2;
-                    string objetoRef = usu + " realizo un pedido de " + pIventario[i].Cantidad + " '" + pIventario[i].NombrePro + "'. En el pedido " + codigo;
+                    string objetoRef = usu + " realizo un pedido de " + pIventario[i].Cantidad + " '" + pIventario[i].NombrePro + " " + pIventario[i].NombreEmp + "'. En el pedido Cod." + codigo;
                     bool U = await vmb.PostBitacoraSalidas(DateTime.Now, objetoRef, pIventario[i].Cantidad);
                     if (!U)
                     {
@@ -162,14 +182,14 @@ namespace ShopColibriApp.ViewModels
                                     diferCantid = pedido[i].Cantidad - pIventario[i].Cantidad;
                                     int sumaStock = pIventario[i].Stock + diferCantid;
                                     T = await ivm.PutInventario(pIventario[i].Id, pIventario[i].Fecha, sumaStock, pIventario[i].Precio,
-                                pIventario[i].Origen, pIventario[i].ProductoCodigo, pIventario[i].EmpaqueId);
+                                pIventario[i].Origen, pIventario[i].ProductoCodigo, pIventario[i].EmpaqueId, diferCantid);
                                 }
                                 else if (pedido[i].Cantidad < pIventario[i].Cantidad)
                                 {
                                     diferCantid = pIventario[i].Cantidad - pedido[i].Cantidad;
                                     int restaStock = pIventario[i].Stock - diferCantid;
                                     T = await ivm.PutInventario(pIventario[i].Id, pIventario[i].Fecha, restaStock, pIventario[i].Precio,
-                                pIventario[i].Origen, pIventario[i].ProductoCodigo, pIventario[i].EmpaqueId);
+                                pIventario[i].Origen, pIventario[i].ProductoCodigo, pIventario[i].EmpaqueId, -diferCantid);
                                 }
                             }
                             else
@@ -183,14 +203,14 @@ namespace ShopColibriApp.ViewModels
                                             diferCantid = pedido[i].Cantidad - pIventario[i].Cantidad;
                                             int sumaStock = pIventario[i].Stock + diferCantid;
                                             T = await ivm.PutInventario(pIventario[i].Id, pIventario[i].Fecha, sumaStock, pIventario[i].Precio,
-                                        pIventario[i].Origen, pIventario[i].ProductoCodigo, pIventario[i].EmpaqueId);
+                                        pIventario[i].Origen, pIventario[i].ProductoCodigo, pIventario[i].EmpaqueId, diferCantid);
                                         }
                                         else if (pedido[e].Cantidad < pIventario[i].Cantidad)
                                         {
                                             diferCantid = pIventario[i].Cantidad - pedido[i].Cantidad;
                                             int restaStock = pIventario[i].Stock - diferCantid;
                                             T = await ivm.PutInventario(pIventario[i].Id, pIventario[i].Fecha, restaStock, pIventario[i].Precio,
-                                        pIventario[i].Origen, pIventario[i].ProductoCodigo, pIventario[i].EmpaqueId);
+                                        pIventario[i].Origen, pIventario[i].ProductoCodigo, pIventario[i].EmpaqueId, -diferCantid);
                                         }
                                     }
                                 }
@@ -198,28 +218,44 @@ namespace ShopColibriApp.ViewModels
                             T = await PutPedidosInve(pedido[i].DetalleId, pCodigo, pIventario[i].Id, 
                                 pIventario[i].Cantidad, pIventario[i].PrecioUn, pIventario[i].Total, pIventario[i].Fecha);
                         }
-                        else if (pedido.Count >= pIventario.Count)
+                        else if (i > 1-pIventario.Count)
                         {
                             T = await MiPedidosInve.DeletePedidosInventario(pedido[i].DetalleId);
                             bool J = false;
-                            for (int e = 0; e < pedido.Count; e++)
+                            if (T)
                             {
-                                if (pIventario[i].Id != pedido[e].InventarioId)
-                                {
-                                    J = true;
-                                }
-                                if (pIventario[i].Id == pedido[e].InventarioId)
-                                {
-                                    J = false;
-                                    break;
-                                }
+                                Inventario inventario = new Inventario();
+                                inventario = await MiInventario.GetInventarioId(pedido[i].InventarioId);
+                                int suma = pedido[i].Cantidad + inventario.Stock;
+                                T = await ivm.PutInventario(inventario.Id, inventario.Fecha, suma, inventario.PrecioUn,
+                                inventario.Origen, inventario.ProductoCodigo, inventario.EmpaqueId, pedido[i].Cantidad);
                             }
-                                if (T && J )
-                                {
-                                    int suma = pedido[i].Cantidad + pIventario[i].Stock;
-                                    T = await ivm.PutInventario(pIventario[i].Id, pIventario[i].Fecha, suma, pIventario[i].Precio,
-                                pIventario[i].Origen, pIventario[i].ProductoCodigo, pIventario[i].EmpaqueId);
-                                }
+                        }
+                        if (i < pIventario.Count)
+                        {
+                            string usu = GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2;
+                            string objetoRef = usu + " modifico un pedido de " + pIventario[i].Cantidad + " '" + pIventario[i].NombrePro + " " + pIventario[i].NombreEmp + "'. En el pedido Cod." + pCodigo;
+                            bool U = await vmb.PostBitacoraSalidas(DateTime.Now, objetoRef, pIventario[i].Cantidad);
+                            if (!U)
+                            {
+                                await DisplayAlert("Error de validación", "Error de Bitácora de Salida", "OK");
+                            }
+                        }
+                        else
+                        {
+                            Inventario inventario = new Inventario();
+                            inventario = await MiInventario.GetInventarioId(pedido[i].InventarioId);
+                            Producto producto = new Producto();
+                            producto = await MiProducto.GetProductoId(inventario.ProductoCodigo);
+                            Empaque empaque = new Empaque();
+                            empaque = await MiEmpaque.GetEmpaqueId(inventario.EmpaqueId);
+                            string usu = GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2;
+                            string objetoRef = usu + " modifico un pedido de " + pedido[i].Cantidad + " '" + producto.Nombre + " " + empaque.Nombre + " " + empaque.Tamannio + "'. En el pedido Cod." + pCodigo;
+                            bool U = await vmb.PostBitacoraSalidas(DateTime.Now, objetoRef, -pedido[i].Cantidad);
+                            if (!U)
+                            {
+                                await DisplayAlert("Error de validación", "Error de Bitácora de Salida", "OK");
+                            }
                         }
                     }
                     if (pedido.Count < pIventario.Count)
@@ -232,7 +268,14 @@ namespace ShopColibriApp.ViewModels
                             {
                                 int restaStock = pIventario[i].Stock - pIventario[i].Cantidad;
                                 T = await ivm.PutInventario(pIventario[i].Id, pIventario[i].Fecha, restaStock, pIventario[i].Precio,
-                                    pIventario[i].Origen, pIventario[i].ProductoCodigo, pIventario[i].EmpaqueId);
+                                    pIventario[i].Origen, pIventario[i].ProductoCodigo, pIventario[i].EmpaqueId, -pIventario[i].Cantidad);
+                            }
+                            string usu = GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2;
+                            string objetoRef = usu + " modifico un pedido de " + pIventario[i].Cantidad + " '" + pIventario[i].NombrePro + " " + pIventario[i].NombreEmp + "'. En el pedido Cod." + pCodigo;
+                            bool U = await vmb.PostBitacoraSalidas(DateTime.Now, objetoRef, pIventario[i].Cantidad);
+                            if (!U)
+                            {
+                                await DisplayAlert("Error de validación", "Error de Bitácora de Salida", "OK");
                             }
                         }
                     }
@@ -247,7 +290,14 @@ namespace ShopColibriApp.ViewModels
                         {
                             int restaStock = pIventario[i].Stock - pIventario[i].Cantidad;
                             T = await ivm.PutInventario(pIventario[i].Id, pIventario[i].Fecha, restaStock, pIventario[i].Precio,
-                                pIventario[i].Origen, pIventario[i].ProductoCodigo, pIventario[i].EmpaqueId);
+                                pIventario[i].Origen, pIventario[i].ProductoCodigo, pIventario[i].EmpaqueId, -pIventario[i].Cantidad);
+                        }
+                        string usu = GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2;
+                        string objetoRef = usu + " modifico un pedido de " + pIventario[i].Cantidad + " '" + pIventario[i].NombrePro + " " + pIventario[i].NombreEmp + "'. En el pedido Cod." + pCodigo;
+                        bool U = await vmb.PostBitacoraSalidas(DateTime.Now, objetoRef, pIventario[i].Cantidad);
+                        if (!U)
+                        {
+                            await DisplayAlert("Error de validación", "Error de Bitácora de Salida", "OK");
                         }
                     }
                 }
@@ -300,8 +350,15 @@ namespace ShopColibriApp.ViewModels
                 for (int i = 0; i < list.Count; i++)
                 {
                     T = await MiPedidosInve.DeletePedidosInventario(list[i].DetalleId);
+                    Inventario pedido = new Inventario();
+                    pedido = await MiInventario.GetInventarioId(list[i].InventarioId);
+                    Empaque empaque = new Empaque();
+                    Producto producto = new Producto();
+                    empaque = await MiEmpaque.GetEmpaqueId(pedido.EmpaqueId);
+                    producto = await MiProducto.GetProductoId(pedido.ProductoCodigo);
+                    string ProductoNomb = producto.Nombre + " " + empaque.Nombre + " " + empaque.Tamannio;
                     string usu = GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2;
-                    string objetoRef = usu + " elimino un pedido de " + list[i].Cantidad + " '" + GlobalObject.GloPedidosDTO.inventarios[i].NombrePro + "'. En el pedido cod." + pId;
+                    string objetoRef = usu + " elimino un pedido de " + list[i].Cantidad + " '" + ProductoNomb + "'. En el pedido cod." + pId;
                     bool U = await vmb.PostBitacoraSalidas(DateTime.Now, objetoRef, -list[i].Cantidad);
                 }
                 if (!T)

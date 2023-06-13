@@ -4,6 +4,7 @@
              x:Class="ShopColibriApp.Views.ViewCM.VistaDetail"
              xmlns:carrusel="clr-namespace:Xamd.ImageCarousel.Forms.Plugin.Abstractions;assembly=Xamd.ImageCarousel.Forms.Plugin.Abstractions"
              xmlns:GlobalV ="clr-namespace:ShopColibriApp.Views.ViewGlo"
+             NavigationPage.HasNavigationBar="False"
              >
     <ContentPage.Content>
         <Grid>

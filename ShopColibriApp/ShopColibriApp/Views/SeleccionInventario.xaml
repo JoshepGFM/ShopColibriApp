@@ -46,6 +46,13 @@
                                                    FontSize="15"
                                                    TextColor="DarkCyan"/>
                                                 </StackLayout>
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label Text="Stock:"/>
+                                                    <Label Text="{Binding Stock}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="15"
+                                                   TextColor="Black"/>
+                                                </StackLayout>
                                             </StackLayout>
                                             <StackLayout Grid.Column="3" Grid.Row="2" HorizontalOptions="End" Orientation="Horizontal" 
                                                  VerticalOptions="EndAndExpand">

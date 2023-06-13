@@ -1,5 +1,6 @@
 ﻿using ShopColibriApp.Models;
 using ShopColibriApp.Servicios;
+using ShopColibriApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,11 +17,13 @@ namespace ShopColibriApp.Views
 	public partial class VistaControlMarmita : ContentPage
 	{
         ControlMarmitaViewModel cvm { get; set; }
+        ViewModelBitacora vmb { get; set; }
         private string? Filter { get; set; }
 		public VistaControlMarmita ()
 		{
 			InitializeComponent ();
 
+            vmb = new ViewModelBitacora ();
             BindingContext = cvm = new ControlMarmitaViewModel();
 
             CargarListaControlMarmita();
@@ -53,22 +56,21 @@ namespace ShopColibriApp.Views
             {
                 var item = (sender as MenuItem).CommandParameter;
                 int id = int.Parse(item.ToString());
+                ControlMarmita control = new ControlMarmita();
+                control = await cvm.GetControlMarmiId(id);
                 bool R = await cvm.DeleteControlMarmita(id);
                 if (R)
                 {
-                    CargarListaControlMarmita();
                     await DisplayAlert("Verificación", "Se elimino el control con éxito", "OK");
+                    await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                            " Elimino un Control de Marmita. Control: Cod." + control.Codigo + " del lote, " + control.Lote);
+                    CargarListaControlMarmita();
                 }
                 else
                 {
                     await DisplayAlert("Error de verificación", "No se logro eliminar el Control", "OK");
                 }
             }
-        }
-
-        private void BtnInvalidar_Clicked(object sender, EventArgs e)
-        {
-
         }
 
         private async void BtnModificar_Clicked(object sender, EventArgs e)
@@ -84,6 +86,7 @@ namespace ShopColibriApp.Views
 
         private async void BtnAgregar_Clicked(object sender, EventArgs e)
         {
+            GlobalObject.GloControMarmi_Cont = new ControlMarmita();
             GlobalObject.GloControlMarDTO = new Models.ControlMarmitaDTO();
             GlobalObject.GloListUsu.Clear();
             await Navigation.PushAsync(new ControlMarmitaPage());

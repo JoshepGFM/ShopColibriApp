@@ -4,7 +4,8 @@
              x:Class="ShopColibriApp.Views.Login"
              Shell.NavBarIsVisible="False"
              NavigationPage.HasNavigationBar="False"
-             BackgroundImageSource="fondoimages.jpg">
+             BackgroundImageSource="fondoimages.jpg"
+             xmlns:GlobalV="clr-namespace:ShopColibriApp.Views.ViewGlo">
     <ContentPage.Content>
         <StackLayout>
             <Frame CornerRadius="50" Padding="10" Margin="10,20">

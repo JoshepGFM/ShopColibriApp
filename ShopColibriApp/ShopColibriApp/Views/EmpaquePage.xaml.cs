@@ -1,4 +1,5 @@
-﻿using ShopColibriApp.ViewModels;
+﻿using ShopColibriApp.Models;
+using ShopColibriApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,11 @@ namespace ShopColibriApp.Views
     public partial class EmpaquePage : ContentPage
     {
         EmpaqueViewModel evm { get; set; }
+        ViewModelBitacora vmb { get; set; }
         public EmpaquePage()
         {
             InitializeComponent();
+            vmb = new ViewModelBitacora();
             BindingContext = evm = new EmpaqueViewModel();
             ValidarInicio();
         }
@@ -47,6 +50,8 @@ namespace ShopColibriApp.Views
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se agrego exitosamente el Empaque", "Ok");
+                    await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                            " Guardo un Empaque. Empaque: " + TxtNombre.Text + " " + TxtTamannio.Text + " con " + TxtStock.Text + " de Stock.");
                     await Navigation.PushAsync(new VistaEmpaque());
                 }
                 else
@@ -66,6 +71,8 @@ namespace ShopColibriApp.Views
                 if (R)
                 {
                     await DisplayAlert("Validación exitosa", "Se a modificado el Empaque exitosamente", "Ok");
+                    await vmb.PostBitacora(DateTime.Now, GlobalObject.GloUsu.Nombre + " " + GlobalObject.GloUsu.Apellido1 + " " + GlobalObject.GloUsu.Apellido2 +
+                            " Modifico un Empaque. Empaque: " + TxtNombre.Text + " " + TxtTamannio.Text + " con " + TxtStock.Text + " de Stock.");
                     await Navigation.PushAsync(new VistaEmpaque());
                 }
                 else
