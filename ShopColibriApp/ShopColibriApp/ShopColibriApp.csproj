@@ -12,12 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="CredenDri.json" />
     <None Remove="ViewModels\InventarioViewModel.cs~RFafa6db.TMP" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="CredenDri.json" />
   </ItemGroup>
 
   <ItemGroup>

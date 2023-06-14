@@ -1,69 +1,72 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ShopColibriApp.Views.ViewCM.Detail">
+             x:Class="ShopColibriApp.Views.ViewCM.Detail"
+             xmlns:GlobalV ="clr-namespace:ShopColibriApp.Views.ViewGlo">
     <ContentPage.Content>
-        <StackLayout>
-            <Frame HeightRequest="40">
-                <StackLayout Orientation="Horizontal">
-                    <SearchBar x:Name="SbBuscarPro" Placeholder="Buscar Producto" TextChanged="SbBuscarPro_TextChanged"/>
-                    <StackLayout HorizontalOptions="EndAndExpand">
-                        <Label x:Name="LblActivo" Text="En stock" FontSize="10" HorizontalTextAlignment="Center" IsVisible="false"/>
-                        <Switch x:Name="SwStock" HorizontalOptions="CenterAndExpand" Toggled="SwStock_Toggled"  IsToggled="True" IsVisible="false"/>
+        <Grid>
+            <GlobalV:Degradado/>
+            <StackLayout>
+                <Frame HeightRequest="40">
+                    <StackLayout Orientation="Horizontal">
+                        <SearchBar x:Name="SbBuscarPro" Placeholder="Buscar Producto" TextChanged="SbBuscarPro_TextChanged"/>
+                        <StackLayout HorizontalOptions="EndAndExpand">
+                            <Label x:Name="LblActivo" Text="En stock" FontSize="10" HorizontalTextAlignment="Center" IsVisible="false"/>
+                            <Switch x:Name="SwStock" HorizontalOptions="CenterAndExpand" Toggled="SwStock_Toggled"  IsToggled="True" IsVisible="false"/>
+                        </StackLayout>
                     </StackLayout>
-                </StackLayout>
-            </Frame>
+                </Frame>
 
-            <Grid>
-                <ScrollView>
-                    <ListView x:Name="LvlListaInventario" RowHeight="150"
+                <Grid>
+                    <ScrollView>
+                        <ListView x:Name="LvlListaInventario" RowHeight="150"
                               ItemSelected="LvlListaInventario_ItemSelected"  IsPullToRefreshEnabled="True" Refreshing="LvlListaInventario_Refreshing">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <Grid Padding="10">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid Padding="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
 
-                                        <Image Source="{Binding priImagen}" Grid.Column="0" WidthRequest="120" HeightRequest="130"/>
-                                        
-                                        <StackLayout Grid.Column="1">
-                                            <StackLayout Orientation="Vertical">
-                                                <Label Grid.Column="1"
+                                            <Image Source="{Binding priImagen}" Grid.Column="0" WidthRequest="120" HeightRequest="130"/>
+
+                                            <StackLayout Grid.Column="1">
+                                                <StackLayout Orientation="Vertical">
+                                                    <Label Grid.Column="1"
                                                Text="{Binding NombrePro}"
                                                FontAttributes="Bold"
                                                    FontSize="15"
                                                    TextColor="DarkCyan"/>
-                                                <StackLayout Orientation="Horizontal">
-                                                    <Label Text="Tamaño:"/>
-                                                    <Label Text="{Binding NombreEmp}"
+                                                    <StackLayout Orientation="Horizontal">
+                                                        <Label Text="Tamaño:"/>
+                                                        <Label Text="{Binding NombreEmp}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="15"
+                                                   TextColor="DarkCyan"/>
+                                                    </StackLayout>
+                                                </StackLayout>
+                                                <StackLayout Grid.Column="3" Grid.Row="2" HorizontalOptions="End" Orientation="Horizontal" 
+                                                 VerticalOptions="EndAndExpand">
+                                                    <Label Text="₡"/>
+                                                    <Label Text="{Binding PrecioUn}"
                                                    FontAttributes="Bold"
                                                    FontSize="15"
                                                    TextColor="DarkCyan"/>
                                                 </StackLayout>
                                             </StackLayout>
-                                            <StackLayout Grid.Column="3" Grid.Row="2" HorizontalOptions="End" Orientation="Horizontal" 
-                                                 VerticalOptions="EndAndExpand">
-                                                <Label Text="₡"/>
-                                                <Label Text="{Binding PrecioUn}"
-                                                   FontAttributes="Bold"
-                                                   FontSize="15"
-                                                   TextColor="DarkCyan"/>
-                                            </StackLayout>
-                                        </StackLayout>
-                                    </Grid>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </ScrollView>
-                <Frame x:Name="FmIElimnar" CornerRadius="2000" 
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </ScrollView>
+                    <Frame x:Name="FmIElimnar" CornerRadius="2000" 
                        Padding="2" IsVisible="false"
                        Margin="20,0,0,30"
                        HorizontalOptions="Start" 
@@ -71,11 +74,11 @@
                        HeightRequest="35" 
                        WidthRequest="35"
                        BackgroundColor="PaleVioletRed">
-                    <ImageButton x:Name="BtnEliminar" CornerRadius="2000" VerticalOptions="CenterAndExpand"
+                        <ImageButton x:Name="BtnEliminar" CornerRadius="2000" VerticalOptions="CenterAndExpand"
                                  HorizontalOptions="CenterAndExpand" Clicked="BtnEliminar_Clicked" 
                                  Source="Invalidar.png" BackgroundColor="PaleVioletRed" WidthRequest="32" HeightRequest="32"/>
-                </Frame>
-                <Frame x:Name="FmModificar" CornerRadius="2000" 
+                    </Frame>
+                    <Frame x:Name="FmModificar" CornerRadius="2000" 
                        Padding="2" IsVisible="false"
                        Margin="0,0,0,20"
                        HorizontalOptions="Center" 
@@ -83,22 +86,23 @@
                        HeightRequest="50" 
                        WidthRequest="50"
                        BackgroundColor="LightGoldenrodYellow">
-                    <ImageButton x:Name="BtnModificar" CornerRadius="50" VerticalOptions="CenterAndExpand"
+                        <ImageButton x:Name="BtnModificar" CornerRadius="50" VerticalOptions="CenterAndExpand"
                                  HorizontalOptions="CenterAndExpand" Clicked="BtnModificar_Clicked"
                                  Source="editarUs.png" BackgroundColor="LightGoldenrodYellow" WidthRequest="45" HeightRequest="45"/>
-                </Frame>
-                <Frame CornerRadius="2000" 
+                    </Frame>
+                    <Frame CornerRadius="2000" 
                        x:Name="FmAgregar"
                        Padding="1" 
                        Margin="0,0,20,20"
                        HorizontalOptions="End" 
                        VerticalOptions="End"
                        HeightRequest="50">
-                    <ImageButton x:Name="BtnAgregar" Source="botonAgregar.png" HorizontalOptions="EndAndExpand" 
+                        <ImageButton x:Name="BtnAgregar" Source="botonAgregar.png" HorizontalOptions="EndAndExpand" 
                          VerticalOptions="EndAndExpand" Clicked="BtnAgregar_Clicked" BackgroundColor="Green" 
                          CornerRadius="2000"/>
-                </Frame>
-            </Grid>
-        </StackLayout>
+                    </Frame>
+                </Grid>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

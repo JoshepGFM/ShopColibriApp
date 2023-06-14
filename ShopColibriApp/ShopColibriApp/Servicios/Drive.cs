@@ -23,17 +23,13 @@ namespace ShopColibriApp.Servicios
     public class Drive
     {
         private string[] Scopes = { DriveService.Scope.Drive };
-        private string AplicationName = "ShopColibriApp";
+        private string ApplicationName = "ShopColibriApp";
+        private UserCredential credential;
 
-        public void VerificarAcceso()
+        private DriveService GetService()
         {
-            UserCredential credential;
 
-            var assembly = IntrospectionExtensions.GetTypeInfo(typeof(Drive)).Assembly;
-            Stream Json = assembly.GetManifestResourceStream("ShopColibriApp.CredenDri.json");
-            string StreamReader = new StreamReader(Json).ReadToEnd();
-
-            using (var stream = new FileStream("CredenDri.json", FileMode.Open, FileAccess.Read))
+            using (var stream = new FileStream("Properties/CredenDri.json", FileMode.Open, FileAccess.Read))
             {
                 string creadPath = "token.json";
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
@@ -42,33 +38,43 @@ namespace ShopColibriApp.Servicios
                     "user",
                     CancellationToken.None,
                     new FileDataStore(creadPath, true)).Result;
-                Console.WriteLine("Credential file saved to: " + creadPath);
             }
 
-            var service = new DriveService(new BaseClientService.Initializer()
+            if (credential.Token.IsExpired(credential.Flow.Clock))
             {
-                HttpClientInitializer = credential,
-                ApplicationName = AplicationName,
-            });
-
-            FilesResource.ListRequest listRequest = service.Files.List();
-            listRequest.PageSize = 10;
-            listRequest.Fields = "nextPageToken, files(id, name)";
-
-            IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute().Files;
-            Console.WriteLine("Files:");
-            if (files != null && files.Count > 0)
-            {
-                foreach (var file in files)
+                if (credential.RefreshTokenAsync(CancellationToken.None).Result)
                 {
-                    Console.WriteLine("{0} ({1})", file.Name, file.Id);
+                    Console.WriteLine("Token de acceso actualizado.");
+                }
+                else
+                {
+                    Console.WriteLine("Error al actualizar el token de acceso.");
                 }
             }
             else
             {
-                Console.WriteLine("No files found.");
+                Console.WriteLine("El token de acceso aún es válido.");
             }
-            Console.Read();
+
+            //var service = new DriveService(new BaseClientService.Initializer()
+            //{
+            //    HttpClientInitializer = credential,
+            //    ApplicationName = ApplicationName,
+            //});
+            //Crear el servicio de Google Drive usando el token actualizado
+            var service = new DriveService(new Google.Apis.Services.BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = ApplicationName,
+            });
+            return service;
+        }
+
+        public DriveService Credencial()
+        {
+            DriveService service = new DriveService();
+            service = GetService();
+            return service;
         }
     }
 }
