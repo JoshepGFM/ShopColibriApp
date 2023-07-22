@@ -26,6 +26,7 @@ namespace ShopColibriApp.Views
         UsuarioViewModel vmu;
         FotoViewModel foto;
         Servicios.GoogleDriveService drive;
+
         ObservableCollection<FileImageSource> imagen { get; set; }
         public ImagenPage()
         {
