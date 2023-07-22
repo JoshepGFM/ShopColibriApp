@@ -17,7 +17,6 @@ namespace ShopColibriApp
             InitializeComponent();
 
             MainPage = new NavigationPage(new VistaInicio());
-            
         }
 
         protected override void OnStart()
@@ -30,6 +29,21 @@ namespace ShopColibriApp
 
         protected override void OnResume()
         {
+        }
+
+        protected override void OnAppLinkRequestReceived(Uri uri)
+        {
+            base.OnAppLinkRequestReceived(uri);
+
+            // Procesar la URL de redirección y extraer el código de autorización
+            // para completar el flujo de autorización de Google Drive.
+
+            if (uri.Host == "authresponse")
+            {
+                string authorizationCode = uri.Query.Substring(6);
+                // Procesar el código de autorización aquí.
+                // Puedes usar "authorizationCode" para completar el flujo de autorización con Google Drive.
+            }
         }
     }
 }

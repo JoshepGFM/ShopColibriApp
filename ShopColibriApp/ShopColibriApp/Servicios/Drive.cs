@@ -1,13 +1,11 @@
 ﻿
+using Android.Content;
 using Android.Net.Wifi.Hotspot2.Pps;
 using Google.Apis.Auth.OAuth2;
+using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Drive.v3;
-using Google.Apis.Drive.v3.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
-using Java.Security.Cert;
-using Microsoft.VisualStudio.TestPlatform.Utilities.Helpers.Interfaces;
-using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,65 +14,132 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace ShopColibriApp.Servicios
 {
     public class Drive
     {
-        private string[] Scopes = { DriveService.Scope.Drive };
+        string[] Scopes = { DriveService.Scope.DriveFile };
+        string jsonFilePath = GetJsonFilePath();
+
+        private static string GetJsonFilePath()
+        {
+            string fileName = "CredenDri.json";
+            return Path.Combine(FileSystem.AppDataDirectory, fileName);
+        }
+
         private string ApplicationName = "ShopColibriApp";
         private UserCredential credential;
 
-        private DriveService GetService()
+        private UserCredential Credential;
+        private DriveService Service;
+
+        private string CredentialFileName = "Crede.json";
+        private string CredentialFolderName = "ImagIventario";
+
+        private DriveService GetService1()
         {
-
-            using (var stream = new FileStream("Properties/CredenDri.json", FileMode.Open, FileAccess.Read))
+            try
             {
-                string creadPath = "token.json";
-                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    Scopes,
-                    "user",
-                    CancellationToken.None,
-                    new FileDataStore(creadPath, true)).Result;
-            }
+                string jsonFilePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Assets", "CredenDri.json");
+                string resourceName = Assembly.GetExecutingAssembly().GetName().Name + ".Crede.json";
 
-            if (credential.Token.IsExpired(credential.Flow.Clock))
-            {
-                if (credential.RefreshTokenAsync(CancellationToken.None).Result)
+                using (var stream = new FileStream(jsonFilePath, FileMode.Open, FileAccess.Read))
                 {
-                    Console.WriteLine("Token de acceso actualizado.");
+                    string creadPath = Path.Combine(FileSystem.AppDataDirectory, "token.json");
+                    credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                        GoogleClientSecrets.Load(stream).Secrets,
+                        Scopes,
+                        "user",
+                        CancellationToken.None,
+                        new FileDataStore(creadPath, true)).Result;
+                }
+
+                if (credential.Token.IsExpired(credential.Flow.Clock))
+                {
+                    if (credential.RefreshTokenAsync(CancellationToken.None).Result)
+                    {
+                        Console.WriteLine("Token de acceso actualizado.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error al actualizar el token de acceso.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Error al actualizar el token de acceso.");
+                    Console.WriteLine("El token de acceso aún es válido.");
                 }
-            }
-            else
-            {
-                Console.WriteLine("El token de acceso aún es válido.");
-            }
 
-            //var service = new DriveService(new BaseClientService.Initializer()
-            //{
-            //    HttpClientInitializer = credential,
-            //    ApplicationName = ApplicationName,
-            //});
-            //Crear el servicio de Google Drive usando el token actualizado
-            var service = new DriveService(new Google.Apis.Services.BaseClientService.Initializer()
+            }catch (Exception ex)
             {
-                HttpClientInitializer = credential,
-                ApplicationName = ApplicationName,
-            });
-            return service;
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+                var initializer = new BaseClientService.Initializer()
+                {
+                    HttpClientInitializer = credential,
+                    ApplicationName = ApplicationName
+                };
+
+                var service = new DriveService(initializer);
+                return service;
         }
 
-        public DriveService Credencial()
+        public UserCredential GetService()
         {
-            DriveService service = new DriveService();
-            service = GetService();
-            return service;
+            try
+            {
+                using (Stream stream = new FileStream(jsonFilePath, FileMode.Open, FileAccess.Read))
+                {
+                    string credPath = Path.Combine(FileSystem.CacheDirectory, ".credentials");
+                    credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                        GoogleClientSecrets.FromStream(stream).Secrets,
+                        Scopes,
+                        "usuario",
+                        CancellationToken.None,
+                        new FileDataStore(credPath, true)
+                    ).Result;
+                }
+
+                return credential;
+            }catch (Exception ex)
+            {
+                Console.WriteLine($"error: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<bool> Authorize()
+        {
+            try
+            {
+                using (var stream = await FileSystem.OpenAppPackageFileAsync(CredentialFileName))
+                {
+                    Credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+                        GoogleClientSecrets.Load(stream).Secrets,
+                        Scopes,
+                        "user",
+                        CancellationToken.None,
+                        new FileDataStore(CredentialFolderName, true));
+                }
+
+                var initializer = new BaseClientService.Initializer()
+                {
+                    HttpClientInitializer = Credential,
+                    ApplicationName = "YourApplicationName",
+                };
+                Service = new DriveService(initializer);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                return false;
+            }
         }
     }
 }
