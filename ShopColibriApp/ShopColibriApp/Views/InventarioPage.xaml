@@ -12,21 +12,21 @@
             <StackLayout VerticalOptions="CenterAndExpand">
                 <Label x:Name="LblTituloInventario" Text="Crear Inventario" HorizontalOptions="Center" FontSize="30" 
                        TextColor="DarkCyan" FontAttributes="Bold"/>
-                <Picker x:Name="PckProducto" Title="Seleccione Producto" ItemDisplayBinding="{Binding Nombre}"/>
-                <DatePicker x:Name="DpckFecha"/>
-                <Label Text="Stock:" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+                <Picker x:Name="PckProducto" Title="Seleccione Producto" ItemDisplayBinding="{Binding Nombre}" TextColor="Black"/>
+                <DatePicker x:Name="DpckFecha" TextColor="Black"/>
+                <Label Text="Stock:" FontAttributes="Bold" VerticalTextAlignment="Center" TextColor="#51514c"/>
                 <StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" HeightRequest="40">
-                    <Label x:Name="LblStock" IsVisible="true" VerticalOptions="Center" FontSize="20"/>
+                    <Label x:Name="LblStock" IsVisible="true" VerticalOptions="Center" FontSize="20" TextColor="#51514c"/>
                     <ImageButton x:Name="BtnMenos" Source="menos.png" Clicked="BtnMenos_Clicked" VerticalOptions="Center" 
                                  HorizontalOptions="Center" BackgroundColor="Transparent"/>
-                    <Entry x:Name="TxtStock" Text="0" Keyboard="Numeric" MaxLength="4" HorizontalTextAlignment="Center" WidthRequest="60"/>
+                    <Entry x:Name="TxtStock" Text="0" Keyboard="Numeric" MaxLength="4" HorizontalTextAlignment="Center" WidthRequest="60" TextColor="Black"/>
                     <ImageButton x:Name="BtnMas" Source="mas.png" Clicked="BtnMas_Clicked" VerticalOptions="Center"
                                  HorizontalOptions="Center" BackgroundColor="Transparent"/>
                 </StackLayout>
-                <Label Text="Precio:" FontAttributes="Bold"/>
-                <Entry x:Name="TxtPrecioUni" Text="0" Keyboard="Numeric" MaxLength="19" HorizontalTextAlignment="Center"/>
-                <Entry x:Name="TxtOrigen" Placeholder="Origen" Keyboard="Text"/>
-                <Picker x:Name="PckEmpaque" Title="Seleccione el empaque" ItemDisplayBinding="{Binding Nombre}">
+                <Label Text="Precio:" FontAttributes="Bold" TextColor="#51514c"/>
+                <Entry x:Name="TxtPrecioUni" Text="0" Keyboard="Numeric" MaxLength="19" HorizontalTextAlignment="Center" PlaceholderColor="Black"/>
+                <Entry x:Name="TxtOrigen" Placeholder="Origen" Keyboard="Text" PlaceholderColor="Black"/>
+                <Picker x:Name="PckEmpaque" Title="Seleccione el empaque" ItemDisplayBinding="{Binding Nombre}" TextColor="Black">
                 </Picker>
                 <StackLayout Padding="20" Spacing="10">
                     <Frame x:Name="FmImagen" BackgroundColor="#E8DFDF" HeightRequest="300" CornerRadius="20" BorderColor="Black" IsVisible="false">

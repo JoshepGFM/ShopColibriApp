@@ -13,19 +13,19 @@
             </Frame>
             <Frame Padding="10" VerticalOptions="CenterAndExpand" BackgroundColor="LightGray" Margin="10" CornerRadius="10">
                 <StackLayout Spacing="25" >
-                    <StackLayout VerticalOptions="Center" >
-                        <Entry x:Name="TxtUserName" Placeholder="Email" HorizontalTextAlignment="Center" TextColor="White" HeightRequest="60" Keyboard="Email"/>
+                    <StackLayout VerticalOptions="Center">
+                        <Entry x:Name="TxtUserName" Placeholder="Email" HorizontalTextAlignment="Center" HeightRequest="60" Keyboard="Email" PlaceholderColor="Black"/>
                         <StackLayout  Orientation="Horizontal" HorizontalOptions="FillAndExpand" Spacing="10">
-                            <Entry x:Name="TxtPass" Placeholder="Contraseña" HorizontalTextAlignment="Center" IsPassword="True" WidthRequest="300"/>
+                            <Entry x:Name="TxtPass" Placeholder="Contraseña" HorizontalTextAlignment="Center" IsPassword="True" WidthRequest="300" PlaceholderColor="Black"/>
                             <StackLayout >
-                                <Switch x:Name="SwVerPass" IsToggled="False" Toggled="CmdVerPass" OnColor="#BBA129"/>
-                                <Label Text="Ver Contraseña" FontSize="10" />
+                                <Switch x:Name="SwVerPass" IsToggled="False" Toggled="CmdVerPass" OnColor="Green"/>
+                                <Label Text="Ver Contraseña" FontSize="10" TextColor="Black"/>
                             </StackLayout>
 
                         </StackLayout>
 
                         <Button x:Name="BtnIngresar" Text="Ingresar" Clicked="BtnIngresar_Clicked" 
-                                CornerRadius="50"  BackgroundColor="Green" TextColor="#E8E3E3" 
+                                CornerRadius="50"  BackgroundColor="Green" TextColor="Black" 
                                 VerticalOptions="Center" FontSize="Title"/>
 
                         <Label HorizontalTextAlignment="Center">
@@ -44,7 +44,7 @@
                         <Label HorizontalTextAlignment="Center">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="Olvide mi Contaseña?" />
+                                    <Span Text="Olvide mi Contaseña?" TextColor="Black"/>
                                     <Span Text="Recuperar"
                                   TextColor="Blue"
                                   TextDecorations="Underline">

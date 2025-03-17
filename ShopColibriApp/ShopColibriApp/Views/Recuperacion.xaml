@@ -8,7 +8,7 @@
             <GlobalV:Degradado/>
             <StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <Entry x:Name="TxtEmail" Placeholder="Email" Keyboard="Email" WidthRequest="320"/>
+                    <Entry x:Name="TxtEmail" Placeholder="Email" Keyboard="Email" WidthRequest="320" TextColor="Black"/>
                     <ImageButton x:Name="BtnCambiar" Clicked="BtnCambiar_Clicked" IsVisible="false" Source="Cambiar.png" VerticalOptions="EndAndExpand"
                                  CornerRadius="2000" BackgroundColor="LightYellow"/>
                 </StackLayout>

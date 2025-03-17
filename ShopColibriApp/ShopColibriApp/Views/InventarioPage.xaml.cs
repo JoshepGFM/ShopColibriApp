@@ -1,5 +1,4 @@
 ﻿using Android.Content.Res;
-using Google.Apis.Drive.v3.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using ShopColibriApp.Models;
@@ -27,7 +26,6 @@ namespace ShopColibriApp.Views
         InventarioViewModel ivm { get; set; }
         ImagenViewModel Imvm { get; set; }
         ViewModelBitacora vmb { get; set; }
-        Drive Dv { get; set; }
 
         private int campo = 0;
         public InventarioPage()
@@ -422,11 +420,12 @@ namespace ShopColibriApp.Views
                     if (int.Parse(TxtStock.Text) <= empaque.Stock)
                     {
                         if (GlobalObject.GloImagenes.Count > 0 &&
-                            GlobalObject.GloImagenes[0].Imagen1.Contains("https://drive.google.com/uc?id="))
+                            GlobalObject.GloImagenes[0].Imagen1.Contains("https://res.cloudinary.com/drawdzgsy/image/upload/v1741129451/Inventario_Colibri/"))
                         {
                             ViewCarga.IsVisible = true;
                             R = await ivm.PutInventario(GlobalObject.GloInven_DTO.Id, DpckFecha.Date, sumastock,
-                                                         decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), idP, idE, int.Parse(TxtStock.Text.Trim()));
+                                                         decimal.Parse(TxtPrecioUni.Text.Trim()), TxtOrigen.Text.Trim(), 
+                                                         idP, idE, int.Parse(TxtStock.Text.Trim()));
                             if (R && int.Parse(TxtStock.Text) > 0)
                             {
                                 int resta = 0;
@@ -515,7 +514,7 @@ namespace ShopColibriApp.Views
                                     " Modifico un Inventario. Inventario: " + producto.Nombre + " de " + empaque.Nombre + " " + empaque.Tamannio);
                                     if (!T)
                                     {
-                                        await DisplayAlert("Error Guardado", "Se tubo problemas al guardar la imagen", "OK");
+                                        await DisplayAlert("Error Guardado", "Se tuvo problemas al guardar la imagen", "OK");
                                     }
                                     await Navigation.PushAsync(new MainPage());
                                 }

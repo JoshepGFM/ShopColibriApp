@@ -1,5 +1,4 @@
-﻿using Google.Apis.Drive.v3.Data;
-using Plugin.Media;
+﻿using Plugin.Media;
 using Plugin.Media.Abstractions;
 using ShopColibriApp.Models;
 using System;
@@ -13,7 +12,6 @@ namespace ShopColibriApp.ViewModels
 {
     public class FotoViewModel:FotoModel
     {
-        Drive Dv { get; set; }
         public FotoViewModel() 
         {
 

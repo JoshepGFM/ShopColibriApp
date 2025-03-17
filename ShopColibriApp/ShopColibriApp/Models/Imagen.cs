@@ -1,14 +1,11 @@
-﻿using Android.Media;
-using Java.Nio.Channels.Spi;
+﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.IO;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace ShopColibriApp.Models
 {
@@ -23,11 +20,14 @@ namespace ShopColibriApp.Models
 
         //public virtual Inventario Inventario { get; set; } = null!;
 
-        public async Task<bool> PostImagen(List<Xamarin.Forms.Image> image)
+        public async Task<bool> PostImagen(IFormFile image)
         {
             try
             {
-                string Route = string.Format("Imagens", image);
+                string imagen = IFormFileToBase64(image);
+                var fileName = image.FileName;
+                var contentType = "image/jpeg";
+                string Route = string.Format("Imagens/GuarImagen?fileName={0}&contentType={1}&idInve={2}", fileName, contentType, this.InventarioId);
                 string FinalURL = Servicios.CnnToShopColibri.UrlProduction + Route;
 
                 RestClient client = new RestClient(FinalURL);
@@ -38,10 +38,7 @@ namespace ShopColibriApp.Models
                 request.AddHeader(Servicios.CnnToShopColibri.ApiKeyName, Servicios.CnnToShopColibri.ApiValue);
                 request.AddHeader(Servicios.CnnToShopColibri.contentType, Servicios.CnnToShopColibri.mimetype);
 
-                //Se transforma a Json para la api
-                string SerialClass = JsonConvert.SerializeObject(this);
-
-                request.AddBody(SerialClass, Servicios.CnnToShopColibri.mimetype);
+                request.AddParameter(Servicios.CnnToShopColibri.mimetype, imagen, ParameterType.RequestBody);
 
                 RestResponse response = await client.ExecuteAsync(request);
 
@@ -71,7 +68,7 @@ namespace ShopColibriApp.Models
         {
             try
             {
-                string Route = string.Format("Imagens/EliminarMasivo");
+                string Route = string.Format("Imagens/EliminarMasivo?imagenes={0}", ids);
                 string FinalURL = Servicios.CnnToShopColibri.UrlProduction + Route;
 
                 RestClient client = new RestClient(FinalURL);
@@ -109,5 +106,21 @@ namespace ShopColibriApp.Models
                 throw;
             }
         }
+        #region Herraminta
+        private static string IFormFileToBase64(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return null;
+            }
+
+            using (var memoryStream = new MemoryStream())
+            {
+                file.CopyToAsync(memoryStream);
+                byte[] fileBytes = memoryStream.ToArray();
+                return Convert.ToBase64String(fileBytes);
+            }
+        }
+        #endregion
     }
 }

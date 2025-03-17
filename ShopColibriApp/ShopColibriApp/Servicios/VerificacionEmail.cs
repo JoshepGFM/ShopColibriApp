@@ -15,18 +15,19 @@ namespace ShopColibriApp.Servicios
             bool R = false;
             try
             {
+
                 using (MailMessage mailMessage = new MailMessage())
                 {
                     mailMessage.To.Add(receptor);//a quien se le envía el correo
                     mailMessage.Subject = asunto;//el asunto que tiene a fin en correo
                     mailMessage.Body = body;//el mensaje
                     mailMessage.IsBodyHtml = true;//establese si se tiene que usar html
-                    mailMessage.From = new MailAddress("verificacionesshopcolibri@gmail.com", "ShopColibri");//le coloca un sobre nombre a correo con que se envia
+                    mailMessage.From = new MailAddress("verificacionesshopcolibri@gmail.com", "Miel Colibrí");//le coloca un sobre nombre a correo con que se envia
 
                     using (SmtpClient cliente =  new SmtpClient())
                     {
                         cliente.UseDefaultCredentials = false;
-                        cliente.Credentials = new NetworkCredential("verificacionesshopcolibri@gmail.com", "zbtcojcccaclfzaq");//Añade las credenciales para el ingreso
+                        cliente.Credentials = new NetworkCredential("verificacionesshopcolibri@gmail.com", "pofi vvtg mceq iczt");//Añade las credenciales para el ingreso
                         cliente.Port = 587;
                         cliente.EnableSsl = true;
 

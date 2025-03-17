@@ -16,7 +16,6 @@ using System.Security.Permissions;
 using Plugin.Permissions;
 using ShopColibriApp.Models;
 using ShopColibriApp.Servicios;
-using Google.Apis.Drive.v3.Data;
 
 namespace ShopColibriApp.Views
 {
@@ -25,19 +24,15 @@ namespace ShopColibriApp.Views
     {
         UsuarioViewModel vmu;
         FotoViewModel foto;
-        Servicios.GoogleDriveService drive;
-
         ObservableCollection<FileImageSource> imagen { get; set; }
         public ImagenPage()
         {
             InitializeComponent();
             BindingContext = foto = new FotoViewModel();
-            drive = new Servicios.GoogleDriveService();
         }
 
         private async void BtnGuardar_Clicked(object sender, EventArgs e)
         {
-            drive.UploadImageToDrive();
             if (ImgProductos.Images != null)
             {
                 ObservableCollection<FileImageSource> list = new ObservableCollection<FileImageSource>();

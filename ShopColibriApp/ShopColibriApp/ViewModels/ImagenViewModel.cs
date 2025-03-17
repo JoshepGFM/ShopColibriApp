@@ -18,12 +18,10 @@ namespace ShopColibriApp.ViewModels
     public class ImagenViewModel : BaseViewModel
     {
         Imagen MiImagen { get; set; }
-        ImagenDrive MiImag { get; set; }
         public ImagenViewModel()
         {
             ValidarConexionInternet();
             MiImagen = new Imagen();
-            MiImag = new ImagenDrive();
         }
 
         public async Task<bool> PostImagen(List<IFormFile> images,int IdInve)
@@ -33,10 +31,10 @@ namespace ShopColibriApp.ViewModels
             try
             {
                 bool R = false;
-                for (int i = 0; i < images.Count; i++)
+                foreach (var proces in images)
                 {
-                    MiImag.Archivo = images[i];
-                    R =await MiImag.GuardarImagen(IdInve);
+                    MiImagen.InventarioId = IdInve;
+                    R = await MiImagen.PostImagen(proces);
                 }
                 return R;
             }

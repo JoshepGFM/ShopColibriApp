@@ -9,9 +9,9 @@
             <StackLayout>
                 <Frame HeightRequest="40">
                     <StackLayout Orientation="Horizontal">
-                        <SearchBar x:Name="SbBuscarPro" Placeholder="Buscar Producto" TextChanged="SbBuscarPro_TextChanged"/>
+                        <SearchBar x:Name="SbBuscarPro" Placeholder="Buscar Producto" TextChanged="SbBuscarPro_TextChanged" PlaceholderColor="Black"/>
                         <StackLayout HorizontalOptions="EndAndExpand">
-                            <Label x:Name="LblActivo" Text="En stock" FontSize="10" HorizontalTextAlignment="Center" IsVisible="false"/>
+                            <Label x:Name="LblActivo" Text="En stock" FontSize="10" HorizontalTextAlignment="Center" IsVisible="false" TextColor="Black"/>
                             <Switch x:Name="SwStock" HorizontalOptions="CenterAndExpand" Toggled="SwStock_Toggled"  IsToggled="True" IsVisible="false"/>
                         </StackLayout>
                     </StackLayout>
@@ -42,22 +42,22 @@
                                                Text="{Binding NombrePro}"
                                                FontAttributes="Bold"
                                                    FontSize="15"
-                                                   TextColor="DarkCyan"/>
+                                                   TextColor="Black"/>
                                                     <StackLayout Orientation="Horizontal">
-                                                        <Label Text="Tamaño:"/>
+                                                        <Label Text="Tamaño:" TextColor="Black"/>
                                                         <Label Text="{Binding NombreEmp}"
                                                    FontAttributes="Bold"
                                                    FontSize="15"
-                                                   TextColor="DarkCyan"/>
+                                                   TextColor="#41413f"/>
                                                     </StackLayout>
                                                 </StackLayout>
                                                 <StackLayout Grid.Column="3" Grid.Row="2" HorizontalOptions="End" Orientation="Horizontal" 
                                                  VerticalOptions="EndAndExpand">
-                                                    <Label Text="₡"/>
+                                                    <Label Text="₡" TextColor="Black"/>
                                                     <Label Text="{Binding PrecioUn}"
                                                    FontAttributes="Bold"
                                                    FontSize="15"
-                                                   TextColor="DarkCyan"/>
+                                                   TextColor="#1f1f1e"/>
                                                 </StackLayout>
                                             </StackLayout>
                                         </Grid>
@@ -66,6 +66,7 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </ScrollView>
+                    
                     <Frame x:Name="FmIElimnar" CornerRadius="2000" 
                        Padding="2" IsVisible="false"
                        Margin="20,0,0,30"
@@ -97,11 +98,12 @@
                        HorizontalOptions="End" 
                        VerticalOptions="End"
                        HeightRequest="50">
-                        <ImageButton x:Name="BtnAgregar" Source="botonAgregar.png" HorizontalOptions="EndAndExpand" 
+                    <ImageButton x:Name="BtnAgregar" Source="botonAgregar.png" HorizontalOptions="EndAndExpand" 
                          VerticalOptions="EndAndExpand" Clicked="BtnAgregar_Clicked" BackgroundColor="Green" 
                          CornerRadius="2000"/>
                     </Frame>
                 </Grid>
+
             </StackLayout>
         </Grid>
     </ContentPage.Content>

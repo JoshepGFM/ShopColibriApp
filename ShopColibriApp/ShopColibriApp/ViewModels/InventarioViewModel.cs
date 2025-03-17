@@ -1,9 +1,4 @@
 ﻿using Android.Media.Midi;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Drive.v3;
-using Google.Apis.Drive.v3.Data;
-using Google.Apis.Services;
-using Google.Apis.Util.Store;
 using ShopColibriApp.Models;
 using System;
 using System.Collections.Generic;
@@ -19,7 +14,6 @@ namespace ShopColibriApp.ViewModels
 {
     public class InventarioViewModel : BaseViewModel
     {
-        string[] Scopes = { DriveService.Scope.Drive };
         string AplicationName = "ShopColibriApp";
         Inventario MiInventario { get; set; }
         InventarioDTO MiInventarioDTO { get; set; }

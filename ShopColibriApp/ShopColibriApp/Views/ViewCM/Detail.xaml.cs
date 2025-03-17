@@ -37,10 +37,10 @@ namespace ShopColibriApp.Views.ViewCM
             ObservableCollection<InventarioDTO> list = await ivm.GetInveBuscar(Filtro, SwStock.IsToggled);
             for (int i = 0; i < list.Count; ++i)
             {
-                list[i].priImagen = "https://drive.google.com/uc?id=" + list[i].priImagen;
+                list[i].priImagen = "https://res.cloudinary.com/drawdzgsy/image/upload/v1741129451/Inventario_Colibri/" + list[i].priImagen;
                 for (int j = 0; j < list[i].imagenes.Count; ++j)
                 {
-                    list[i].imagenes[j].Imagen1 = "https://drive.google.com/uc?id=" + list[i].imagenes[j].Imagen1;
+                    list[i].imagenes[j].Imagen1 = "https://res.cloudinary.com/drawdzgsy/image/upload/v1741129451/Inventario_Colibri/" + list[i].imagenes[j].Imagen1;
                 }
             }
             LvlListaInventario.ItemsSource = list;

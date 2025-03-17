@@ -14,13 +14,13 @@
             </Frame>
             <Grid Grid.RowSpan="2">
                 <Frame HorizontalOptions="End" VerticalOptions="End" BackgroundColor="Aqua"
-                       Margin="0,0,20,40" CornerRadius="30" Padding="20"
+                       Margin="0,0,20,10" CornerRadius="30" Padding="10"
                        >
                     <views:Expander>
                         <views:Expander.Header>
                             <Label Text="Agregar" FontAttributes="Bold" TextColor="Black" FontSize="15"/>
                         </views:Expander.Header>
-                        <StackLayout Spacing="10" Margin="0,5">
+                        <StackLayout Spacing="5" Margin="0,5">
                             <ImageButton Source="galeria.png" x:Name="BtnGaleria" Clicked="BtnGaleria_Clicked" 
                                          HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
                             <ImageButton Source="camara.png" x:Name="BtnCamara" Clicked="BtnCamara_Clicked" 
