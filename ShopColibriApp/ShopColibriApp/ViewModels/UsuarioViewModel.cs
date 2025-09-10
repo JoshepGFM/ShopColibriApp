@@ -16,11 +16,11 @@ namespace ShopColibriApp.ViewModels
     {
         public Usuario MiUsuario { get; set; }
         public Tusuario MiTusuario { get; set; }
-        public VerificacionEmail VEmail { get; set; }
+        public SendEmail SEmail { get; set; }
         public int Index { get; set; }
         public UsuarioViewModel() 
         {
-            VEmail = new VerificacionEmail();
+            SEmail = new SendEmail();
             MiUsuario = new Usuario();
             MiTusuario = new Tusuario();
             ValidarConexionInternet();
@@ -236,9 +236,8 @@ namespace ShopColibriApp.ViewModels
                 if ( R && id != 1)
                 {
                     string enlace = string.Format(Servicios.CnnToShopColibri.UrlProduction + "Usuarios/Validar?id={0}&R={1}", MiUsuario.IdUsuario, false);
-                    string menssage = string.Format("<h5>Para activar tu cuenta dar <a href='{0}'> Click aquí</a></h5>", enlace);
 
-                    VEmail.Index(pEmail, "Verificar cuenta", menssage);
+                    SEmail.EnviarEmail(pEmail, "Verificar cuenta", "", true, enlace);
 
                     await DisplayAlert("Envío correo","Se le envío un correo a " + pEmail,"OK");
                 }

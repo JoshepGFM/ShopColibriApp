@@ -9,9 +9,9 @@
             <StackLayout>
                 <Frame HeightRequest="40">
                     <StackLayout Orientation="Horizontal">
-                        <SearchBar x:Name="SbBuscarPro" Placeholder="Buscar Producto" TextChanged="SbBuscarPro_TextChanged" PlaceholderColor="Black"/>
+                        <SearchBar x:Name="SbBuscarPro" Placeholder="Buscar Producto" TextChanged="SbBuscarPro_TextChanged" TextColor="White"/>
                         <StackLayout HorizontalOptions="EndAndExpand">
-                            <Label x:Name="LblActivo" Text="En stock" FontSize="10" HorizontalTextAlignment="Center" IsVisible="false" TextColor="Black"/>
+                            <Label x:Name="LblActivo" Text="En stock" FontSize="10" HorizontalTextAlignment="Center" IsVisible="false" TextColor="LightSlateGray"/>
                             <Switch x:Name="SwStock" HorizontalOptions="CenterAndExpand" Toggled="SwStock_Toggled"  IsToggled="True" IsVisible="false"/>
                         </StackLayout>
                     </StackLayout>

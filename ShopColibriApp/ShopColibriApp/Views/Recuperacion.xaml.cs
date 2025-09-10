@@ -16,12 +16,12 @@ namespace ShopColibriApp.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Recuperacion : ContentPage
 	{
-		VerificacionEmail VEmail { get; set; }
+		SendEmail SEmail { get; set; }
 		UsuarioViewModel vmu { get; set; }
 		public Recuperacion ()
 		{
 			InitializeComponent ();
-			VEmail = new VerificacionEmail ();
+			SEmail = new SendEmail ();
 			vmu = new UsuarioViewModel ();
 			ValidarUsuarioGlobal();
 		}
@@ -40,8 +40,7 @@ namespace ShopColibriApp.Views
 						Random rnd = new Random();
 						int Pin = rnd.Next(100000, 999999);
 						GlobalObject.NumeroRecuperacion = Pin;//Pasa el valor para compararlo
-						string Mensaje = "Utilice este código: " + "<h1>" + Pin + "</h1>" + " en la App para verificar que es usted";
-						bool R = VEmail.Index(g, "Verificación de cuenta", Mensaje);//Envía el mensaje al correo correspondiente
+						bool R = await SEmail.EnviarEmail(g, "Verificación de cuenta", Pin.ToString());//Envía el mensaje al correo correspondiente
 						if (R)
 						{
 							GlobalObject.GloUsu = usuario;

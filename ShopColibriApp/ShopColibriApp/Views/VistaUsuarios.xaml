@@ -13,7 +13,7 @@
                     <StackLayout Orientation="Horizontal">
                         <SearchBar x:Name="SbBuscarUsu" Placeholder="Buscar Usuario" TextChanged="SearchBar_TextChanged"/>
                         <StackLayout HorizontalOptions="EndAndExpand">
-                            <Label x:Name="LblActivo" Text="Activos" FontSize="10" HorizontalTextAlignment="Center"/>
+                            <Label x:Name="LblActivo" Text="Activos" FontSize="10" HorizontalTextAlignment="Center" TextColor="LightGray"/>
                             <Switch x:Name="SwAvtivos" HorizontalOptions="CenterAndExpand" Toggled="SwAvtivos_Toggled" IsToggled="True" />
                         </StackLayout>
 

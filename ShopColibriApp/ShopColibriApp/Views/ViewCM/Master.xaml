@@ -8,56 +8,56 @@
         <Grid>
             <GlobalV:Degradado/>
             <StackLayout>
-                <Frame>
+                <Frame BackgroundColor="White">
                     <StackLayout Orientation="Horizontal">
                         <Image Source="User.png" WidthRequest="50" HeightRequest="50"/>
                         <StackLayout Orientation="Vertical">
-                            <Label x:Name="LblNombre" Text="Nombre" FontSize="15" FontAttributes="Bold" TextColor="Black"/>
-                            <Label x:Name="LblCorreo" Text="Correo" TextColor="Black"/>
+                            <Label x:Name="LblNombre" Text="Nombre" FontSize="15" FontAttributes="Bold"/>
+                            <Label x:Name="LblCorreo" Text="Correo"/>
                         </StackLayout>
 
                         <StackLayout HorizontalOptions="EndAndExpand" VerticalOptions="EndAndExpand">
-                            <Label x:Name="LblTipo" Text="Tipo" FontSize="10" TextColor="Black"/>
+                            <Label x:Name="LblTipo" Text="Tipo" FontSize="10"/>
                         </StackLayout>
                     </StackLayout>
                 </Frame>
                 <ScrollView x:Name="ScrollMenu" HeightRequest="360">
-                    <Frame>
+                    <Frame BackgroundColor="White">
                         <StackLayout>
                             <Button x:Name="BtnInicio" Text="Inicio" BackgroundColor="Transparent" 
-                                    ImageSource="Inicio.png" Clicked="BtnInicio_Clicked" TextColor="Black"/>
+                                    ImageSource="Inicio.png" Clicked="BtnInicio_Clicked"/>
                             <Button x:Name="BtnRegisUsu" Text="Usuarios" BackgroundColor="Transparent" 
-                                    ImageSource="verificarReg.png" Clicked="BtnRegisUsu_Clicked" TextColor="Black"/>
+                                    ImageSource="verificarReg.png" Clicked="BtnRegisUsu_Clicked"/>
                             <Button x:Name="BtnProductos" Text="Productos" BackgroundColor="Transparent" 
-                                    ImageSource="Product.png" Clicked="BtnProductos_Clicked" TextColor="Black"/>
+                                    ImageSource="Product.png" Clicked="BtnProductos_Clicked"/>
                             <Button x:Name="BtnNuevosPro" Text="Stocks Productos" BackgroundColor="Transparent" 
-                                    ImageSource="Stock.png" Clicked="BtnNuevosPro_Clicked" IsVisible="false" TextColor="Black"/>
+                                    ImageSource="Stock.png" Clicked="BtnNuevosPro_Clicked" IsVisible="false"/>
                             <Button x:Name="BtnInventario" Text="Inventario" BackgroundColor="Transparent" 
-                                    ImageSource="Inventario.png" Clicked="BtnInventario_Clicked" TextColor="Black"/>
+                                    ImageSource="Inventario.png" Clicked="BtnInventario_Clicked"/>
                             <Button x:Name="BtnEmpaque" Text="Empaques" BackgroundColor="Transparent" 
-                                    ImageSource="empaque.png" Clicked="BtnEmpaque_Clicked" TextColor="Black"/>
+                                    ImageSource="empaque.png" Clicked="BtnEmpaque_Clicked"/>
                             <Button x:Name="BtnPedidos" Text="Pedidos" BackgroundColor="Transparent" 
-                                    ImageSource="pedidos.png" Clicked="BtnPedidos_Clicked" TextColor="Black"/>
+                                    ImageSource="pedidos.png" Clicked="BtnPedidos_Clicked"/>
                             <Button x:Name="BtnControlMar" Text="Control de Marmita" BackgroundColor="Transparent" 
-                                    ImageSource="ControlMar.png" Clicked="BtnVerControlMar_Clicked" TextColor="Black"/>
+                                    ImageSource="ControlMar.png" Clicked="BtnVerControlMar_Clicked"/>
                             <Button x:Name="BtnRegistro" Text="Registros" BackgroundColor="Transparent" 
-                                    ImageSource="registro.png" Clicked="BtnVerRegistros_Clicked" TextColor="Black"/>
+                                    ImageSource="registro.png" Clicked="BtnVerRegistros_Clicked"/>
                             <Button x:Name="BtnEntradas" Text="Entradas" BackgroundColor="Transparent" 
-                                    ImageSource="entradas.png" Clicked="BtnEntradas_Clicked" TextColor="Black"/>
+                                    ImageSource="entradas.png" Clicked="BtnEntradas_Clicked"/>
                             <Button x:Name="BtnVerSalidas" Text="Ver Salidas" BackgroundColor="Transparent" 
-                                    ImageSource="salida.png" Clicked="BtnVerSalidas_Clicked" TextColor="Black"/>
+                                    ImageSource="salida.png" Clicked="BtnVerSalidas_Clicked"/>
                             <Button x:Name="BtnVerBitacora" Text="Bitacora" BackgroundColor="Transparent" 
-                                    ImageSource="bitacora.png" Clicked="BtnVerBitacora_Clicked" TextColor="Black"/>
+                                    ImageSource="bitacora.png" Clicked="BtnVerBitacora_Clicked"/>
                         </StackLayout>
                     </Frame>
                 </ScrollView>
                 
-                <Frame>
+                <Frame BackgroundColor="White">
                     <StackLayout>
                         <Button x:Name="BtnConf" Text="Opciones de perfil" BackgroundColor="Transparent" 
-                                Clicked="BtnConf_Clicked" TextColor="Black"/>
+                                Clicked="BtnConf_Clicked"/>
                         <Button x:Name="BtnCerrarS" Text="Cerrar Sesion" BackgroundColor="Transparent" 
-                                Clicked="BtnCerrarS_Clicked" TextColor="Black"/>
+                                Clicked="BtnCerrarS_Clicked"/>
                     </StackLayout>
                 </Frame>
             </StackLayout>
